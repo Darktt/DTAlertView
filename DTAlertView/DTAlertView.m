@@ -45,6 +45,8 @@
 #define kDefaultBGColor [UIColor blackColor]
 
 // Tags
+#define kAlertBackgroundTag     1000
+
 #define kTitleLableTag          2001
 #define kMessageLabelTag        2002
 #define kFirstProgressTag       2003
@@ -71,6 +73,7 @@
     NSString *_cancelButtonTitle;
     NSInteger _cancelButtonIndex;
     NSString *_positiveButtonTitle;
+    NSString *_clickedButtonTitle;
     
     // Back ground
     UIView *_backgroundView;
@@ -167,8 +170,6 @@
 {
     [super layoutSubviews];
     
-    NSLog(@"%s", __func__);
-    
     if (_blurToolbar != nil) {
         [_blurToolbar setFrame:self.bounds];
     }
@@ -201,6 +202,11 @@
     if (_positiveButtonTitle != nil) {
         [_positiveButtonTitle release];
         _positiveButtonTitle = nil;
+    }
+    
+    if (_clickedButtonTitle != nil) {
+        [_clickedButtonTitle release];
+        _clickedButtonTitle = nil;
     }
     
     if (_blurToolbar != nil) {
@@ -298,7 +304,7 @@
 
 - (NSString *)clickedButtonTitle
 {
-    return nil;
+    return _clickedButtonTitle;
 }
 
 - (void)setCornerRadius:(CGFloat)cornerRadius
@@ -441,13 +447,20 @@
     
     [self setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin];
     [self setFrame:CGRectMake(0, 0, 270, 270)];
-    
-    UIWindow *window = [self keyWindow];
     [self setViews];
     
-    [self setCenter:window.center];
+    // Get key window
+    UIWindow *window = [self keyWindow];
     
-    [window addSubview:self];
+    // Background of alert view
+    UIView *backgroundView = [[UIView alloc] initWithFrame:window.frame];
+    [backgroundView setTag:kAlertBackgroundTag];
+    [backgroundView setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.5f]];
+    
+    [window addSubview:backgroundView];
+    
+    [self setCenter:backgroundView.center];
+    [backgroundView addSubview:self];
     
     [self.layer addAnimation:[self defaultShowsAnimation] forKey:@"popup"];
     
@@ -508,7 +521,7 @@
 
 - (void)dismissCompletion
 {
-    [self removeFromSuperview];
+    [[self superview] removeFromSuperview];
     
     _visible = NO;
     
@@ -786,6 +799,7 @@
     if (_cancelButtonTitle != nil) {
         UIButton *cancelButton = [self setButtonWithTitle:_cancelButtonTitle];
         [cancelButton setTag:_cancelButtonIndex + 1];
+        [cancelButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
         
         CGRect cancelButtonFrame = buttonsField;
         cancelButtonFrame.size.width = buttonWidth;
@@ -803,6 +817,7 @@
         UIButton *positiveButton = [self setButtonWithTitle:_positiveButtonTitle];
         [positiveButton setTag:_cancelButtonIndex + 2];
         [positiveButton.titleLabel setFont:[UIFont systemFontOfSize:17.0f]];
+        [positiveButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
         
         CGRect positiveButtonFrame = buttonsField;
         positiveButtonFrame.size.width = buttonWidth;
@@ -943,6 +958,29 @@
     }
     
     [self setViews];
+}
+
+#pragma mark - Button Actions
+
+- (IBAction)buttonClicked:(UIButton *)sender
+{
+    _clickedButtonTitle = DTRetain([sender titleForState:UIControlStateNormal]);
+    
+    if (_clickedBlock != nil) {
+        _clickedBlock(self, sender.tag - 1, _cancelButtonIndex);
+        
+        [self dismiss];
+        
+        return;
+    }
+    
+    if ([_delegate respondsToSelector:@selector(alertView:clickedButtonAtIndex:)]) {
+        [_delegate alertView:self clickedButtonAtIndex:sender.tag - 1];
+        
+        [self dismiss];
+        
+        return;
+    }
 }
 
 #pragma mark - Set Cancel Button Index

@@ -74,7 +74,12 @@
 
 - (IBAction)showDTAlertView:(id)sender
 {
-    DTAlertView *alert = [DTAlertView alertViewUseBlock:nil title:@"Title 1234567890" message:@"123456789012345678901234567890123456789012345678901234567890" cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+    DTAlertViewButtonClickedBlock clickedBlock = ^(DTAlertView *alertView, NSUInteger buttonIndex, NSUInteger cancelButtonIndex){
+        NSLog(@"Button index:%d", buttonIndex);
+        NSLog(@"Button Title:%@", alertView.clickedButtonTitle);
+    };
+    
+    DTAlertView *alert = [DTAlertView alertViewUseBlock:clickedBlock title:@"Title 1234567890" message:@"123456789012345678901234567890123456789012345678901234567890" cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
 //    [alert setAlertViewMode:DTAlertViewModeProgress];
     [alert setAlertViewMode:DTAlertViewModeDuoProgress];
     
@@ -90,7 +95,7 @@
 //        [alert setCenter:self.view.center];
 //    }];
     
-    [alert performSelector:@selector(dismiss) withObject:nil afterDelay:5];
+//    [alert performSelector:@selector(dismiss) withObject:nil afterDelay:5];
 }
 
 - (void)resetAlertView:(DTAlertView *)alert
