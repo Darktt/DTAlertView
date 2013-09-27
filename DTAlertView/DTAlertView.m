@@ -56,7 +56,7 @@
 
 #define kButtonBGViewTag        2099
 
-@interface DTAlertView () 
+@interface DTAlertView ()
 {
     id<DTAlertViewDelgate> _delegate;
     
@@ -185,7 +185,7 @@
 - (void)dealloc
 {
     if (_clickedBlock != nil) {
-        DTBlockRelease(_clickedBlock);
+        Block_release(_clickedBlock);
     }
     
     if (_title != nil) {
@@ -224,10 +224,8 @@
     }
     
     if (_textChangeBlock != nil) {
-        DTBlockRelease(_textChangeBlock);
+        Block_release(_textChangeBlock);
     }
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [super dealloc];
 }
@@ -575,6 +573,13 @@
     }];
 }
 
+#pragma mark Set TextField Did Cahnge Block
+
+- (void)setTextFieldDidChangeBlock:(DTAlertViewTextDidChangeBlock)textBlock
+{
+    _textChangeBlock = DTBlockCopy(textBlock);
+}
+
 #pragma mark - Set Views
 
 - (void)setViews
@@ -784,22 +789,16 @@
             }
         }
             break;
+            
         case DTAlertViewModeTextInput:
         {
+            ///MARK: TextField
             _textField = [[UITextField alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(messageLabel.frame) + 10.0f, 260.0f, 30.0f)];
             [_textField setCenter:CGPointMake(CGRectGetMidX(self.bounds), _textField.center.y)];
             [_textField setBorderStyle:UITextBorderStyleRoundedRect];
+            [_textField addTarget:self action:@selector(textFieldDidBegin:) forControlEvents:UIControlEventEditingDidBegin];
             [_textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-            
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(textFieldDidBeginEditing:)
-                                                         name:UIKeyboardWillShowNotification
-                                                       object:nil];
-            
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(textFieldDidEndEditing:)
-                                                         name:UIKeyboardWillHideNotification
-                                                       object:nil];
+            [_textField addTarget:self action:@selector(textFieldDidEndEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
             
             [self addSubview:_textField];
             
@@ -814,6 +813,7 @@
             
         }
             break;
+            
         default:
             break;
     }
@@ -1015,7 +1015,7 @@
     [self setViews];
 }
 
-#pragma mark - Button Actions
+#pragma mark - Button Action
 
 - (IBAction)buttonClicked:(UIButton *)sender
 {
@@ -1035,6 +1035,63 @@
         [self dismiss];
         
         return;
+    }
+}
+
+
+#pragma mark - TextField Action
+
+- (IBAction)textFieldDidBegin:(id)sender
+{
+    // Receive notification
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(textFieldDidBeginEditing:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+}
+
+- (IBAction)textFieldDidChange:(id)sender
+{
+    /* Support Block at first priority */
+    if (_textChangeBlock != nil) {
+        _textChangeBlock(self, _textField.text);
+        return;
+    }
+    
+    /* If block is nil, then responds to delegate */
+    if ([_delegate respondsToSelector:@selector(alertViewTextDidChanged:)]) {
+        [_delegate alertViewTextDidChanged:self];
+    }
+}
+
+- (IBAction)textFieldDidEndEditing:(NSNotification *)notification
+{
+    [UIView animateWithDuration:0.26f animations:^{
+        // Move current view to center
+        UIWindow *window = [self keyWindow];
+        [self setCenter:window.center];
+    } completion:^(BOOL finished) {
+        // Remove notification
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    }];
+}
+
+#pragma mark - KeyBoard Notification Mesthods
+
+- (void)textFieldDidBeginEditing:(NSNotification *)notification
+{
+    NSDictionary *params = (NSDictionary *)notification.userInfo;
+    CGRect frame = [[params objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    
+    CGFloat keyboardOriginY = frame.origin.y;
+    CGFloat currentBottomY = CGRectGetMaxY(self.frame);
+    
+    if (currentBottomY >= keyboardOriginY) {
+        // Set self botton higher than keyboard top more.
+        CGFloat deltaY = currentBottomY - keyboardOriginY;
+        [UIView animateWithDuration:0.26f animations:^{
+            [self setCenter:CGPointMake(self.center.x, self.center.y - (deltaY + 55.0f))];
+        }];
     }
 }
 
@@ -1095,49 +1152,6 @@
     }
     
     return window;
-}
-
-#pragma mark - UI Action event
-- (void)textFieldDidChangeBlock:(DTAlertViewTextDidChangeBlock)textBlock
-{
-    _textChangeBlock = DTBlockCopy(textBlock);
-}
-
-- (void)textFieldDidBeginEditing:(NSNotification *)notification
-{
-    ///TODO: Begin edit text field
-    NSDictionary *params = (NSDictionary *)notification.userInfo;
-    CGRect frame = [[params objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-
-    CGFloat keyboardOriginY = frame.origin.y;
-    CGFloat currentBottomY = CGRectGetMaxY(self.frame);
-    
-    if (currentBottomY >= keyboardOriginY) {
-        // Set self botton higher than keyboard top more
-        CGFloat deltaY = currentBottomY - keyboardOriginY;
-        [UIView animateWithDuration:0.3f animations:^{
-            [self setCenter:CGPointMake(self.center.x, self.center.y - (deltaY + 55.0f))];
-        }];
-    }
-    
-}
-
-- (void)textFieldDidEndEditing:(NSNotification *)notification
-{
-    ///TODO: End of editing
-}
-
-- (void)textFieldDidChange:(id)sender
-{
-    /* Support Block at first priority */
-    if (_textChangeBlock != nil) {
-        _textChangeBlock(self, _textField.text);
-        return;
-    }
-    /* If block is nil, then set delegate */
-    if ([_delegate respondsToSelector:@selector(alertViewTextDidChanged:)]) {
-        [_delegate alertViewTextDidChanged:self];
-    }
 }
 
 @end

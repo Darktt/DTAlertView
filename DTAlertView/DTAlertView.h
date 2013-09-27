@@ -49,7 +49,7 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 // Views
 @property (assign) CGFloat cornerRadius; // Defauls value 0.0, when showed is 25.0 if value not changed.
 @property (nonatomic, retain) UIView *backgroundView; // Default is nil.
-@property (nonatomic, readonly) UITextField *textField; // Default is nil. Only can be set when DTAlertViewMode is DTAlertViewModeTextInput
+@property (nonatomic, readonly) UITextField *textField; // Default is nil. Only can be set when DTAlertViewMode is DTAlertViewModeTextInput.
 
 // Initial for class method with delegate.
 + (DTInstancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message delegate:(id<DTAlertViewDelgate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle;
@@ -87,6 +87,13 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
  */
 - (void)setPercentage:(CGFloat)percentage;
 
+#if __has_feature(blocks)
+
+// Set block to notify when text in textfield is changed.
+- (void)setTextFieldDidChangeBlock:(DTAlertViewTextDidChangeBlock)textBlock;
+
+#endif
+
 /* 
  * Shows *
  */
@@ -111,11 +118,7 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 // Hide alert with custom animation.
 - (void)dismissWithAnimationBlock:(DTAlertViewAnimationBlock)animationBlock;
 
-// Notify when text in textfield is changed
-- (void)textFieldDidChangeBlock:(DTAlertViewTextDidChangeBlock)textBlock;
-
 #endif
-
 
 @end
 
