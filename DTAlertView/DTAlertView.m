@@ -41,7 +41,7 @@
 
 #endif
 
-// Micros
+// Macros
 #define kDefaultBGColor [UIColor blackColor]
 
 // Tags
@@ -56,11 +56,12 @@
 
 #define kButtonBGViewTag        2099
 
-@interface DTAlertView ()
+@interface DTAlertView () 
 {
     id<DTAlertViewDelgate> _delegate;
     
     DTAlertViewButtonClickedBlock _clickedBlock;
+    DTAlertViewTextDidChangeBlock _textChangeBlock;
     NSString *_title;
     NSString *_message;
     DTAlertViewMode _alertViewMode;
@@ -68,6 +69,9 @@
     // Progress label
     DTProgressStatus _status;
     CGFloat _percentage;
+    
+    // Textfiled
+    UITextField *_textField;
     
     // Button Titles
     NSString *_cancelButtonTitle;
@@ -181,7 +185,7 @@
 - (void)dealloc
 {
     if (_clickedBlock != nil) {
-        Block_release(_clickedBlock);
+        DTBlockRelease(_clickedBlock);
     }
     
     if (_title != nil) {
@@ -213,6 +217,17 @@
         [_blurToolbar release];
         _blurToolbar = nil;
     }
+    
+    if (_textField != nil) {
+        [_textField release];
+        _textField = nil;
+    }
+    
+    if (_textChangeBlock != nil) {
+        DTBlockRelease(_textChangeBlock);
+    }
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [super dealloc];
 }
@@ -348,6 +363,11 @@
 {
     
     return _backgroundView;
+}
+
+- (UITextField *)textField
+{
+    return _textField;
 }
 
 #pragma mark - Instance Methods
@@ -764,7 +784,36 @@
             }
         }
             break;
+        case DTAlertViewModeTextInput:
+        {
+            _textField = [[UITextField alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(messageLabel.frame) + 10.0f, 260.0f, 30.0f)];
+            [_textField setCenter:CGPointMake(CGRectGetMidX(self.bounds), _textField.center.y)];
+            [_textField setBorderStyle:UITextBorderStyleRoundedRect];
+            [_textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
             
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(textFieldDidBeginEditing:)
+                                                         name:UIKeyboardWillShowNotification
+                                                       object:nil];
+            
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(textFieldDidEndEditing:)
+                                                         name:UIKeyboardWillHideNotification
+                                                       object:nil];
+            
+            [self addSubview:_textField];
+            
+#ifdef DEBUG_MODE
+            NSLog(@"Textfield Frame: %@", NSStringFromCGRect(_textField.frame));
+#endif
+            buttonsField.origin.y = CGRectGetMaxY(_textField.frame) + 20.0f;
+            
+            if (![self checkButtonTitleExist]) {
+                [self resizeViewWithLastRect:_textField.frame];
+            }
+            
+        }
+            break;
         default:
             break;
     }
@@ -939,6 +988,12 @@
         }
     }
     
+    if (_alertViewMode == DTAlertViewModeTextInput) {
+        [_textField removeFromSuperview];
+        DTRelease(_textField);
+        _textField = nil;
+    }
+    
     if ([self checkButtonTitleExist]) {
         UIView *buttonBackgroundView = [self viewWithTag:kButtonBGViewTag];
         [buttonBackgroundView removeFromSuperview];
@@ -1040,6 +1095,49 @@
     }
     
     return window;
+}
+
+#pragma mark - UI Action event
+- (void)textFieldDidChangeBlock:(DTAlertViewTextDidChangeBlock)textBlock
+{
+    _textChangeBlock = DTBlockCopy(textBlock);
+}
+
+- (void)textFieldDidBeginEditing:(NSNotification *)notification
+{
+    ///TODO: Begin edit text field
+    NSDictionary *params = (NSDictionary *)notification.userInfo;
+    CGRect frame = [[params objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+
+    CGFloat keyboardOriginY = frame.origin.y;
+    CGFloat currentBottomY = CGRectGetMaxY(self.frame);
+    
+    if (currentBottomY >= keyboardOriginY) {
+        // Set self botton higher than keyboard top more
+        CGFloat deltaY = currentBottomY - keyboardOriginY;
+        [UIView animateWithDuration:0.3f animations:^{
+            [self setCenter:CGPointMake(self.center.x, self.center.y - (deltaY + 55.0f))];
+        }];
+    }
+    
+}
+
+- (void)textFieldDidEndEditing:(NSNotification *)notification
+{
+    ///TODO: End of editing
+}
+
+- (void)textFieldDidChange:(id)sender
+{
+    /* Support Block at first priority */
+    if (_textChangeBlock != nil) {
+        _textChangeBlock(self, _textField.text);
+        return;
+    }
+    /* If block is nil, then set delegate */
+    if ([_delegate respondsToSelector:@selector(alertViewTextDidChanged:)]) {
+        [_delegate alertViewTextDidChanged:self];
+    }
 }
 
 @end
