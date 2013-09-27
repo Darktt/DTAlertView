@@ -84,6 +84,7 @@
     UIToolbar *_blurToolbar;
     
     BOOL _visible;
+    BOOL _keyBoardIsShown;
 }
 
 - (UIWindow *)keyWindow;
@@ -120,6 +121,8 @@
     
     _backgroundView = nil;
     _visible = NO;
+    
+    _keyBoardIsShown = NO;
     
     [self setCancelButtonIndex];
     
@@ -164,6 +167,8 @@
     
     _backgroundView = nil;
     _visible = NO;
+    
+    _keyBoardIsShown = NO;
     
     [self setCancelButtonIndex];
 
@@ -471,9 +476,7 @@
     UIWindow *window = [self keyWindow];
     
     // Background of alert view
-    UIView *backgroundView = [[UIView alloc] initWithFrame:window.frame];
-    [backgroundView setTag:kAlertBackgroundTag];
-    [backgroundView setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.5f]];
+    UIView *backgroundView = [self setBackgroundWithFrame:window.frame];
     
     [window addSubview:backgroundView];
     
@@ -512,7 +515,14 @@
     [self setViews];
     
     UIWindow *window = [self keyWindow];
-    [window addSubview:self];
+    
+    // Background of alert view
+    UIView *backgroundView = [self setBackgroundWithFrame:window.frame];
+    
+    [window addSubview:backgroundView];
+    
+    [self setCenter:backgroundView.center];
+    [backgroundView addSubview:self];
     
     [UIView animateWithDuration:0.3f
                           delay:0.0f
@@ -530,6 +540,13 @@
 {
     if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewWillDismiss:)]) {
         [_delegate alertViewWillDismiss:self];
+    }
+    
+    if (_keyBoardIsShown) {
+        [_textField resignFirstResponder];
+        
+        // Remove notification
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     }
     
     [self.layer addAnimation:[self defaultDismissAnimation] forKey:@"popup"];
@@ -550,10 +567,15 @@
 
 - (void)dismissWithAnimationBlock:(DTAlertViewAnimationBlock)animationBlock
 {
-    __block BOOL isDismiss = NO;
-    
     if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewWillDismiss:)]) {
         [_delegate alertViewWillDismiss:self];
+    }
+    
+    if (_keyBoardIsShown) {
+        [_textField resignFirstResponder];
+        
+        // Remove notification
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     }
     
     [UIView animateWithDuration:0.3f
@@ -563,7 +585,6 @@
                      completion:^(BOOL finished) {
                          
         [self removeFromSuperview];
-        isDismiss = YES;
         
         _visible = NO;
         
@@ -618,7 +639,6 @@
     [titleLabel setCenter:CGPointMake(CGRectGetMidX(self.bounds), titleLabel.center.y + 20.0f)];
     
     [self addSubview:titleLabel];
-    
     
 #ifdef DEBUG_MODE
     
@@ -794,16 +814,16 @@
         {
             ///MARK: TextField
             _textField = [[UITextField alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(messageLabel.frame) + 10.0f, 260.0f, 30.0f)];
-            [_textField setCenter:CGPointMake(CGRectGetMidX(self.bounds), _textField.center.y)];
             [_textField setBorderStyle:UITextBorderStyleRoundedRect];
             [_textField addTarget:self action:@selector(textFieldDidBegin:) forControlEvents:UIControlEventEditingDidBegin];
             [_textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
             [_textField addTarget:self action:@selector(textFieldDidEndEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
             
+            [_textField setCenter:CGPointMake(CGRectGetMidX(self.bounds), _textField.center.y)];
             [self addSubview:_textField];
             
 #ifdef DEBUG_MODE
-            NSLog(@"Textfield Frame: %@", NSStringFromCGRect(_textField.frame));
+            NSLog(@"TextField Frame: %@", NSStringFromCGRect(_textField.frame));
 #endif
             buttonsField.origin.y = CGRectGetMaxY(_textField.frame) + 20.0f;
             
@@ -817,6 +837,10 @@
         default:
             break;
     }
+    
+    // Release Label
+    DTRelease(titleLabel);
+    DTRelease(messageLabel);
     
 #ifdef DEBUG_MODE
     NSLog(@"Button Field: %@", NSStringFromCGRect(buttonsField));
@@ -886,39 +910,9 @@
     [self resizeViewWithLastRect:buttonsField];
 }
 
-- (UILabel *)setLabelWithTitle:(NSString *)labelText
-{
-    UILabel *label = [[UILabel alloc] init];
-    [label setText:labelText];
-    [label setTextColor:[UIColor blackColor]];
-    [label setTextAlignment:DTTextAlignmentCenter];
-    [label setFont:[UIFont boldSystemFontOfSize:17.0f]];
-    
-    // Set lines of message text
-    NSArray *linesOfTitle = [labelText componentsSeparatedByString:@"\n"];
-    [label setNumberOfLines:linesOfTitle.count];
-    
-    // Set title label position and size
-    [label sizeToFit];
-    
-    if (label.frame.size.width > (self.frame.size.width - 40.0f)) {
-        NSInteger times = ceil(label.frame.size.width / (self.frame.size.width - 40.0f));
-        [label setNumberOfLines:times];
-        
-        CGRect newFrame = label.frame;
-        newFrame.size.width = self.frame.size.width - 40.0f;
-        newFrame.size.height *= label.numberOfLines;
-        
-        [label setFrame:newFrame];
-    }
-    
-    return DTAutorelease(label);
-}
-
 - (UIProgressView *)setProgressViewWithFrame:(CGRect)frame
 {
     UIProgressView *progress = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
-//    [progress setProgressTintColor:[UIColor greenColor]];
     [progress setFrame:frame];
     
     return DTAutorelease(progress);
@@ -1015,6 +1009,24 @@
     [self setViews];
 }
 
+- (UIView *)setBackgroundWithFrame:(CGRect)frame
+{
+    if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+        CGSize tempSize = frame.size;
+        tempSize.width = frame.size.height;
+        tempSize.height = frame.size.width;
+        
+        frame.size = tempSize;
+    }
+    
+    UIView *backgroundView = [[UIView alloc] initWithFrame:frame];
+    [backgroundView setTag:kAlertBackgroundTag];
+    [backgroundView setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.5f]];
+    [backgroundView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+    
+    return DTAutorelease(backgroundView);
+}
+
 #pragma mark - Button Action
 
 - (IBAction)buttonClicked:(UIButton *)sender
@@ -1066,10 +1078,12 @@
 
 - (IBAction)textFieldDidEndEditing:(NSNotification *)notification
 {
-    [UIView animateWithDuration:0.26f animations:^{
+    _keyBoardIsShown = NO;
+    
+    [UIView animateWithDuration:0.25f animations:^{
         // Move current view to center
-        UIWindow *window = [self keyWindow];
-        [self setCenter:window.center];
+        UIView *backGround = [self superview];
+        [self setCenter:backGround.center];
     } completion:^(BOOL finished) {
         // Remove notification
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
@@ -1080,17 +1094,22 @@
 
 - (void)textFieldDidBeginEditing:(NSNotification *)notification
 {
-    NSDictionary *params = (NSDictionary *)notification.userInfo;
-    CGRect frame = [[params objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    _keyBoardIsShown = YES;
     
-    CGFloat keyboardOriginY = frame.origin.y;
+    NSDictionary *params = (NSDictionary *)notification.userInfo;
+    
+    CGRect frame = [[params objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    NSTimeInterval duration = [params[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    CGFloat keyboardOrigin = frame.size.width;
     CGFloat currentBottomY = CGRectGetMaxY(self.frame);
     
-    if (currentBottomY >= keyboardOriginY) {
+    if (currentBottomY >= keyboardOrigin) {
         // Set self botton higher than keyboard top more.
-        CGFloat deltaY = currentBottomY - keyboardOriginY;
-        [UIView animateWithDuration:0.26f animations:^{
-            [self setCenter:CGPointMake(self.center.x, self.center.y - (deltaY + 55.0f))];
+        CGFloat deltaY = currentBottomY - keyboardOrigin;
+        
+        [UIView animateWithDuration:duration animations:^{
+            [self setCenter:CGPointMake(self.center.x, self.center.y - (deltaY + 45.0f))];
         }];
     }
 }

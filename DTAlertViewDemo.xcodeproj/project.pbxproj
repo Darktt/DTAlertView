@@ -121,6 +121,7 @@
 		5520144717E867620005621E /* DTAlertViewDemo */ = {
 			isa = PBXGroup;
 			children = (
+				55C8D75017F56A00000CE311 /* iPad */,
 				5520145017E867620005621E /* DTAppDelegate.h */,
 				5520145117E867620005621E /* DTAppDelegate.m */,
 				5520145317E867620005621E /* Main.storyboard */,
@@ -171,6 +172,13 @@
 				55C8D74E17F40DEA000CE311 /* DTProgressStatus.m */,
 			);
 			name = DTAlertView;
+			sourceTree = "<group>";
+		};
+		55C8D75017F56A00000CE311 /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = iPad;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -409,9 +417,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DTAlertViewDemo/DTAlertViewDemo-Prefix.pch";
 				INFOPLIST_FILE = "DTAlertViewDemo/DTAlertViewDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -427,9 +435,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DTAlertViewDemo/DTAlertViewDemo-Prefix.pch";
 				INFOPLIST_FILE = "DTAlertViewDemo/DTAlertViewDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

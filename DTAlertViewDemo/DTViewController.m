@@ -82,15 +82,11 @@
     DTAlertView *alert = [DTAlertView alertViewUseBlock:clickedBlock title:@"Title 1234567890" message:@"123456789012345678901234567890123456789012345678901234567890" cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
 //    [alert setAlertViewMode:DTAlertViewModeProgress];
     [alert setAlertViewMode:DTAlertViewModeTextInput];
-    [alert setTextFieldDidChangeBlock:^(DTAlertView *alertView, NSString *text) {
-        NSLog(@"text change %@", text);
-    }];
     
     [alert setProgressStatus:DTProgressStatusMake(1, 10)];
     
     [alert show];
-    
-    [self performSelector:@selector(resetAlertView:) withObject:alert afterDelay:1];
+//    [self performSelector:@selector(resetAlertView:) withObject:alert afterDelay:1];
     
 //    [alert setFrame:CGRectMake(0, 0, 300, 300)];
 //    [alert setCenter:CGPointMake(self.view.center.x, self.view.frame.size.height + (alert.frame.size.height / 2))];
