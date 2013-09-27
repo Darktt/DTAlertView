@@ -489,7 +489,7 @@
     UIWindow *window = [self keyWindow];
     
     // Background of alert view
-    UIView *backgroundView = [self setBackgroundWithFrame:window.frame];
+    UIView *backgroundView = [self setBackgroundWithFrame:window.bounds];
     
     [window addSubview:backgroundView];
     
@@ -1026,14 +1026,6 @@
 
 - (UIView *)setBackgroundWithFrame:(CGRect)frame
 {
-    if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
-        CGSize tempSize = frame.size;
-        tempSize.width = frame.size.height;
-        tempSize.height = frame.size.width;
-        
-        frame.size = tempSize;
-    }
-    
     UIView *backgroundView = [[UIView alloc] initWithFrame:frame];
     [backgroundView setTag:kAlertBackgroundTag];
     [backgroundView setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.5f]];
