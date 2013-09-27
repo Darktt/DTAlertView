@@ -23,6 +23,7 @@ typedef NS_ENUM(NSInteger, DTAlertViewMode) {
     DTAlertViewModeNormal = 0,
     DTAlertViewModeProgress,
     DTAlertViewModeDuoProgress,
+    DTAlertViewModeTextInput
     };
 
 #if __has_feature(blocks)
@@ -30,6 +31,7 @@ typedef NS_ENUM(NSInteger, DTAlertViewMode) {
 // Blocks
 typedef void (^DTAlertViewButtonClickedBlock) (DTAlertView *alertView, NSUInteger buttonIndex, NSUInteger cancelButtonIndex);
 typedef void (^DTAlertViewAnimationBlock) (void);
+typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *text);
 
 #endif
 
@@ -47,6 +49,7 @@ typedef void (^DTAlertViewAnimationBlock) (void);
 // Views
 @property (assign) CGFloat cornerRadius; // Defauls value 0.0, when showed is 25.0 if value not changed.
 @property (nonatomic, retain) UIView *backgroundView; // Default is nil.
+@property (nonatomic, readonly) UITextField *textField; // Default is nil. Only can be set when DTAlertViewMode is DTAlertViewModeTextInput
 
 // Initial for class method with delegate.
 + (DTInstancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message delegate:(id<DTAlertViewDelgate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle;
@@ -108,7 +111,11 @@ typedef void (^DTAlertViewAnimationBlock) (void);
 // Hide alert with custom animation.
 - (void)dismissWithAnimationBlock:(DTAlertViewAnimationBlock)animationBlock;
 
+// Notify when text in textfield is changed
+- (void)textFieldDidChangeBlock:(DTAlertViewTextDidChangeBlock)textBlock;
+
 #endif
+
 
 @end
 
@@ -124,5 +131,8 @@ typedef void (^DTAlertViewAnimationBlock) (void);
 
 // Alert view did dismiss.
 - (void)alertViewDidDismiss:(DTAlertView *)alertView;
+
+// Text in AlertView did change.
+- (void)alertViewTextDidChanged:(DTAlertView *)alertView;
 
 @end
