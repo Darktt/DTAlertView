@@ -70,6 +70,9 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 // Set iOS7 style blur background color
 - (void)setBlurBackgroundWithColor:(UIColor *)color alpha:(CGFloat)alpha NS_AVAILABLE_IOS(7_0);
 
+// Set positive button enable or disable.
+- (void)setPositiveButtonEnable:(BOOL)enable;
+
 /* 
  Adjust the current progress status at DTAlertViewModeDuoProgress mode,
  first (top) progress view's progress will adjust by this receiver at DTAlertViewModeDuoProgress mode.

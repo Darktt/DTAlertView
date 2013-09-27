@@ -77,6 +77,7 @@
     NSString *_cancelButtonTitle;
     NSInteger _cancelButtonIndex;
     NSString *_positiveButtonTitle;
+    BOOL _positiveButtonEnable;
     NSString *_clickedButtonTitle;
     
     // Back ground
@@ -390,6 +391,18 @@
         [_blurToolbar setBarTintColor:color];
         
         [self.layer insertSublayer:_blurToolbar.layer atIndex:0];
+    }
+}
+
+#pragma mark Set Positive Button enable
+
+- (void)setPositiveButtonEnable:(BOOL)enable
+{
+    _positiveButtonEnable = enable;
+    
+    if (_visible) {
+        UIButton *positiveButton = (UIButton *)[self viewWithTag:_cancelButtonIndex + 2];
+        [positiveButton setEnabled:enable];
     }
 }
 
@@ -888,8 +901,10 @@
     // Positive Button
     if (_positiveButtonTitle != nil) {
         UIButton *positiveButton = [self setButtonWithTitle:_positiveButtonTitle];
+        [positiveButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         [positiveButton setTag:_cancelButtonIndex + 2];
         [positiveButton.titleLabel setFont:[UIFont systemFontOfSize:17.0f]];
+        [positiveButton setEnabled:_positiveButtonEnable];
         [positiveButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
         
         CGRect positiveButtonFrame = buttonsField;
