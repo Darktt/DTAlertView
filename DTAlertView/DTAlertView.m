@@ -43,6 +43,7 @@
 
 // Macros
 #define kDefaultBGColor [UIColor blackColor]
+#define kDefaultAutoResizeMask UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin
 
 // Tags
 #define kAlertBackgroundTag     1000
@@ -58,7 +59,7 @@
 
 @interface DTAlertView ()
 {
-    id<DTAlertViewDelgate> _delegate;
+    id<DTAlertViewDelegate> _delegate;
     
     DTAlertViewButtonClickedBlock _clickedBlock;
     DTAlertViewTextDidChangeBlock _textChangeBlock;
@@ -72,6 +73,9 @@
     
     // Textfiled
     UITextField *_textField;
+    
+    // Progress Color
+    UIColor *_progressTintColor;
     
     // Button Titles
     NSString *_cancelButtonTitle;
@@ -94,7 +98,7 @@
 
 @implementation DTAlertView
 
-+ (DTInstancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message delegate:(id<DTAlertViewDelgate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle
++ (DTInstancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message delegate:(id<DTAlertViewDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle
 {
     DTAlertView *alertView = [[DTAlertView alloc] initWithTitle:title
                                                         message:message
@@ -105,7 +109,7 @@
     return DTAutorelease(alertView);
 }
 
-- (DTInstancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id<DTAlertViewDelgate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle
+- (DTInstancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id<DTAlertViewDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle
 {
     self = [super init];
     
@@ -119,6 +123,7 @@
     
     _cancelButtonTitle = DTRetain(cancelButtonTitle);
     _positiveButtonTitle = DTRetain(positiveButtonTitle);
+    _positiveButtonEnable = YES;
     
     _backgroundView = nil;
     _visible = NO;
@@ -165,6 +170,7 @@
     
     _cancelButtonTitle = DTRetain(cancelButtonTitle);
     _positiveButtonTitle = DTRetain(positiveButtonTitle);
+    _positiveButtonEnable = YES;
     
     _backgroundView = nil;
     _visible = NO;
@@ -229,6 +235,11 @@
         _textField = nil;
     }
     
+    if (_progressTintColor != nil) {
+        [_progressTintColor release];
+        _progressTintColor = nil;
+    }
+    
     if (_textChangeBlock != nil) {
         Block_release(_textChangeBlock);
     }
@@ -240,7 +251,7 @@
 
 #pragma mark - Property Methods
 
-- (void)setDelegate:(id<DTAlertViewDelgate>)delegate
+- (void)setDelegate:(id<DTAlertViewDelegate>)delegate
 {
     if (_clickedBlock != nil) {
         
@@ -252,7 +263,7 @@
     _delegate = delegate;
 }
 
-- (id<DTAlertViewDelgate>)delegate
+- (id<DTAlertViewDelegate>)delegate
 {
     return _delegate;
 }
@@ -374,6 +385,35 @@
     return _textField;
 }
 
+- (void)setProgressBarColor:(UIColor *)progressBarColor
+{
+    // Only set at DTAlertViewModeProgress and DTAlertViewModeDuoProgress
+    if (_alertViewMode != DTAlertViewModeProgress && _alertViewMode != DTAlertViewModeDuoProgress) {
+        return;
+    }
+    
+    if (_progressTintColor != nil) {
+        [_progressTintColor release];
+    }
+    
+    _progressTintColor = DTRetain(progressBarColor);
+    
+    if (_visible && (_alertViewMode == DTAlertViewModeProgress || _alertViewMode == DTAlertViewModeDuoProgress)) {
+        UIProgressView *firstProgress = (UIProgressView *)[self viewWithTag:kFirstProgressTag];
+        [firstProgress setProgressTintColor:_progressTintColor];
+        
+        UIProgressView *secondProgress = (UIProgressView *)[self viewWithTag:kSecondProgressTag];
+        if (secondProgress != nil) {
+            [secondProgress setProgressTintColor:_progressTintColor];
+        }
+    }
+}
+
+- (UIColor *)progressBarColor
+{
+    return _progressTintColor;
+}
+
 #pragma mark - Instance Methods
 
 #pragma mark Blur Background
@@ -481,7 +521,7 @@
         [self.layer setCornerRadius:5.0f];
     }
     
-    [self setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin];
+    [self setAutoresizingMask:kDefaultAutoResizeMask];
     [self setFrame:CGRectMake(0, 0, 270, 270)];
     [self setViews];
     
@@ -496,9 +536,10 @@
     [self setCenter:backgroundView.center];
     [backgroundView addSubview:self];
     
-    [self.layer addAnimation:[self defaultShowsAnimation] forKey:@"popup"];
+    CAAnimation *showsAnimation = [self defaultShowsAnimation];
+    [self.layer addAnimation:showsAnimation forKey:@"popup"];
     
-    [self performSelector:@selector(showsCompletion) withObject:nil afterDelay:0.25];
+    [self performSelector:@selector(showsCompletion) withObject:nil afterDelay:showsAnimation.duration];
 }
 
 - (void)showsCompletion
@@ -519,7 +560,7 @@
         [self.layer setCornerRadius:5.0f];
     }
     
-    [self setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin];
+    [self setAutoresizingMask:kDefaultAutoResizeMask];
     
     CGRect selfFrame = self.frame;
     selfFrame.size = CGSizeMake(270, 270);
@@ -562,13 +603,16 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     }
     
-    [self.layer addAnimation:[self defaultDismissAnimation] forKey:@"popup"];
+    CAAnimation *dismissAnimation = [self defaultDismissAnimation];
     
-    [self performSelector:@selector(dismissCompletion) withObject:nil afterDelay:0.4f];
+    [self.layer addAnimation:dismissAnimation forKey:@"popup"];
+    
+    [self performSelector:@selector(dismissCompletion) withObject:nil afterDelay:dismissAnimation.duration];
 }
 
 - (void)dismissCompletion
 {
+    // Remove background
     [[self superview] removeFromSuperview];
     
     _visible = NO;
@@ -702,9 +746,7 @@
     
 #endif
     
-    ///MARK: Progress and label under the progress
-    
-    // Calculator buttons field rect.
+    // Calculator buttons field rectangle.
     CGRect buttonsField = CGRectZero;
     buttonsField.size = CGSizeMake(self.frame.size.width, 45.0f);
     
@@ -718,8 +760,34 @@
             }
             break;
             
+        case DTAlertViewModeTextInput:
+        {
+            ///MARK: TextField
+            _textField = [[UITextField alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(messageLabel.frame) + 10.0f, 260.0f, 30.0f)];
+            [_textField setBorderStyle:UITextBorderStyleRoundedRect];
+            [_textField addTarget:self action:@selector(textFieldDidBegin:) forControlEvents:UIControlEventEditingDidBegin];
+            [_textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+            [_textField addTarget:self action:@selector(textFieldDidEndEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
+            
+            [_textField setCenter:CGPointMake(CGRectGetMidX(self.bounds), _textField.center.y)];
+            [self addSubview:_textField];
+            
+#ifdef DEBUG_MODE
+            NSLog(@"TextField Frame: %@", NSStringFromCGRect(_textField.frame));
+#endif
+            buttonsField.origin.y = CGRectGetMaxY(_textField.frame) + 20.0f;
+            
+            if (![self checkButtonTitleExist]) {
+                [self resizeViewWithLastRect:_textField.frame];
+            }
+            
+        }
+            break;
+            
         case DTAlertViewModeProgress:
         {
+            ///MARK: Progress and label under the progress
+            
             // Progress View
             UIProgressView *firstProgress = [self setProgressViewWithFrame:CGRectMake(0, CGRectGetMaxY(messageLabel.frame) + 10.0f, 260.0f, 2.0f)];
             [firstProgress setTag:kFirstProgressTag];
@@ -823,30 +891,6 @@
         }
             break;
             
-        case DTAlertViewModeTextInput:
-        {
-            ///MARK: TextField
-            _textField = [[UITextField alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(messageLabel.frame) + 10.0f, 260.0f, 30.0f)];
-            [_textField setBorderStyle:UITextBorderStyleRoundedRect];
-            [_textField addTarget:self action:@selector(textFieldDidBegin:) forControlEvents:UIControlEventEditingDidBegin];
-            [_textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-            [_textField addTarget:self action:@selector(textFieldDidEndEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
-            
-            [_textField setCenter:CGPointMake(CGRectGetMidX(self.bounds), _textField.center.y)];
-            [self addSubview:_textField];
-            
-#ifdef DEBUG_MODE
-            NSLog(@"TextField Frame: %@", NSStringFromCGRect(_textField.frame));
-#endif
-            buttonsField.origin.y = CGRectGetMaxY(_textField.frame) + 20.0f;
-            
-            if (![self checkButtonTitleExist]) {
-                [self resizeViewWithLastRect:_textField.frame];
-            }
-            
-        }
-            break;
-            
         default:
             break;
     }
@@ -874,11 +918,11 @@
     DTRelease(buttonBackgroundView);
     
     CGFloat buttonWidth;
-
-    if (![self checkButtonTitleExist]) {
-        buttonWidth = buttonsField.size.width;
-    } else {
+    
+    if (_cancelButtonTitle != nil && _positiveButtonTitle != nil) {
         buttonWidth = buttonsField.size.width / 2 - 0.5f;
+    } else {
+        buttonWidth = buttonsField.size.width;
     }
     
     // Cancel Button
@@ -929,6 +973,7 @@
 {
     UIProgressView *progress = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
     [progress setFrame:frame];
+    [progress setProgressTintColor:_progressTintColor];
     
     return DTAutorelease(progress);
 }
@@ -1041,27 +1086,30 @@
     _clickedButtonTitle = DTRetain([sender titleForState:UIControlStateNormal]);
     
     if (_clickedBlock != nil) {
-        _clickedBlock(self, sender.tag - 1, _cancelButtonIndex);
-        
         [self dismiss];
+        
+        _clickedBlock(self, sender.tag - 1, _cancelButtonIndex);
         
         return;
     }
     
     if ([_delegate respondsToSelector:@selector(alertView:clickedButtonAtIndex:)]) {
-        [_delegate alertView:self clickedButtonAtIndex:sender.tag - 1];
-        
         [self dismiss];
+        
+        [_delegate alertView:self clickedButtonAtIndex:sender.tag - 1];
         
         return;
     }
 }
 
-
 #pragma mark - TextField Action
 
 - (IBAction)textFieldDidBegin:(id)sender
 {
+    ///TODO: When roation have position error issue.
+    // Disable UIViewAutoresizingFlexibleBottomMargin on self auto resizing mask
+    [self setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
+    
     // Receive notification
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(textFieldDidBeginEditing:)
@@ -1092,6 +1140,8 @@
         UIView *backGround = [self superview];
         [self setCenter:backGround.center];
     } completion:^(BOOL finished) {
+        [self setAutoresizingMask:kDefaultAutoResizeMask];
+        
         // Remove notification
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     }];
@@ -1108,7 +1158,8 @@
     CGRect frame = [[params objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     NSTimeInterval duration = [params[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
-    CGFloat keyboardOrigin = frame.size.width;
+    // keyboard origin value is keyboard origin y at portrait, when landscape value is keyboard width.
+    CGFloat keyboardOrigin = UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ? frame.origin.y : frame.size.width;
     CGFloat currentBottomY = CGRectGetMaxY(self.frame);
     
     if (currentBottomY >= keyboardOrigin) {
@@ -1147,8 +1198,9 @@
 
 - (CAAnimation *)defaultDismissAnimation
 {
-    NSArray *frameValues = @[transform(1.0f, 1.0f, 1.0f), transform(0.5f, 0.5f, 0.5f), transform(0.0f, 0.0f, 0.0f)];
+    NSArray *frameValues = @[transform(1.0f, 1.0f, 1.0f), transform(0.5f, 0.5f, 0.5f), transform(0.01f, 0.01f, 0.01f)];
     NSArray *frameTimes = @[@(0.0f), @(0.3f), @(1.0f)];
+    
     CAKeyframeAnimation *animation = [self animationWithValues:frameValues times:frameTimes duration:0.25f];
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
     

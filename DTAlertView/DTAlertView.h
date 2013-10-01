@@ -16,14 +16,14 @@
 #endif
 
 @class DTAlertView;
-@protocol DTAlertViewDelgate;
+@protocol DTAlertViewDelegate;
 
 // enumerations
 typedef NS_ENUM(NSInteger, DTAlertViewMode) {
     DTAlertViewModeNormal = 0,
+    DTAlertViewModeTextInput,
     DTAlertViewModeProgress,
     DTAlertViewModeDuoProgress,
-    DTAlertViewModeTextInput
     };
 
 #if __has_feature(blocks)
@@ -38,7 +38,7 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 @interface DTAlertView : UIView
 
 // Default settings
-@property (nonatomic, assign) id<DTAlertViewDelgate> delegate;
+@property (nonatomic, assign) id<DTAlertViewDelegate> delegate;
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *message;
 @property (nonatomic, assign) DTAlertViewMode alertViewMode; // Default is DTAlertViewModeNormal.
@@ -46,16 +46,22 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 @property (nonatomic, readonly, getter = isVisible) BOOL visible; // Check alert view is visible.
 @property (nonatomic, readonly) NSString *clickedButtonTitle; // Defalt is nil, when alert view clicked, value is the clicked button title.
 
-// Views
+// View settings
 @property (assign) CGFloat cornerRadius; // Defauls value 0.0, when showed is 25.0 if value not changed.
 @property (nonatomic, retain) UIView *backgroundView; // Default is nil.
-@property (nonatomic, readonly) UITextField *textField; // Default is nil. Only can be set when DTAlertViewMode is DTAlertViewModeTextInput.
+@property (nonatomic, readonly) UITextField *textField; // Default is nil. Only can get it when DTAlertViewMode is DTAlertViewModeTextInput.
+
+/* 
+    Set all pregress bar tint color, default is nil.
+    Only can be set it when DTAlertViewMode is DTAlertViewModeProgress and DTAlertViewModeDuoProgress.
+ */
+@property (nonatomic, retain) UIColor *progressBarColor;
 
 // Initial for class method with delegate.
-+ (DTInstancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message delegate:(id<DTAlertViewDelgate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle;
++ (DTInstancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message delegate:(id<DTAlertViewDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle;
 
 // Initial method with delegate.
-- (DTInstancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id<DTAlertViewDelgate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle;
+- (DTInstancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id<DTAlertViewDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle;
 
 #if __has_feature(blocks)
 
@@ -125,7 +131,7 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 
 @end
 
-@protocol DTAlertViewDelgate <NSObject>
+@protocol DTAlertViewDelegate  <NSObject>
 
 // This method responds what button clicked in alett view.
 - (void)alertView:(DTAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
