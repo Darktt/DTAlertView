@@ -781,6 +781,11 @@
             [_textField addTarget:self action:@selector(textFieldDidEndEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
             
             [_textField setCenter:CGPointMake(CGRectGetMidX(self.bounds), _textField.center.y)];
+            
+            if ([_textField respondsToSelector:@selector(setTintColor:)]) {
+                [_textField setTintColor:[UIColor blueColor]];
+            }
+            
             [self addSubview:_textField];
             
 #ifdef DEBUG_MODE
@@ -1094,19 +1099,16 @@
 
 - (IBAction)buttonClicked:(UIButton *)sender
 {
+    [self dismiss];
     _clickedButtonTitle = DTRetain([sender titleForState:UIControlStateNormal]);
     
     if (_clickedBlock != nil) {
-        [self dismiss];
-        
         _clickedBlock(self, sender.tag - 1, _cancelButtonIndex);
         
         return;
     }
     
     if ([_delegate respondsToSelector:@selector(alertView:clickedButtonAtIndex:)]) {
-        [self dismiss];
-        
         [_delegate alertView:self clickedButtonAtIndex:sender.tag - 1];
         
         return;
