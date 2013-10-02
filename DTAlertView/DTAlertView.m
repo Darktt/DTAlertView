@@ -735,13 +735,18 @@
     
     // When message length too long, calculator new frame.
     if (messageLabel.frame.size.width > labelMaxWidth) {
-        NSInteger times = ceil(messageLabel.frame.size.width / labelMaxWidth);
-        [messageLabel setNumberOfLines:times];
+        NSInteger multiple = ceil(messageLabel.frame.size.width / labelMaxWidth);
+        
+        // multiple add current number of line, If it great of 1.
+        multiple += (messageLabel.numberOfLines == 1) ? 0 : messageLabel.numberOfLines;
         
         CGRect newFrame = messageLabel.frame;
         newFrame.size.width = labelMaxWidth;
-        newFrame.size.height *= messageLabel.numberOfLines;
         
+        // new height = old height * ( multiple / current number of line )
+        newFrame.size.height *= (multiple / messageLabel.numberOfLines);
+        
+        [messageLabel setNumberOfLines:multiple];
         [messageLabel setFrame:newFrame];
     }
     

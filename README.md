@@ -1,4 +1,6 @@
 DTAlertView
 ===========
 
-Custom alert view solved the ios UIAlertView can't addSubview problem.
+Custom alert view to solved the UIAlertView can't addSubview problem on iOS7.
+
+===========
