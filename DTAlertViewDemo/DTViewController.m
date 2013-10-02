@@ -172,7 +172,7 @@
                 }
             };
             
-            progressAlertView = [DTAlertView alertViewUseBlock:block title:@"Demo" message:@"This is alert view\nwith progress view." cancelButtonTitle:@"Cancel" positiveButtonTitle:nil];
+            progressAlertView = [DTAlertView alertViewUseBlock:block title:@"Demo" message:@"This is alert view\nwith duo progress view." cancelButtonTitle:@"Cancel" positiveButtonTitle:nil];
             [progressAlertView setAlertViewMode:DTAlertViewModeDuoProgress];
             [progressAlertView setProgressStatus:DTProgressStatusMake(0, 20)];
             
