@@ -7,14 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		551F98D917F01DA700FC8F97 /* fish.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 551F98D817F01DA700FC8F97 /* fish.jpg */; };
 		5520144217E867620005621E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5520144117E867620005621E /* Foundation.framework */; };
 		5520144417E867620005621E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5520144317E867620005621E /* CoreGraphics.framework */; };
 		5520144617E867620005621E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5520144517E867620005621E /* UIKit.framework */; };
 		5520144C17E867620005621E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5520144A17E867620005621E /* InfoPlist.strings */; };
 		5520144E17E867620005621E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5520144D17E867620005621E /* main.m */; };
 		5520145217E867620005621E /* DTAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5520145117E867620005621E /* DTAppDelegate.m */; };
-		5520145517E867620005621E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5520145317E867620005621E /* Main.storyboard */; };
 		5520145817E867620005621E /* DTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5520145717E867620005621E /* DTViewController.m */; };
 		5520145A17E867620005621E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5520145917E867620005621E /* Images.xcassets */; };
 		5520146117E867620005621E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5520146017E867620005621E /* XCTest.framework */; };
@@ -24,6 +22,7 @@
 		5520146D17E867620005621E /* DTAlertViewDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5520146C17E867620005621E /* DTAlertViewDemoTests.m */; };
 		5520147917E867EB0005621E /* DTAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5520147817E867EB0005621E /* DTAlertView.m */; };
 		55C8D74F17F40DEA000CE311 /* DTProgressStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C8D74E17F40DEA000CE311 /* DTProgressStatus.m */; };
+		55DFE4B717FC10860024265E /* rainbow.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 55DFE4B617FC10860024265E /* rainbow.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +36,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		551F98D817F01DA700FC8F97 /* fish.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fish.jpg; sourceTree = "<group>"; };
 		5520143E17E867620005621E /* DTAlertViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DTAlertViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5520144117E867620005621E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5520144317E867620005621E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -48,7 +46,6 @@
 		5520144F17E867620005621E /* DTAlertViewDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTAlertViewDemo-Prefix.pch"; sourceTree = "<group>"; };
 		5520145017E867620005621E /* DTAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTAppDelegate.h; sourceTree = "<group>"; };
 		5520145117E867620005621E /* DTAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTAppDelegate.m; sourceTree = "<group>"; };
-		5520145417E867620005621E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5520145617E867620005621E /* DTViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTViewController.h; sourceTree = "<group>"; };
 		5520145717E867620005621E /* DTViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTViewController.m; sourceTree = "<group>"; };
 		5520145917E867620005621E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -61,6 +58,7 @@
 		5520147817E867EB0005621E /* DTAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTAlertView.m; path = DTAlertView/DTAlertView.m; sourceTree = "<group>"; };
 		55C8D74917F3E591000CE311 /* DTProgressStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTProgressStatus.h; path = DTAlertView/DTProgressStatus.h; sourceTree = "<group>"; };
 		55C8D74E17F40DEA000CE311 /* DTProgressStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTProgressStatus.m; path = DTAlertView/DTProgressStatus.m; sourceTree = "<group>"; };
+		55DFE4B617FC10860024265E /* rainbow.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = rainbow.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,10 +122,9 @@
 				55C8D75017F56A00000CE311 /* iPad */,
 				5520145017E867620005621E /* DTAppDelegate.h */,
 				5520145117E867620005621E /* DTAppDelegate.m */,
-				5520145317E867620005621E /* Main.storyboard */,
 				5520145617E867620005621E /* DTViewController.h */,
 				5520145717E867620005621E /* DTViewController.m */,
-				551F98D817F01DA700FC8F97 /* fish.jpg */,
+				55DFE4B617FC10860024265E /* rainbow.jpg */,
 				5520145917E867620005621E /* Images.xcassets */,
 				5520144817E867620005621E /* Supporting Files */,
 			);
@@ -258,10 +255,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				551F98D917F01DA700FC8F97 /* fish.jpg in Resources */,
+				55DFE4B717FC10860024265E /* rainbow.jpg in Resources */,
 				5520145A17E867620005621E /* Images.xcassets in Resources */,
 				5520144C17E867620005621E /* InfoPlist.strings in Resources */,
-				5520145517E867620005621E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,14 +309,6 @@
 				5520144B17E867620005621E /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		5520145317E867620005621E /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5520145417E867620005621E /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		5520146917E867620005621E /* InfoPlist.strings */ = {

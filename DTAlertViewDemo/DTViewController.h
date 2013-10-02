@@ -10,4 +10,6 @@
 
 @interface DTViewController : UIViewController
 
++ (instancetype)viewComtroller;
+
 @end

@@ -7,12 +7,25 @@
 //
 
 #import "DTAppDelegate.h"
+#import "DTViewController.h"
 
 @implementation DTAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    
+    if ([self.window respondsToSelector:@selector(setTintColor:)]) {
+        [self.window setTintColor:[UIColor blueColor]];
+    }
+    DTViewController *viewController = [DTViewController viewComtroller];
+    
+    UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:viewController];
+    
+    [self.window setRootViewController:[navigation autorelease]];
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 							
