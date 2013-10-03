@@ -21,6 +21,7 @@
 		5520146B17E867620005621E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5520146917E867620005621E /* InfoPlist.strings */; };
 		5520146D17E867620005621E /* DTAlertViewDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5520146C17E867620005621E /* DTAlertViewDemoTests.m */; };
 		5520147917E867EB0005621E /* DTAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5520147817E867EB0005621E /* DTAlertView.m */; };
+		55C2C0D517FD0B9F00A22939 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C2C0D417FD0B9F00A22939 /* QuartzCore.framework */; };
 		55C8D74F17F40DEA000CE311 /* DTProgressStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C8D74E17F40DEA000CE311 /* DTProgressStatus.m */; };
 		55DFE4B717FC10860024265E /* rainbow.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 55DFE4B617FC10860024265E /* rainbow.jpg */; };
 /* End PBXBuildFile section */
@@ -56,6 +57,7 @@
 		5520146C17E867620005621E /* DTAlertViewDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTAlertViewDemoTests.m; sourceTree = "<group>"; };
 		5520147717E867EB0005621E /* DTAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTAlertView.h; path = DTAlertView/DTAlertView.h; sourceTree = "<group>"; };
 		5520147817E867EB0005621E /* DTAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTAlertView.m; path = DTAlertView/DTAlertView.m; sourceTree = "<group>"; };
+		55C2C0D417FD0B9F00A22939 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		55C8D74917F3E591000CE311 /* DTProgressStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTProgressStatus.h; path = DTAlertView/DTProgressStatus.h; sourceTree = "<group>"; };
 		55C8D74E17F40DEA000CE311 /* DTProgressStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTProgressStatus.m; path = DTAlertView/DTProgressStatus.m; sourceTree = "<group>"; };
 		55DFE4B617FC10860024265E /* rainbow.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = rainbow.jpg; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55C2C0D517FD0B9F00A22939 /* QuartzCore.framework in Frameworks */,
 				5520144417E867620005621E /* CoreGraphics.framework in Frameworks */,
 				5520144617E867620005621E /* UIKit.framework in Frameworks */,
 				5520144217E867620005621E /* Foundation.framework in Frameworks */,
@@ -108,6 +111,7 @@
 		5520144017E867620005621E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				55C2C0D417FD0B9F00A22939 /* QuartzCore.framework */,
 				5520144117E867620005621E /* Foundation.framework */,
 				5520144317E867620005621E /* CoreGraphics.framework */,
 				5520144517E867620005621E /* UIKit.framework */,
@@ -119,7 +123,6 @@
 		5520144717E867620005621E /* DTAlertViewDemo */ = {
 			isa = PBXGroup;
 			children = (
-				55C8D75017F56A00000CE311 /* iPad */,
 				5520145017E867620005621E /* DTAppDelegate.h */,
 				5520145117E867620005621E /* DTAppDelegate.m */,
 				5520145617E867620005621E /* DTViewController.h */,
@@ -169,13 +172,6 @@
 				55C8D74E17F40DEA000CE311 /* DTProgressStatus.m */,
 			);
 			name = DTAlertView;
-			sourceTree = "<group>";
-		};
-		55C8D75017F56A00000CE311 /* iPad */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = iPad;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -6,8 +6,8 @@ Custom alert view to solved the UIAlertView can't addSubview problem on iOS7.
 
 ##ATTENTION##
 
-* This demo code create on **Xcode 5.0**, but probably have a issue on **Xcode 4 or less**.
-* Demo code use at **non-ARC** mode, but **DTAlertView** main class support **ARC** and **non-ARC** mode.
+* This demo code create on `Xcode 5.0`, but probably have issues on `Xcode 4 or less`.
+* Demo code use at `non-ARC` mode, but `DTAlertView` main class support `ARC` and `non-ARC` mode.
 
 ##Installation##
 

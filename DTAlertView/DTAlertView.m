@@ -1245,10 +1245,6 @@
 {
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     
-    if (window.subviews.count > 0) {
-        return window.subviews[0];
-    }
-    
     return window;
 }
 
