@@ -1,6 +1,6 @@
 DTAlertView
 ===========
-![Perview](https://raw.github.com/Darktt/DTAlertView/master/Raw/Image/Perview.png)
+![Perview 1](https://raw.github.com/Darktt/DTAlertView/master/Raw/Image/Perview1.png)![Perview 2](https://raw.github.com/Darktt/DTAlertView/master/Raw/Image/Perview2.png)
 
 Custom alert view to solved the UIAlertView can't addSubview problem on iOS7.
 

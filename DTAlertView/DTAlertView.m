@@ -136,6 +136,7 @@
     
     _backgroundView = nil;
     _visible = NO;
+    _progressTintColor = [[UIColor alloc] initWithRed:0 green:122.0f/255.0f blue:1 alpha:1];
     
     _keyBoardIsShown = NO;
     
@@ -183,6 +184,7 @@
     
     _backgroundView = nil;
     _visible = NO;
+    _progressTintColor = [[UIColor alloc] initWithRed:0 green:122.0f/255.0f blue:1 alpha:1];
     
     _keyBoardIsShown = NO;
     

@@ -155,7 +155,7 @@
                 }
             };
             
-            progressAlertView = [DTAlertView alertViewUseBlock:block title:@"Demo" message:@"This is alert view\nwith progress view." cancelButtonTitle:@"Cancel" positiveButtonTitle:nil];
+            progressAlertView = [DTAlertView alertViewUseBlock:block title:@"Demo" message:nil cancelButtonTitle:@"Cancel" positiveButtonTitle:nil];
             [progressAlertView setAlertViewMode:DTAlertViewModeProgress];
             [progressAlertView setPercentage:0];
             [progressAlertView show];
@@ -172,9 +172,9 @@
                 }
             };
             
-            progressAlertView = [DTAlertView alertViewUseBlock:block title:@"Demo" message:@"This is alert view\nwith duo progress view." cancelButtonTitle:@"Cancel" positiveButtonTitle:nil];
+            progressAlertView = [DTAlertView alertViewUseBlock:block title:@"Demo" message:nil cancelButtonTitle:@"Cancel" positiveButtonTitle:nil];
             [progressAlertView setAlertViewMode:DTAlertViewModeDuoProgress];
-            [progressAlertView setProgressStatus:DTProgressStatusMake(0, 20)];
+            [progressAlertView setProgressStatus:DTProgressStatusMake(19, 20)];
             
             [progressAlertView show];
             
@@ -205,7 +205,7 @@
 
 - (void)changeProgressStatus
 {
-    [progressAlertView setProgressStatus:DTProgressStatusMake(1, 20)];
+    [progressAlertView setProgressStatus:DTProgressStatusMake(20, 20)];
     [progressAlertView setPercentage:0.0f];
 }
 
