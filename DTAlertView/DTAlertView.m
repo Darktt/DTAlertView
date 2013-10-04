@@ -66,6 +66,70 @@
 
 #define kButtonBGViewTag        2099
 
+#pragma mark - Implement DTBackgroundView Class
+
+@interface DTBackgroundView : UIView
+{
+    UIWindow *alertWindow;
+    UIView *keyView;
+}
+
++ (DTInstancetype)currentBackground;
+
+@end
+
+static DTBackgroundView *singletion = nil;
+
+@implementation DTBackgroundView
+
++ (DTInstancetype)currentBackground
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        singletion = [DTBackgroundView new];
+    });
+    
+    return singletion;
+}
+
+- (id)init
+{
+    self = [super initWithFrame:[[UIScreen mainScreen] bounds]];
+    if (self == nil) return nil;
+    
+    [self setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.5f]];
+    [self setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+    
+    alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [alertWindow setWindowLevel:UIWindowLevelAlert];
+    [alertWindow setBackgroundColor:[UIColor clearColor]];
+    [alertWindow addSubview:self];
+    [alertWindow makeKeyAndVisible];
+    
+    return self;
+}
+
+- (void)setHidden:(BOOL)hidden
+{
+    if (self.subviews.count > 0) {
+        hidden = NO;
+    }
+    
+    [super setHidden:hidden];
+    
+    [alertWindow setHidden:hidden];
+    
+    if (hidden) {
+        [alertWindow resignKeyWindow];
+    } else {
+        [alertWindow makeKeyWindow];
+    }
+}
+
+@end
+
+#pragma mark - Implement DTAlertView Class
+
 @interface DTAlertView ()
 {
     id<DTAlertViewDelegate> _delegate;
@@ -537,13 +601,9 @@
     [self setFrame:CGRectMake(0, 0, 270, 270)];
     [self setViews];
     
-    // Get key window
-    UIWindow *window = [self keyWindow];
-    
     // Background of alert view
-    UIView *backgroundView = [self setBackgroundWithFrame:window.bounds];
-    
-    [window addSubview:backgroundView];
+    DTBackgroundView *backgroundView = [DTBackgroundView currentBackground];
+    [backgroundView setHidden:NO];
     
     [self setCenter:backgroundView.center];
     [backgroundView addSubview:self];
@@ -552,6 +612,60 @@
     [self.layer addAnimation:showsAnimation forKey:@"popup"];
     
     [self performSelector:@selector(showsCompletion) withObject:nil afterDelay:showsAnimation.duration];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(testRotation:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+}
+
+- (CGAffineTransform)transformForCurrentOrientation {
+    
+	// Calculate a rotation transform that matches the current interface orientation.
+	CGAffineTransform transform = CGAffineTransformIdentity;
+	UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+	if (orientation == UIInterfaceOrientationPortraitUpsideDown)
+        transform = CGAffineTransformMakeRotation(M_PI);
+	else if (orientation == UIInterfaceOrientationLandscapeLeft)
+		transform = CGAffineTransformMakeRotation(-M_PI_2);
+	else if (orientation == UIInterfaceOrientationLandscapeRight)
+		transform = CGAffineTransformMakeRotation(M_PI_2);
+	
+	return transform;
+}
+
+static CGFloat CGAffineTransformGetAbsoluteRotationAngleDifference(CGAffineTransform t1, CGAffineTransform t2) {
+	CGFloat dot = t1.a * t2.a + t1.c * t2.c;
+	CGFloat n1 = sqrtf(t1.a * t1.a + t1.c * t1.c);
+	CGFloat n2 = sqrtf(t2.a * t2.a + t2.c * t2.c);
+	return acosf(dot / (n1 * n2));
+}
+
+- (IBAction)testRotation:(NSNotification *)sender
+{
+    NSLog(@"Befour: %@", NSStringFromCGAffineTransform(self.transform));
+    
+    CGAffineTransform baseTransform = [self transformForCurrentOrientation];
+    
+    CGFloat delta = CGAffineTransformGetAbsoluteRotationAngleDifference(self.transform, baseTransform);
+    const CGFloat HALF_PI = 1.581;
+    BOOL isDoubleRotation = (delta > HALF_PI);
+    
+    // Use the system rotation duration.
+    CGFloat duration = [[UIApplication sharedApplication] statusBarOrientationAnimationDuration];
+    
+    // Egregious hax. iPad lies about its rotation duration.
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        duration = 0.4;
+    }
+    
+    // Simply double the animation duration if we're rotating a full 180 degrees.
+    if (isDoubleRotation) {
+        duration *= 2;
+    }
+    
+    [UIView animateWithDuration:duration animations:^{
+        [self setTransform:baseTransform];
+        
+        NSLog(@"After: %@", NSStringFromCGAffineTransform(self.transform));
+    }];
 }
 
 - (void)showsCompletion
@@ -604,6 +718,8 @@
 
 - (void)dismiss
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    
     if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewWillDismiss:)]) {
         [_delegate alertViewWillDismiss:self];
     }
@@ -624,8 +740,9 @@
 
 - (void)dismissCompletion
 {
-    // Remove background
-    [[self superview] removeFromSuperview];
+    // Dismiss self
+    [self removeFromSuperview];
+    [[DTBackgroundView currentBackground] setHidden:YES];
     
     _visible = NO;
     
@@ -636,6 +753,8 @@
 
 - (void)dismissWithAnimationBlock:(DTAlertViewAnimationBlock)animationBlock
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    
     if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewWillDismiss:)]) {
         [_delegate alertViewWillDismiss:self];
     }
@@ -653,13 +772,15 @@
                      animations:animationBlock
                      completion:^(BOOL finished) {
                          
-        [self removeFromSuperview];
-        
-        _visible = NO;
-        
-        if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewDidDismiss:)]) {
-            [_delegate alertViewDidDismiss:self];
-        }
+                         // Dismiss self
+                         [self removeFromSuperview];
+                         [[DTBackgroundView currentBackground] setHidden:YES];
+                         
+                         _visible = NO;
+                         
+                         if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewDidDismiss:)]) {
+                             [_delegate alertViewDidDismiss:self];
+                         }
     }];
 }
 
