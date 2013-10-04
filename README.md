@@ -6,8 +6,8 @@ Custom alert view to solved the UIAlertView can't addSubview problem on iOS7.
 
 ##ATTENTION##
 
-* This demo code create on `Xcode 5.0`, but probably have issues on `Xcode 4 or less`.
-* Demo code use at `non-ARC` mode, but `DTAlertView` main class support `ARC` and `non-ARC` mode.
+* This demo code create on **Xcode 5.0**, but probably have issues on **Xcode 4 or less**.
+* Demo code use at **non-ARC** mode, but **DTAlertView** main class support **ARC** and **non-ARC** mode.
 
 ##Installation##
 
@@ -27,7 +27,7 @@ Initializing DTAlertView in your class:
 DTAlertView *alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"This is normal alert view." delegate:nil cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
 
 // inital for instance method
-DTAlertView *alertView = [[ DTAlertView alloc] initWithTitle:@"Demo" message:@"This is normal alert view." delegate:nil cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+DTAlertView *alertView = [[DTAlertView alloc] initWithTitle:@"Demo" message:@"This is normal alert view." delegate:nil cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
 ```
 
 ##License##
