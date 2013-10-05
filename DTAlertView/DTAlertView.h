@@ -56,9 +56,12 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 @property (nonatomic, readonly) NSString *clickedButtonTitle; // Defalt is nil, when alert view clicked, value is the clicked button title.
 
 // View settings
-@property (assign) CGFloat cornerRadius; // Defauls value 0.0, when showed is 25.0 if value not changed.
+@property (assign) CGFloat cornerRadius; // Defauls value 0.0, when shown is 25.0 if value not changed.
 @property (nonatomic, retain) UIView *backgroundView; // Default is nil.
-@property (nonatomic, readonly) UITextField *textField; // Default is nil. Only can get it when DTAlertViewMode is DTAlertViewModeTextInput.
+
+/* Default is nil on not shown. inital it at shown.
+ Only can get it when DTAlertViewMode is DTAlertViewModeTextInput. */
+@property (nonatomic, readonly) UITextField *textField;
 
 /* 
     Set all pregress bar tint color, default is nil.
@@ -85,7 +88,7 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 // Set iOS7 style blur background color
 - (void)setBlurBackgroundWithColor:(UIColor *)color alpha:(CGFloat)alpha NS_AVAILABLE_IOS(7_0);
 
-// Set positive button enable or disable.
+// Set positive button enable or disable. Default is Enable.
 - (void)setPositiveButtonEnable:(BOOL)enable;
 
 /* 
