@@ -55,6 +55,7 @@
     [tableView setDataSource:self];
     [tableView setDelegate:self];
     [tableView setBackgroundColor:[UIColor clearColor]];
+    [tableView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     
     [self.view addSubview:tableView];
     [tableView release];

@@ -98,7 +98,6 @@ static DTBackgroundView *singletion = nil;
     if (self == nil) return nil;
     
     [self setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.5f]];
-    [self setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
     
     alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [alertWindow setWindowLevel:UIWindowLevelAlert];
@@ -597,9 +596,12 @@ static DTBackgroundView *singletion = nil;
         [self.layer setCornerRadius:5.0f];
     }
     
-    [self setAutoresizingMask:kDefaultAutoResizeMask];
     [self setFrame:CGRectMake(0, 0, 270, 270)];
     [self setViews];
+    
+    // Rotate self befoure show.
+    CGFloat angle = [self angleForCurrentOrientation];
+    [self setTransform:CGAffineTransformMakeRotation(angle)];
     
     // Background of alert view
     DTBackgroundView *backgroundView = [DTBackgroundView currentBackground];
@@ -613,59 +615,8 @@ static DTBackgroundView *singletion = nil;
     
     [self performSelector:@selector(showsCompletion) withObject:nil afterDelay:showsAnimation.duration];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(testRotation:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-}
-
-- (CGAffineTransform)transformForCurrentOrientation {
-    
-	// Calculate a rotation transform that matches the current interface orientation.
-	CGAffineTransform transform = CGAffineTransformIdentity;
-	UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-	if (orientation == UIInterfaceOrientationPortraitUpsideDown)
-        transform = CGAffineTransformMakeRotation(M_PI);
-	else if (orientation == UIInterfaceOrientationLandscapeLeft)
-		transform = CGAffineTransformMakeRotation(-M_PI_2);
-	else if (orientation == UIInterfaceOrientationLandscapeRight)
-		transform = CGAffineTransformMakeRotation(M_PI_2);
-	
-	return transform;
-}
-
-static CGFloat CGAffineTransformGetAbsoluteRotationAngleDifference(CGAffineTransform t1, CGAffineTransform t2) {
-	CGFloat dot = t1.a * t2.a + t1.c * t2.c;
-	CGFloat n1 = sqrtf(t1.a * t1.a + t1.c * t1.c);
-	CGFloat n2 = sqrtf(t2.a * t2.a + t2.c * t2.c);
-	return acosf(dot / (n1 * n2));
-}
-
-- (IBAction)testRotation:(NSNotification *)sender
-{
-    NSLog(@"Befour: %@", NSStringFromCGAffineTransform(self.transform));
-    
-    CGAffineTransform baseTransform = [self transformForCurrentOrientation];
-    
-    CGFloat delta = CGAffineTransformGetAbsoluteRotationAngleDifference(self.transform, baseTransform);
-    const CGFloat HALF_PI = 1.581;
-    BOOL isDoubleRotation = (delta > HALF_PI);
-    
-    // Use the system rotation duration.
-    CGFloat duration = [[UIApplication sharedApplication] statusBarOrientationAnimationDuration];
-    
-    // Egregious hax. iPad lies about its rotation duration.
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        duration = 0.4;
-    }
-    
-    // Simply double the animation duration if we're rotating a full 180 degrees.
-    if (isDoubleRotation) {
-        duration *= 2;
-    }
-    
-    [UIView animateWithDuration:duration animations:^{
-        [self setTransform:baseTransform];
-        
-        NSLog(@"After: %@", NSStringFromCGAffineTransform(self.transform));
-    }];
+    // Receive notification for handle rotate issue
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rotationHandle:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 }
 
 - (void)showsCompletion
@@ -686,23 +637,24 @@ static CGFloat CGAffineTransformGetAbsoluteRotationAngleDifference(CGAffineTrans
         [self.layer setCornerRadius:5.0f];
     }
     
-    [self setAutoresizingMask:kDefaultAutoResizeMask];
-    
     CGRect selfFrame = self.frame;
     selfFrame.size = CGSizeMake(270, 270);
     
     [self setFrame:selfFrame];
     [self setViews];
     
-    UIWindow *window = [self keyWindow];
+    // Rotate self befoure show.
+    CGFloat angle = [self angleForCurrentOrientation];
+    [self setTransform:CGAffineTransformMakeRotation(angle)];
     
     // Background of alert view
-    UIView *backgroundView = [self setBackgroundWithFrame:window.frame];
-    
-    [window addSubview:backgroundView];
+    DTBackgroundView *backgroundView = [DTBackgroundView currentBackground];
     
     [self setCenter:backgroundView.center];
     [backgroundView addSubview:self];
+    
+    // Receive notification for handle rotate issue
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rotationHandle:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
     [UIView animateWithDuration:0.3f
                           delay:0.0f
@@ -718,6 +670,7 @@ static CGFloat CGAffineTransformGetAbsoluteRotationAngleDifference(CGAffineTrans
 
 - (void)dismiss
 {
+    // Remove notification for rotate
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
     if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewWillDismiss:)]) {
@@ -733,6 +686,7 @@ static CGFloat CGAffineTransformGetAbsoluteRotationAngleDifference(CGAffineTrans
     
     CAAnimation *dismissAnimation = [self defaultDismissAnimation];
     
+//    [self.layer removeAllAnimations];
     [self.layer addAnimation:dismissAnimation forKey:@"popup"];
     
     [self performSelector:@selector(dismissCompletion) withObject:nil afterDelay:dismissAnimation.duration];
@@ -753,6 +707,7 @@ static CGFloat CGAffineTransformGetAbsoluteRotationAngleDifference(CGAffineTrans
 
 - (void)dismissWithAnimationBlock:(DTAlertViewAnimationBlock)animationBlock
 {
+    // Remove notification for rotate
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
     if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewWillDismiss:)]) {
@@ -1213,16 +1168,6 @@ static CGFloat CGAffineTransformGetAbsoluteRotationAngleDifference(CGAffineTrans
     [self setViews];
 }
 
-- (UIView *)setBackgroundWithFrame:(CGRect)frame
-{
-    UIView *backgroundView = [[UIView alloc] initWithFrame:frame];
-    [backgroundView setTag:kAlertBackgroundTag];
-    [backgroundView setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.5f]];
-    [backgroundView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
-    
-    return DTAutorelease(backgroundView);
-}
-
 #pragma mark - Button Action
 
 - (IBAction)buttonClicked:(UIButton *)sender
@@ -1248,8 +1193,6 @@ static CGFloat CGAffineTransformGetAbsoluteRotationAngleDifference(CGAffineTrans
 - (IBAction)textFieldDidBegin:(id)sender
 {
     ///TODO: When roation have position error issue.
-    // Disable UIViewAutoresizingFlexibleBottomMargin on self auto resizing mask
-    [self setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
     
     // Receive notification
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -1281,8 +1224,6 @@ static CGFloat CGAffineTransformGetAbsoluteRotationAngleDifference(CGAffineTrans
         UIView *backGround = [self superview];
         [self setCenter:backGround.center];
     } completion:^(BOOL finished) {
-        [self setAutoresizingMask:kDefaultAutoResizeMask];
-        
         // Remove notification
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     }];
@@ -1328,18 +1269,26 @@ static CGFloat CGAffineTransformGetAbsoluteRotationAngleDifference(CGAffineTrans
 
 #pragma mark - Default Animation
 
-#define transform(x, y, z) [NSValue valueWithCATransform3D:CATransform3DMakeScale(x, y, z)]
+#define transform(scale) [NSValue valueWithCATransform3D:[self transform3DScale:scale]]
+
+- (CATransform3D)transform3DScale:(CGFloat)scale
+{
+    CATransform3D currentTransfrom = CATransform3DIdentity;
+    currentTransfrom = CATransform3DScale(self.layer.transform, scale, scale, scale);
+    
+    return currentTransfrom;
+}
 
 - (CAAnimation *)defaultShowsAnimation
 {
-    NSArray *frameValues = @[transform(0.1f, 0.1f, 0.1f), transform(1.15f, 1.15f, 1.15f), transform(0.9f, 0.9f, 0.9f), transform(1.0f, 1.0f, 1.0f)];
+    NSArray *frameValues = @[transform(0.1f), transform(1.15f), transform(0.9f), transform(1.0f)];
     NSArray *frameTimes = @[@(0.0f), @(0.5f), @(0.9f), @(1.0f)];
     return [self animationWithValues:frameValues times:frameTimes duration:0.4f];
 }
 
 - (CAAnimation *)defaultDismissAnimation
 {
-    NSArray *frameValues = @[transform(1.0f, 1.0f, 1.0f), transform(0.5f, 0.5f, 0.5f), transform(0.01f, 0.01f, 0.01f)];
+    NSArray *frameValues = @[transform(1.0f), transform(0.5f), transform(0.01f)];
     NSArray *frameTimes = @[@(0.0f), @(0.3f), @(1.0f)];
     
     CAKeyframeAnimation *animation = [self animationWithValues:frameValues times:frameTimes duration:0.25f];
@@ -1358,6 +1307,41 @@ static CGFloat CGAffineTransformGetAbsoluteRotationAngleDifference(CGAffineTrans
     [animation setDuration:duration];
 
     return animation;
+}
+
+#pragma mark - Rotation Handler
+
+- (CGFloat)angleForCurrentOrientation {
+    
+	// Calculate a rotation transform that matches the current interface orientation.
+	CGFloat angle = 0.0f;
+	UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
+	if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
+        angle = M_PI;
+    } else if (orientation == UIInterfaceOrientationLandscapeLeft) {
+        angle = -M_PI_2;
+    } else if (orientation == UIInterfaceOrientationLandscapeRight) {
+        angle = M_PI_2;
+    }
+    
+	return angle;
+}
+
+- (void)rotationHandle:(NSNotification *)sender
+{
+    CGFloat angle = [self angleForCurrentOrientation];
+    
+    // Use the system rotation duration.
+    CGFloat duration = [[UIApplication sharedApplication] statusBarOrientationAnimationDuration];
+    
+    // Egregious hax. iPad lies about its rotation duration.
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        duration = 0.4f;
+    }
+    
+    [self.layer removeAllAnimations];
+    [self.layer setTransform:CATransform3DMakeRotation(angle, 0.0f, 0.0f, 1.0f)];
 }
 
 #pragma mark - Get Key Window
