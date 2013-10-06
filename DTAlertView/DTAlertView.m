@@ -1362,6 +1362,12 @@ static DTBackgroundView *singletion = nil;
         duration = 0.4f;
     }
     
+    if (_keyBoardIsShown) {
+        ///TODO: Rotate alert when keyboard shown.
+        
+        return;
+    }
+    
     [self.layer removeAllAnimations];
     [self.layer setTransform:CATransform3DMakeRotation(angle, 0.0f, 0.0f, 1.0f)];
 }
