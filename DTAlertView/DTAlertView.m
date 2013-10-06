@@ -1192,8 +1192,6 @@ static DTBackgroundView *singletion = nil;
 
 - (IBAction)textFieldDidBegin:(id)sender
 {
-    ///TODO: When roation have position error issue.
-    
     // Receive notification
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(textFieldDidBeginEditing:)
@@ -1235,21 +1233,45 @@ static DTBackgroundView *singletion = nil;
 {
     _keyBoardIsShown = YES;
     
+    UIApplication *application = [UIApplication sharedApplication];
+    BOOL isPortrait = UIInterfaceOrientationIsPortrait(application.statusBarOrientation);
+    UIInterfaceOrientation orientation = application.statusBarOrientation;
+    
     NSDictionary *params = (NSDictionary *)notification.userInfo;
     
     CGRect frame = [[params objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     NSTimeInterval duration = [params[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
     // keyboard origin value is keyboard origin y at portrait, when landscape value is keyboard width.
-    CGFloat keyboardOrigin = UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ? frame.origin.y : frame.size.width;
-    CGFloat currentBottomY = CGRectGetMaxY(self.frame);
+    CGFloat keyboardOrigin = isPortrait ? frame.origin.y : frame.size.width;
+    CGFloat currentBottom = isPortrait ? CGRectGetMaxY(self.frame) : CGRectGetMaxX(self.frame);
     
-    if (currentBottomY >= keyboardOrigin) {
+    if (currentBottom >= keyboardOrigin) {
         // Set self botton higher than keyboard top more.
-        CGFloat deltaY = currentBottomY - keyboardOrigin;
+        CGFloat delta = currentBottom - keyboardOrigin + 45.0f;
+        
+        CGPoint center = self.center;
+        
+        if (orientation == UIInterfaceOrientationPortrait) {
+            center.y -= delta;
+        }
+        
+        if (orientation == UIInterfaceOrientationPortrait) {
+            center.y += delta;
+        }
+            
+        if (orientation == UIInterfaceOrientationLandscapeLeft) {
+            center.x -= delta;
+        }
+        
+        if (orientation == UIInterfaceOrientationLandscapeRight) {
+            center.x += delta;
+        }
+        
+        NSLog(@"New Center:%@", NSStringFromCGPoint(center));
         
         [UIView animateWithDuration:duration animations:^{
-            [self setCenter:CGPointMake(self.center.x, self.center.y - (deltaY + 45.0f))];
+            [self setCenter:center];
         }];
     }
 }
@@ -1273,8 +1295,8 @@ static DTBackgroundView *singletion = nil;
 
 - (CATransform3D)transform3DScale:(CGFloat)scale
 {
-    CATransform3D currentTransfrom = CATransform3DIdentity;
-    currentTransfrom = CATransform3DScale(self.layer.transform, scale, scale, scale);
+    // Add scale on current transform.
+    CATransform3D currentTransfrom = CATransform3DScale(self.layer.transform, scale, scale, scale);
     
     return currentTransfrom;
 }
