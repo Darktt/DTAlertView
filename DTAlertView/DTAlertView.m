@@ -161,7 +161,7 @@ static DTBackgroundView *singletion = nil;
     UIToolbar *_blurToolbar;
     
     BOOL _visible;
-    BOOL _keyBoardIsShown;
+    BOOL _keyboardIsShown;
 }
 
 - (UIWindow *)keyWindow;
@@ -201,7 +201,7 @@ static DTBackgroundView *singletion = nil;
     _visible = NO;
     _progressTintColor = [[UIColor alloc] initWithRed:0 green:122.0f/255.0f blue:1 alpha:1];
     
-    _keyBoardIsShown = NO;
+    _keyboardIsShown = NO;
     
     [self setCancelButtonIndex];
     
@@ -249,7 +249,7 @@ static DTBackgroundView *singletion = nil;
     _visible = NO;
     _progressTintColor = [[UIColor alloc] initWithRed:0 green:122.0f/255.0f blue:1 alpha:1];
     
-    _keyBoardIsShown = NO;
+    _keyboardIsShown = NO;
     
     [self setCancelButtonIndex];
 
@@ -677,7 +677,7 @@ static DTBackgroundView *singletion = nil;
         [_delegate alertViewWillDismiss:self];
     }
     
-    if (_keyBoardIsShown) {
+    if (_keyboardIsShown) {
         [_textField resignFirstResponder];
         
         // Remove notification
@@ -714,7 +714,7 @@ static DTBackgroundView *singletion = nil;
         [_delegate alertViewWillDismiss:self];
     }
     
-    if (_keyBoardIsShown) {
+    if (_keyboardIsShown) {
         [_textField resignFirstResponder];
         
         // Remove notification
@@ -1215,7 +1215,7 @@ static DTBackgroundView *singletion = nil;
 
 - (IBAction)textFieldDidEndEditing:(NSNotification *)notification
 {
-    _keyBoardIsShown = NO;
+    _keyboardIsShown = NO;
     
     [UIView animateWithDuration:0.25f animations:^{
         // Move current view to center
@@ -1229,51 +1229,65 @@ static DTBackgroundView *singletion = nil;
 
 #pragma mark - KeyBoard Notification Mesthods
 
-- (void)textFieldDidBeginEditing:(NSNotification *)notification
+- (CGPoint)calculateNewCenterWithKeyOffset:(CGFloat)keyboardOffset
 {
-    _keyBoardIsShown = YES;
-    
     UIApplication *application = [UIApplication sharedApplication];
     BOOL isPortrait = UIInterfaceOrientationIsPortrait(application.statusBarOrientation);
     UIInterfaceOrientation orientation = application.statusBarOrientation;
     
-    NSDictionary *params = (NSDictionary *)notification.userInfo;
-    
-    CGRect frame = [[params objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    NSTimeInterval duration = [params[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    
-    // keyboard origin value is keyboard origin y at portrait, when landscape value is keyboard width.
-    CGFloat keyboardOrigin = isPortrait ? frame.origin.y : frame.size.width;
     CGFloat currentBottom = isPortrait ? CGRectGetMaxY(self.frame) : CGRectGetMaxX(self.frame);
+    UIWindow *window = [self keyWindow];
+    CGPoint center = CGPointMake(CGRectGetMidX(window.bounds), CGRectGetMidY(window.bounds));
     
-    if (currentBottom >= keyboardOrigin) {
+    if (!CGPointEqualToPoint(self.center, center)) {
+        // currentBottom add the device screen center reduce current alert view center offset value.
+        currentBottom += isPortrait ? center.y - self.center.y : center.x - self.center.x;
+    }
+    
+    if (currentBottom >= keyboardOffset) {
         // Set self botton higher than keyboard top more.
-        CGFloat delta = currentBottom - keyboardOrigin + 45.0f;
-        
-        CGPoint center = self.center;
+        CGFloat delta = currentBottom - keyboardOffset + 45.0f;
         
         if (orientation == UIInterfaceOrientationPortrait) {
             center.y -= delta;
         }
         
-        if (orientation == UIInterfaceOrientationPortrait) {
+        if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
             center.y += delta;
-        }
-            
-        if (orientation == UIInterfaceOrientationLandscapeLeft) {
-            center.x -= delta;
         }
         
         if (orientation == UIInterfaceOrientationLandscapeRight) {
             center.x += delta;
         }
         
-        NSLog(@"New Center:%@", NSStringFromCGPoint(center));
-        
-        [UIView animateWithDuration:duration animations:^{
-            [self setCenter:center];
-        }];
+        if (orientation == UIInterfaceOrientationLandscapeLeft) {
+            center.x -= delta;
+        }
     }
+    
+    return center;
+}
+
+- (void)textFieldDidBeginEditing:(NSNotification *)notification
+{
+    _keyboardIsShown = YES;
+    
+    UIApplication *application = [UIApplication sharedApplication];
+    BOOL isPortrait = UIInterfaceOrientationIsPortrait(application.statusBarOrientation);
+    
+    NSDictionary *params = (NSDictionary *)notification.userInfo;
+    
+    CGRect frame = [[params objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    NSTimeInterval duration = [params[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    UIScreen *screen = [UIScreen mainScreen];
+    // Keyboard offset value is screen height reduce keyboard height at portrait, when landscape value is keyboard width.
+    CGFloat keyboardOffset = isPortrait ? CGRectGetHeight(screen.bounds) - CGRectGetHeight(frame) : CGRectGetWidth(screen.bounds) - CGRectGetWidth(frame);
+    CGPoint newCenter = [self calculateNewCenterWithKeyOffset:keyboardOffset];
+    
+    [UIView animateWithDuration:duration animations:^{
+        [self setCenter:newCenter];
+    }];
 }
 
 #pragma mark - Set Cancel Button Index
@@ -1360,12 +1374,6 @@ static DTBackgroundView *singletion = nil;
     // Egregious hax. iPad lies about its rotation duration.
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         duration = 0.4f;
-    }
-    
-    if (_keyBoardIsShown) {
-        ///TODO: Rotate alert when keyboard shown.
-        
-        return;
     }
     
     [self.layer removeAllAnimations];
