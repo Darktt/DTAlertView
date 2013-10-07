@@ -54,7 +54,15 @@
     UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     [tableView setDataSource:self];
     [tableView setDelegate:self];
-    [tableView setBackgroundColor:[UIColor clearColor]];
+    [tableView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+    
+    NSString *version = [[UIDevice currentDevice] systemVersion];
+    
+    if ([version compare:@"7.00" options:NSNumericSearch] != NSOrderedAscending) {
+        [tableView setBackgroundColor:[UIColor clearColor]];
+    } else {
+        [tableView setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:0.2f]];
+    }
     
     [self.view addSubview:tableView];
     [tableView release];
@@ -207,6 +215,23 @@
 {
     [progressAlertView setProgressStatus:DTProgressStatusMake(20, 20)];
     [progressAlertView setPercentage:0.0f];
+}
+
+#pragma mark - 
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return YES;
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
 }
 
 @end

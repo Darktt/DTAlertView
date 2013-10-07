@@ -66,6 +66,69 @@
 
 #define kButtonBGViewTag        2099
 
+#pragma mark - Implement DTBackgroundView Class
+
+@interface DTBackgroundView : UIView
+{
+    UIWindow *alertWindow;
+    UIView *keyView;
+}
+
++ (DTInstancetype)currentBackground;
+
+@end
+
+static DTBackgroundView *singletion = nil;
+
+@implementation DTBackgroundView
+
++ (DTInstancetype)currentBackground
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        singletion = [DTBackgroundView new];
+    });
+    
+    return singletion;
+}
+
+- (id)init
+{
+    self = [super initWithFrame:[[UIScreen mainScreen] bounds]];
+    if (self == nil) return nil;
+    
+    [self setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.5f]];
+    
+    alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [alertWindow setWindowLevel:UIWindowLevelAlert];
+    [alertWindow setBackgroundColor:[UIColor clearColor]];
+    [alertWindow addSubview:self];
+    [alertWindow makeKeyAndVisible];
+    
+    return self;
+}
+
+- (void)setHidden:(BOOL)hidden
+{
+    if (self.subviews.count > 0) {
+        hidden = NO;
+    }
+    
+    [super setHidden:hidden];
+    
+    [alertWindow setHidden:hidden];
+    
+    if (hidden) {
+        [alertWindow resignKeyWindow];
+    } else {
+        [alertWindow makeKeyWindow];
+    }
+}
+
+@end
+
+#pragma mark - Implement DTAlertView Class
+
 @interface DTAlertView ()
 {
     id<DTAlertViewDelegate> _delegate;
@@ -98,7 +161,7 @@
     UIToolbar *_blurToolbar;
     
     BOOL _visible;
-    BOOL _keyBoardIsShown;
+    BOOL _keyboardIsShown;
 }
 
 - (UIWindow *)keyWindow;
@@ -138,7 +201,7 @@
     _visible = NO;
     _progressTintColor = [[UIColor alloc] initWithRed:0 green:122.0f/255.0f blue:1 alpha:1];
     
-    _keyBoardIsShown = NO;
+    _keyboardIsShown = NO;
     
     [self setCancelButtonIndex];
     
@@ -186,7 +249,7 @@
     _visible = NO;
     _progressTintColor = [[UIColor alloc] initWithRed:0 green:122.0f/255.0f blue:1 alpha:1];
     
-    _keyBoardIsShown = NO;
+    _keyboardIsShown = NO;
     
     [self setCancelButtonIndex];
 
@@ -533,17 +596,16 @@
         [self.layer setCornerRadius:5.0f];
     }
     
-    [self setAutoresizingMask:kDefaultAutoResizeMask];
     [self setFrame:CGRectMake(0, 0, 270, 270)];
     [self setViews];
     
-    // Get key window
-    UIWindow *window = [self keyWindow];
+    // Rotate self befoure show.
+    CGFloat angle = [self angleForCurrentOrientation];
+    [self setTransform:CGAffineTransformMakeRotation(angle)];
     
     // Background of alert view
-    UIView *backgroundView = [self setBackgroundWithFrame:window.bounds];
-    
-    [window addSubview:backgroundView];
+    DTBackgroundView *backgroundView = [DTBackgroundView currentBackground];
+    [backgroundView setHidden:NO];
     
     [self setCenter:backgroundView.center];
     [backgroundView addSubview:self];
@@ -552,6 +614,9 @@
     [self.layer addAnimation:showsAnimation forKey:@"popup"];
     
     [self performSelector:@selector(showsCompletion) withObject:nil afterDelay:showsAnimation.duration];
+    
+    // Receive notification for handle rotate issue
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rotationHandle:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 }
 
 - (void)showsCompletion
@@ -572,23 +637,24 @@
         [self.layer setCornerRadius:5.0f];
     }
     
-    [self setAutoresizingMask:kDefaultAutoResizeMask];
-    
     CGRect selfFrame = self.frame;
     selfFrame.size = CGSizeMake(270, 270);
     
     [self setFrame:selfFrame];
     [self setViews];
     
-    UIWindow *window = [self keyWindow];
+    // Rotate self befoure show.
+    CGFloat angle = [self angleForCurrentOrientation];
+    [self setTransform:CGAffineTransformMakeRotation(angle)];
     
     // Background of alert view
-    UIView *backgroundView = [self setBackgroundWithFrame:window.frame];
-    
-    [window addSubview:backgroundView];
+    DTBackgroundView *backgroundView = [DTBackgroundView currentBackground];
     
     [self setCenter:backgroundView.center];
     [backgroundView addSubview:self];
+    
+    // Receive notification for handle rotate issue
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rotationHandle:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
     [UIView animateWithDuration:0.3f
                           delay:0.0f
@@ -604,11 +670,14 @@
 
 - (void)dismiss
 {
+    // Remove notification for rotate
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    
     if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewWillDismiss:)]) {
         [_delegate alertViewWillDismiss:self];
     }
     
-    if (_keyBoardIsShown) {
+    if (_keyboardIsShown) {
         [_textField resignFirstResponder];
         
         // Remove notification
@@ -617,6 +686,7 @@
     
     CAAnimation *dismissAnimation = [self defaultDismissAnimation];
     
+//    [self.layer removeAllAnimations];
     [self.layer addAnimation:dismissAnimation forKey:@"popup"];
     
     [self performSelector:@selector(dismissCompletion) withObject:nil afterDelay:dismissAnimation.duration];
@@ -624,8 +694,9 @@
 
 - (void)dismissCompletion
 {
-    // Remove background
-    [[self superview] removeFromSuperview];
+    // Dismiss self
+    [self removeFromSuperview];
+    [[DTBackgroundView currentBackground] setHidden:YES];
     
     _visible = NO;
     
@@ -636,11 +707,14 @@
 
 - (void)dismissWithAnimationBlock:(DTAlertViewAnimationBlock)animationBlock
 {
+    // Remove notification for rotate
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    
     if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewWillDismiss:)]) {
         [_delegate alertViewWillDismiss:self];
     }
     
-    if (_keyBoardIsShown) {
+    if (_keyboardIsShown) {
         [_textField resignFirstResponder];
         
         // Remove notification
@@ -653,13 +727,15 @@
                      animations:animationBlock
                      completion:^(BOOL finished) {
                          
-        [self removeFromSuperview];
-        
-        _visible = NO;
-        
-        if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewDidDismiss:)]) {
-            [_delegate alertViewDidDismiss:self];
-        }
+                         // Dismiss self
+                         [self removeFromSuperview];
+                         [[DTBackgroundView currentBackground] setHidden:YES];
+                         
+                         _visible = NO;
+                         
+                         if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewDidDismiss:)]) {
+                             [_delegate alertViewDidDismiss:self];
+                         }
     }];
 }
 
@@ -1092,16 +1168,6 @@
     [self setViews];
 }
 
-- (UIView *)setBackgroundWithFrame:(CGRect)frame
-{
-    UIView *backgroundView = [[UIView alloc] initWithFrame:frame];
-    [backgroundView setTag:kAlertBackgroundTag];
-    [backgroundView setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.5f]];
-    [backgroundView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
-    
-    return DTAutorelease(backgroundView);
-}
-
 #pragma mark - Button Action
 
 - (IBAction)buttonClicked:(UIButton *)sender
@@ -1126,10 +1192,6 @@
 
 - (IBAction)textFieldDidBegin:(id)sender
 {
-    ///TODO: When roation have position error issue.
-    // Disable UIViewAutoresizingFlexibleBottomMargin on self auto resizing mask
-    [self setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
-    
     // Receive notification
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(textFieldDidBeginEditing:)
@@ -1153,15 +1215,13 @@
 
 - (IBAction)textFieldDidEndEditing:(NSNotification *)notification
 {
-    _keyBoardIsShown = NO;
+    _keyboardIsShown = NO;
     
     [UIView animateWithDuration:0.25f animations:^{
         // Move current view to center
         UIView *backGround = [self superview];
         [self setCenter:backGround.center];
     } completion:^(BOOL finished) {
-        [self setAutoresizingMask:kDefaultAutoResizeMask];
-        
         // Remove notification
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     }];
@@ -1169,27 +1229,65 @@
 
 #pragma mark - KeyBoard Notification Mesthods
 
+- (CGPoint)calculateNewCenterWithKeyOffset:(CGFloat)keyboardOffset
+{
+    UIApplication *application = [UIApplication sharedApplication];
+    BOOL isPortrait = UIInterfaceOrientationIsPortrait(application.statusBarOrientation);
+    UIInterfaceOrientation orientation = application.statusBarOrientation;
+    
+    CGFloat currentBottom = isPortrait ? CGRectGetMaxY(self.frame) : CGRectGetMaxX(self.frame);
+    UIWindow *window = [self keyWindow];
+    CGPoint center = CGPointMake(CGRectGetMidX(window.bounds), CGRectGetMidY(window.bounds));
+    
+    if (!CGPointEqualToPoint(self.center, center)) {
+        // currentBottom add the device screen center reduce current alert view center offset value.
+        currentBottom += isPortrait ? center.y - self.center.y : center.x - self.center.x;
+    }
+    
+    if (currentBottom >= keyboardOffset) {
+        // Set self botton higher than keyboard top more.
+        CGFloat delta = currentBottom - keyboardOffset + 45.0f;
+        
+        if (orientation == UIInterfaceOrientationPortrait) {
+            center.y -= delta;
+        }
+        
+        if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
+            center.y += delta;
+        }
+        
+        if (orientation == UIInterfaceOrientationLandscapeRight) {
+            center.x += delta;
+        }
+        
+        if (orientation == UIInterfaceOrientationLandscapeLeft) {
+            center.x -= delta;
+        }
+    }
+    
+    return center;
+}
+
 - (void)textFieldDidBeginEditing:(NSNotification *)notification
 {
-    _keyBoardIsShown = YES;
+    _keyboardIsShown = YES;
+    
+    UIApplication *application = [UIApplication sharedApplication];
+    BOOL isPortrait = UIInterfaceOrientationIsPortrait(application.statusBarOrientation);
     
     NSDictionary *params = (NSDictionary *)notification.userInfo;
     
     CGRect frame = [[params objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     NSTimeInterval duration = [params[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
-    // keyboard origin value is keyboard origin y at portrait, when landscape value is keyboard width.
-    CGFloat keyboardOrigin = UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ? frame.origin.y : frame.size.width;
-    CGFloat currentBottomY = CGRectGetMaxY(self.frame);
+    UIScreen *screen = [UIScreen mainScreen];
+    // Keyboard offset value is screen height reduce keyboard height at portrait, when landscape value is keyboard width.
+    CGFloat keyboardOffset = isPortrait ? CGRectGetHeight(screen.bounds) - CGRectGetHeight(frame) : CGRectGetWidth(screen.bounds) - CGRectGetWidth(frame);
+    CGPoint newCenter = [self calculateNewCenterWithKeyOffset:keyboardOffset];
     
-    if (currentBottomY >= keyboardOrigin) {
-        // Set self botton higher than keyboard top more.
-        CGFloat deltaY = currentBottomY - keyboardOrigin;
-        
-        [UIView animateWithDuration:duration animations:^{
-            [self setCenter:CGPointMake(self.center.x, self.center.y - (deltaY + 45.0f))];
-        }];
-    }
+    [UIView animateWithDuration:duration animations:^{
+        [self setCenter:newCenter];
+    }];
 }
 
 #pragma mark - Set Cancel Button Index
@@ -1207,18 +1305,26 @@
 
 #pragma mark - Default Animation
 
-#define transform(x, y, z) [NSValue valueWithCATransform3D:CATransform3DMakeScale(x, y, z)]
+#define transform(scale) [NSValue valueWithCATransform3D:[self transform3DScale:scale]]
+
+- (CATransform3D)transform3DScale:(CGFloat)scale
+{
+    // Add scale on current transform.
+    CATransform3D currentTransfrom = CATransform3DScale(self.layer.transform, scale, scale, scale);
+    
+    return currentTransfrom;
+}
 
 - (CAAnimation *)defaultShowsAnimation
 {
-    NSArray *frameValues = @[transform(0.1f, 0.1f, 0.1f), transform(1.15f, 1.15f, 1.15f), transform(0.9f, 0.9f, 0.9f), transform(1.0f, 1.0f, 1.0f)];
+    NSArray *frameValues = @[transform(0.1f), transform(1.15f), transform(0.9f), transform(1.0f)];
     NSArray *frameTimes = @[@(0.0f), @(0.5f), @(0.9f), @(1.0f)];
     return [self animationWithValues:frameValues times:frameTimes duration:0.4f];
 }
 
 - (CAAnimation *)defaultDismissAnimation
 {
-    NSArray *frameValues = @[transform(1.0f, 1.0f, 1.0f), transform(0.5f, 0.5f, 0.5f), transform(0.01f, 0.01f, 0.01f)];
+    NSArray *frameValues = @[transform(1.0f), transform(0.5f), transform(0.01f)];
     NSArray *frameTimes = @[@(0.0f), @(0.3f), @(1.0f)];
     
     CAKeyframeAnimation *animation = [self animationWithValues:frameValues times:frameTimes duration:0.25f];
@@ -1237,6 +1343,41 @@
     [animation setDuration:duration];
 
     return animation;
+}
+
+#pragma mark - Rotation Handler
+
+- (CGFloat)angleForCurrentOrientation {
+    
+	// Calculate a rotation transform that matches the current interface orientation.
+	CGFloat angle = 0.0f;
+	UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
+	if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
+        angle = M_PI;
+    } else if (orientation == UIInterfaceOrientationLandscapeLeft) {
+        angle = -M_PI_2;
+    } else if (orientation == UIInterfaceOrientationLandscapeRight) {
+        angle = M_PI_2;
+    }
+    
+	return angle;
+}
+
+- (void)rotationHandle:(NSNotification *)sender
+{
+    CGFloat angle = [self angleForCurrentOrientation];
+    
+    // Use the system rotation duration.
+    CGFloat duration = [[UIApplication sharedApplication] statusBarOrientationAnimationDuration];
+    
+    // Egregious hax. iPad lies about its rotation duration.
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        duration = 0.4f;
+    }
+    
+    [self.layer removeAllAnimations];
+    [self.layer setTransform:CATransform3DMakeRotation(angle, 0.0f, 0.0f, 1.0f)];
 }
 
 #pragma mark - Get Key Window
