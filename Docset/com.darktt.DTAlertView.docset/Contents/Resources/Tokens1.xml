@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/DTAlertView.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/DTAlertView</TokenIdentifier>
+			<Abstract type="html">Custom alert view solved the ios UIAlertView can&apos;t addSubview problem at iOS7.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+            
+			
+			<NodeRef refid="1"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setDelegate:</TokenIdentifier>
+			<Abstract type="html">The DTAlertView delegate.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intf/DTAlertViewDelegate</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign) id&lt;DTAlertViewDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/delegate</TokenIdentifier>
+			<Abstract type="html">The DTAlertView delegate.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intf/DTAlertViewDelegate</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign) id&lt;DTAlertViewDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/delegate</TokenIdentifier>
+			<Abstract type="html">The DTAlertView delegate.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intf/DTAlertViewDelegate</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign) id&lt;DTAlertViewDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setTitle:</TokenIdentifier>
+			<Abstract type="html">The alert view title. appears in the title bar.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) NSString *title</Declaration>
+			
+			
+			<Anchor>//api/name/title</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/title</TokenIdentifier>
+			<Abstract type="html">The alert view title. appears in the title bar.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) NSString *title</Declaration>
+			
+			
+			<Anchor>//api/name/title</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/title</TokenIdentifier>
+			<Abstract type="html">The alert view title. appears in the title bar.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) NSString *title</Declaration>
+			
+			
+			<Anchor>//api/name/title</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setMessage:</TokenIdentifier>
+			<Abstract type="html">The alert view message, descriptive text more datails than title.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) NSString *message</Declaration>
+			
+			
+			<Anchor>//api/name/message</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/message</TokenIdentifier>
+			<Abstract type="html">The alert view message, descriptive text more datails than title.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) NSString *message</Declaration>
+			
+			
+			<Anchor>//api/name/message</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/message</TokenIdentifier>
+			<Abstract type="html">The alert view message, descriptive text more datails than title.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) NSString *message</Declaration>
+			
+			
+			<Anchor>//api/name/message</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setAlertViewMode:</TokenIdentifier>
+			<Abstract type="html">The alert mode display to th user.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/c/tdef/DTAlertViewMode</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign) DTAlertViewMode alertViewMode</Declaration>
+			
+			
+			<Anchor>//api/name/alertViewMode</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/alertViewMode</TokenIdentifier>
+			<Abstract type="html">The alert mode display to th user.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/c/tdef/DTAlertViewMode</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign) DTAlertViewMode alertViewMode</Declaration>
+			
+			
+			<Anchor>//api/name/alertViewMode</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/alertViewMode</TokenIdentifier>
+			<Abstract type="html">The alert mode display to th user.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/c/tdef/DTAlertViewMode</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign) DTAlertViewMode alertViewMode</Declaration>
+			
+			
+			<Anchor>//api/name/alertViewMode</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setCancelButtonIndex:</TokenIdentifier>
+			<Abstract type="html">The button index of cancel button.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/alertViewWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/alertViewUseBlock:title:message:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/initWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/initWithBlock:title:message:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, readonly) NSInteger cancelButtonIndex</Declaration>
+			
+			
+			<Anchor>//api/name/cancelButtonIndex</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/cancelButtonIndex</TokenIdentifier>
+			<Abstract type="html">The button index of cancel button.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/alertViewWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/alertViewUseBlock:title:message:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/initWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/initWithBlock:title:message:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, readonly) NSInteger cancelButtonIndex</Declaration>
+			
+			
+			<Anchor>//api/name/cancelButtonIndex</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/cancelButtonIndex</TokenIdentifier>
+			<Abstract type="html">The button index of cancel button.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/alertViewWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/alertViewUseBlock:title:message:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/initWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/initWithBlock:title:message:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, readonly) NSInteger cancelButtonIndex</Declaration>
+			
+			
+			<Anchor>//api/name/cancelButtonIndex</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setVisible:</TokenIdentifier>
+			<Abstract type="html">Check alert view is visible.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isVisible) BOOL visible</Declaration>
+			
+			
+			<Anchor>//api/name/visible</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/isVisible</TokenIdentifier>
+			<Abstract type="html">Check alert view is visible.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isVisible) BOOL visible</Declaration>
+			
+			
+			<Anchor>//api/name/visible</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/visible</TokenIdentifier>
+			<Abstract type="html">Check alert view is visible.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isVisible) BOOL visible</Declaration>
+			
+			
+			<Anchor>//api/name/visible</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setClickedButtonTitle:</TokenIdentifier>
+			<Abstract type="html">The button title of clicked button.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *clickedButtonTitle</Declaration>
+			
+			
+			<Anchor>//api/name/clickedButtonTitle</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/clickedButtonTitle</TokenIdentifier>
+			<Abstract type="html">The button title of clicked button.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *clickedButtonTitle</Declaration>
+			
+			
+			<Anchor>//api/name/clickedButtonTitle</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/clickedButtonTitle</TokenIdentifier>
+			<Abstract type="html">The button title of clicked button.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *clickedButtonTitle</Declaration>
+			
+			
+			<Anchor>//api/name/clickedButtonTitle</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setCornerRadius:</TokenIdentifier>
+			<Abstract type="html">The corner radius dispaly in alert view background.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (assign) CGFloat cornerRadius</Declaration>
+			
+			
+			<Anchor>//api/name/cornerRadius</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/cornerRadius</TokenIdentifier>
+			<Abstract type="html">The corner radius dispaly in alert view background.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (assign) CGFloat cornerRadius</Declaration>
+			
+			
+			<Anchor>//api/name/cornerRadius</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/cornerRadius</TokenIdentifier>
+			<Abstract type="html">The corner radius dispaly in alert view background.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (assign) CGFloat cornerRadius</Declaration>
+			
+			
+			<Anchor>//api/name/cornerRadius</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setBackgroundView:</TokenIdentifier>
+			<Abstract type="html">The background view display in alert view.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) UIView *backgroundView</Declaration>
+			
+			
+			<Anchor>//api/name/backgroundView</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/backgroundView</TokenIdentifier>
+			<Abstract type="html">The background view display in alert view.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) UIView *backgroundView</Declaration>
+			
+			
+			<Anchor>//api/name/backgroundView</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/backgroundView</TokenIdentifier>
+			<Abstract type="html">The background view display in alert view.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) UIView *backgroundView</Declaration>
+			
+			
+			<Anchor>//api/name/backgroundView</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setTextField:</TokenIdentifier>
+			<Abstract type="html">The UITextField appears DTAlertViewModeTextInput.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) UITextField *textField</Declaration>
+			
+			
+			<Anchor>//api/name/textField</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/textField</TokenIdentifier>
+			<Abstract type="html">The UITextField appears DTAlertViewModeTextInput.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) UITextField *textField</Declaration>
+			
+			
+			<Anchor>//api/name/textField</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/textField</TokenIdentifier>
+			<Abstract type="html">The UITextField appears DTAlertViewModeTextInput.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) UITextField *textField</Declaration>
+			
+			
+			<Anchor>//api/name/textField</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setProgressBarColor:</TokenIdentifier>
+			<Abstract type="html">Set all of UIProgressView progress bar tint color.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) UIColor *progressBarColor</Declaration>
+			
+			
+			<Anchor>//api/name/progressBarColor</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/progressBarColor</TokenIdentifier>
+			<Abstract type="html">Set all of UIProgressView progress bar tint color.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) UIColor *progressBarColor</Declaration>
+			
+			
+			<Anchor>//api/name/progressBarColor</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/progressBarColor</TokenIdentifier>
+			<Abstract type="html">Set all of UIProgressView progress bar tint color.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) UIColor *progressBarColor</Declaration>
+			
+			
+			<Anchor>//api/name/progressBarColor</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/alertViewWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+			<Abstract type="html">Initial for class method with delegate.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/initWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/delegate</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/title</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/message</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>+ (DTInstancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message delegate:(id&lt;DTAlertViewDelegate&gt;)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>title</Name>
+					<Abstract type="html">The alert view title. appears in the title bar.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">The alert view message, descriptive text more datails than title.</Abstract>
+				</Parameter><Parameter>
+					<Name>delegate</Name>
+					<Abstract type="html">The receiver&apos;s delegate or nil if it doesn’t have a delegate.</Abstract>
+				</Parameter><Parameter>
+					<Name>cancelButtonTitle</Name>
+					<Abstract type="html">The title of cancel button or nil if there is no cancel button.</Abstract>
+				</Parameter><Parameter>
+					<Name>positiveButtonTitle</Name>
+					<Abstract type="html">The title of positive button or nil if there is no positive button.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Newly initialized alert view.</Abstract></ReturnValue>
+			<Anchor>//api/name/alertViewWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/initWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+			<Abstract type="html">Initial method with delegate.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/alertViewWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (DTInstancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id&lt;DTAlertViewDelegate&gt;)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>title</Name>
+					<Abstract type="html">The alert view title. appears in the title bar.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">The alert view message, descriptive text more datails than title.</Abstract>
+				</Parameter><Parameter>
+					<Name>delegate</Name>
+					<Abstract type="html">The receiver&apos;s delegate or nil if it doesn’t have a delegate.</Abstract>
+				</Parameter><Parameter>
+					<Name>cancelButtonTitle</Name>
+					<Abstract type="html">The title of cancel button or nil if there is no cancel button.</Abstract>
+				</Parameter><Parameter>
+					<Name>positiveButtonTitle</Name>
+					<Abstract type="html">The title of positive button or nil if there is no positive button.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Newly initialized alert view.</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/alertViewUseBlock:title:message:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+			<Abstract type="html">Initial for class method with block.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>+ (DTInstancetype)alertViewUseBlock:(DTAlertViewButtonClickedBlock)block title:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>block</Name>
+					<Abstract type="html">The DTAlertViewButtonClickedBlock block.</Abstract>
+				</Parameter><Parameter>
+					<Name>title</Name>
+					<Abstract type="html">The alert view title. appears in the title bar.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">The alert view message, descriptive text more datails than title.</Abstract>
+				</Parameter><Parameter>
+					<Name>cancelButtonTitle</Name>
+					<Abstract type="html">The title of cancel button or nil if there is no cancel button.</Abstract>
+				</Parameter><Parameter>
+					<Name>positiveButtonTitle</Name>
+					<Abstract type="html">The title of positive button or nil if there is no positive button.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/alertViewUseBlock:title:message:cancelButtonTitle:positiveButtonTitle:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/initWithBlock:title:message:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+			<Abstract type="html">Initial method with block.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>- (DTInstancetype)initWithBlock:(DTAlertViewButtonClickedBlock)block title:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>block</Name>
+					<Abstract type="html">The DTAlertViewButtonClickedBlock block.</Abstract>
+				</Parameter><Parameter>
+					<Name>title</Name>
+					<Abstract type="html">The alert view title. appears in the title bar.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">The alert view message, descriptive text more datails than title.</Abstract>
+				</Parameter><Parameter>
+					<Name>cancelButtonTitle</Name>
+					<Abstract type="html">The title of cancel button or nil if there is no cancel button.</Abstract>
+				</Parameter><Parameter>
+					<Name>positiveButtonTitle</Name>
+					<Abstract type="html">The title of positive button or nil if there is no positive button.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithBlock:title:message:cancelButtonTitle:positiveButtonTitle:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setBlurBackgroundWithColor:alpha:</TokenIdentifier>
+			<Abstract type="html">Set iOS7 style blur background color</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>- (void)setBlurBackgroundWithColor:(UIColor *)color alpha:(CGFloat)alpha</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>color</Name>
+					<Abstract type="html">The color of blur display color.</Abstract>
+				</Parameter><Parameter>
+					<Name>alpha</Name>
+					<Abstract type="html">The opacity value of the color object, specified as a value from 0.0 to 1.0.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setBlurBackgroundWithColor:alpha:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setPositiveButtonEnable:</TokenIdentifier>
+			<Abstract type="html">Set positive button enable or disable.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>- (void)setPositiveButtonEnable:(BOOL)enable</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>enable</Name>
+					<Abstract type="html">If NO the positive button will disable.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setPositiveButtonEnable:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setProgressStatus:</TokenIdentifier>
+			<Abstract type="html">Adjust the current progress status at DTAlertViewModeDuoProgress mode,&lt;br/&gt;
+first (top) progress view&apos;s progress will adjust by this receiver at DTAlertViewModeDuoProgress mode.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>- (void)setProgressStatus:(DTProgressStatus)status</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>status</Name>
+					<Abstract type="html">The current status of the receiver.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setProgressStatus:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setPercentage:</TokenIdentifier>
+			<Abstract type="html">Adjust the current percentage at DTAlertViewModeNormal and DTAlertViewModeDuoProgress mode.&lt;br/&gt;
+Percentage show under porgress view at DTAlertViewModeNormal or under second (bottom) progress view at DTAlertViewModeDuoProgress.&lt;br/&gt;
+Progress view&apos;s (upper this percentage) progress will adjust by this receiver.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>- (void)setPercentage:(CGFloat)percentage</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>percentage</Name>
+					<Abstract type="html">This value represented a floating-point value between 0.0 and 1.0, inclusive,&lt;br/&gt;
+where 1.0 indicates the completion of the task. The default value is 0.0.&lt;br/&gt;
+Values less than 0.0 and greater than 1.0 are pinned to those limits.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setPercentage:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setTextFieldDidChangeBlock:</TokenIdentifier>
+			<Abstract type="html">Set block to notify when text in textField is changed.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>- (void)setTextFieldDidChangeBlock:(DTAlertViewTextDidChangeBlock)textBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>textBlock</Name>
+					<Abstract type="html">A block containing the changes textFidle text did change. This is where you programmatically change setPositiveButtonEnable enable or disable and other.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setTextFieldDidChangeBlock:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/show</TokenIdentifier>
+			<Abstract type="html">Shows popup alert with default animation.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>- (void)show</Declaration>
+			
+			
+			<Anchor>//api/name/show</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/dismiss</TokenIdentifier>
+			<Abstract type="html">Hide alert with default animation.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>- (void)dismiss</Declaration>
+			
+			
+			<Anchor>//api/name/dismiss</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+        
+	</File>
+</Tokens>

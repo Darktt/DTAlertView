@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/DTAlertViewDelegate.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/DTAlertViewDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+            
+			
+			<NodeRef refid="2"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/DTAlertViewDelegate/alertView:clickedButtonAtIndex:</TokenIdentifier>
+			<Abstract type="html">Sent to the delegate when the user clicks a button on an alert view.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>- (void)alertView:(DTAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>alertView</Name>
+					<Abstract type="html">The alert view containing the button.</Abstract>
+				</Parameter><Parameter>
+					<Name>buttonIndex</Name>
+					<Abstract type="html">The button index of clicked button, value 0 is cancel button, 1 is positive button.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/alertView:clickedButtonAtIndex:</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/DTAlertViewDelegate/alertViewWillDismiss:</TokenIdentifier>
+			<Abstract type="html">Sent to the delegate before an alert view is dismissed.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>- (void)alertViewWillDismiss:(DTAlertView *)alertView</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>alertView</Name>
+					<Abstract type="html">The alert view that is about to be dismissed.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/alertViewWillDismiss:</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/DTAlertViewDelegate/alertViewDidDismiss:</TokenIdentifier>
+			<Abstract type="html">Sent to the delegate after an alert view is dismissed from the screen.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>- (void)alertViewDidDismiss:(DTAlertView *)alertView</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>alertView</Name>
+					<Abstract type="html">The alert view that was dismissed.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/alertViewDidDismiss:</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/DTAlertViewDelegate/alertViewTextDidChanged:</TokenIdentifier>
+			<Abstract type="html">Sent to the delegate when textField text did change.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>- (void)alertViewTextDidChanged:(DTAlertView *)alertView</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>alertView</Name>
+					<Abstract type="html">The alert view containing textField.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/alertViewTextDidChanged:</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+        
+	</File>
+</Tokens>
