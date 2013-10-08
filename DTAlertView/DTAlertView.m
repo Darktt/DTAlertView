@@ -762,7 +762,7 @@ static DTBackgroundView *singletion = nil;
 
 - (void)setViews
 {
-    ///MARK: Labels
+    //MARK: Labels
     
     // Title
     UILabel *titleLabel = [[UILabel alloc] init];
@@ -868,7 +868,7 @@ static DTBackgroundView *singletion = nil;
             
         case DTAlertViewModeTextInput:
         {
-            ///MARK: TextField
+            //MARK: TextField
             _textField = [[UITextField alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(messageLabel.frame) + 10.0f, 260.0f, 30.0f)];
             [_textField setBorderStyle:UITextBorderStyleRoundedRect];
             [_textField addTarget:self action:@selector(textFieldDidBegin:) forControlEvents:UIControlEventEditingDidBegin];
@@ -897,7 +897,7 @@ static DTBackgroundView *singletion = nil;
             
         case DTAlertViewModeProgress:
         {
-            ///MARK: Progress and label under the progress
+            //MARK: Progress and label under the progress
             
             // Progress View
             UIProgressView *firstProgress = [self setProgressViewWithFrame:CGRectMake(0, CGRectGetMaxY(messageLabel.frame) + 10.0f, 260.0f, 2.0f)];
@@ -1014,7 +1014,7 @@ static DTBackgroundView *singletion = nil;
     NSLog(@"Button Field: %@", NSStringFromCGRect(buttonsField));
 #endif
     
-    ///MARK: Buttons
+    //MARK: Buttons
     
     // When all button title not set, ignore this setting.
     if (![self checkButtonTitleExist]) {

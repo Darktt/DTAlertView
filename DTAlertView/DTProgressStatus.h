@@ -38,17 +38,25 @@
 #ifndef DTProgressStatus_h_
 #define DTProgressStatus_h_
 
+/** A structure that contains the location and dimensions of current status. */
 struct DTProgressStatus {
+    /// Current status.
     NSUInteger current;
+    /// Total value of status.
     NSUInteger total;
 };
 typedef struct DTProgressStatus DTProgressStatus;
 
+/// Zero of status -- equivalent DTProgressStatusMake(0, 0)
 DT_EXTERN const DTProgressStatus DTProgressStatusZero;
+
+/// Return true if status is zero.
 DT_EXTERN bool DTProgressStatusIsZero(DTProgressStatus status);
 
+/// Returns a string formatted to contain the data from a status.
 UIKIT_EXTERN NSString *NSStringFromDTProgressStatus(DTProgressStatus status);
 
+/// Returns a status with the process status.
 DT_INLINE DTProgressStatus DTProgressStatusMake(NSUInteger current, NSUInteger total);
 
 /*** Definitions of inline functions. ***/

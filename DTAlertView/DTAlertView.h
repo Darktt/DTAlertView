@@ -28,10 +28,15 @@
 @protocol DTAlertViewDelegate;
 
 // enumerations
+/** The mode of display to user. */
 typedef NS_ENUM(NSInteger, DTAlertViewMode) {
+    /** Normal alert view, it's dafult mode. */
     DTAlertViewModeNormal = 0,
+    /** Alert view with UITextField. */
     DTAlertViewModeTextInput,
+    /** Alert view with Single UIProgressView. */
     DTAlertViewModeProgress,
+    /** Alert view with Two UIProgressView. */
     DTAlertViewModeDuoProgress,
     };
 
@@ -44,73 +49,174 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 
 #endif
 
+/// Custom alert view solved the ios UIAlertView can't addSubview problem at iOS7.
 @interface DTAlertView : UIView
 
 // Default settings
+/**
+ * The receiver's delegate, If DTAlertViewButtonClickedBlock is setted, it will ignore the receiver value.
+ * @brief The DTAlertView delegate.
+ *
+ * @see DTAlertViewDelegate
+ */
 @property (nonatomic, assign) id<DTAlertViewDelegate> delegate;
+
+/** @brief The alert view title. appears in the title bar. */
 @property (nonatomic, retain) NSString *title;
+
+/** @brief The alert view message, descriptive text more datails than title. */
 @property (nonatomic, retain) NSString *message;
-@property (nonatomic, assign) DTAlertViewMode alertViewMode; // Default is DTAlertViewModeNormal.
-@property (nonatomic, readonly) NSInteger cancelButtonIndex; // Default is -1 if cancel button title not set or 0.
-@property (nonatomic, readonly, getter = isVisible) BOOL visible; // Check alert view is visible.
-@property (nonatomic, readonly) NSString *clickedButtonTitle; // Defalt is nil, when alert view clicked, value is the clicked button title.
+
+/** Default is DTAlertViewModeNormal.
+ * @brief The alert mode display to th user.
+ * @see DTAlertViewMode
+ */
+@property (nonatomic, assign) DTAlertViewMode alertViewMode;
+
+/** Default is -1 if cancelButtonTitle not set or 0.
+ * @brief The button index of cancel button.
+ *
+ * @see alertViewWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:
+ * @see alertViewUseBlock:title:message:cancelButtonTitle:positiveButtonTitle:
+ * @see initWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:
+ * @see initWithBlock:title:message:cancelButtonTitle:positiveButtonTitle:
+ */
+@property (nonatomic, readonly) NSInteger cancelButtonIndex;
+
+/** @brief Check alert view is visible. */
+@property (nonatomic, readonly, getter = isVisible) BOOL visible;
+
+/** Defalt is nil, when alert view clicked, value is the clicked button title.
+ * @brief The button title of clicked button.
+ */
+@property (nonatomic, readonly) NSString *clickedButtonTitle;
 
 // View settings
-@property (assign) CGFloat cornerRadius; // Defauls value 0.0, when shown is 25.0 if value not changed.
-@property (nonatomic, retain) UIView *backgroundView; // Default is nil.
+/** Defauls value 0.0, when shown is 25.0 if value not changed.
+ * @brief The corner radius dispaly in alert view background.
+ */
+@property (assign) CGFloat cornerRadius;
 
-/* Default is nil on not shown. inital it at shown.
- Only can get it when DTAlertViewMode is DTAlertViewModeTextInput. */
+/** Default is nil. 
+ * @brief The background view display in alert view.
+ */
+@property (nonatomic, retain) UIView *backgroundView;
+
+/** Default is nil on not shown. inital it at shown.<br/>
+ * Only can get it when DTAlertViewMode is DTAlertViewModeTextInput.
+ * @brief The UITextField appears DTAlertViewModeTextInput.
+ */
 @property (nonatomic, readonly) UITextField *textField;
 
-/* 
-    Set all pregress bar tint color, default is nil.
-    Only can be set it when DTAlertViewMode is DTAlertViewModeProgress and DTAlertViewModeDuoProgress.
+/** Default is nil.<br/>
+ * Only can be set it when DTAlertViewMode is DTAlertViewModeProgress and DTAlertViewModeDuoProgress.
+ * @brief Set all of UIProgressView progress bar tint color.
  */
 @property (nonatomic, retain) UIColor *progressBarColor;
 
-// Initial for class method with delegate.
+/** @brief Initial for class method with delegate.
+ *
+ * @param title The alert view title. appears in the title bar.
+ * @param message The alert view message, descriptive text more datails than title.
+ * @param delegate The receiver's delegate or nil if it doesn’t have a delegate.
+ * @param cancelButtonTitle The title of cancel button or nil if there is no cancel button.
+ * @param positiveButtonTitle The title of positive button or nil if there is no positive button.
+ *
+ * @return Newly initialized alert view.
+ *
+ * @see initWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:
+ * @see delegate
+ * @see title
+ * @see message
+ */
 + (DTInstancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message delegate:(id<DTAlertViewDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle;
 
-// Initial method with delegate.
+/** @brief Initial method with delegate.
+ *
+ * @param title The alert view title. appears in the title bar.
+ * @param message The alert view message, descriptive text more datails than title.
+ * @param delegate The receiver's delegate or nil if it doesn’t have a delegate.
+ * @param cancelButtonTitle The title of cancel button or nil if there is no cancel button.
+ * @param positiveButtonTitle The title of positive button or nil if there is no positive button.
+ *
+ * @return Newly initialized alert view.
+ *
+ * @see alertViewWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:
+ */
 - (DTInstancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id<DTAlertViewDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle;
 
 #if __has_feature(blocks)
 
-// Initial for class method with block.
+/** @brief Initial for class method with block.
+ *
+ * @param block The DTAlertViewButtonClickedBlock block.
+ * @param title The alert view title. appears in the title bar.
+ * @param message The alert view message, descriptive text more datails than title.
+ * @param cancelButtonTitle The title of cancel button or nil if there is no cancel button.
+ * @param positiveButtonTitle The title of positive button or nil if there is no positive button.
+ *
+ */
 + (DTInstancetype)alertViewUseBlock:(DTAlertViewButtonClickedBlock)block title:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle;
 
-// Initial method with block.
+/** @brief Initial method with block.
+ *
+ * @param block The DTAlertViewButtonClickedBlock block.
+ * @param title The alert view title. appears in the title bar.
+ * @param message The alert view message, descriptive text more datails than title.
+ * @param cancelButtonTitle The title of cancel button or nil if there is no cancel button.
+ * @param positiveButtonTitle The title of positive button or nil if there is no positive button.
+ *
+ */
 - (DTInstancetype)initWithBlock:(DTAlertViewButtonClickedBlock)block title:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle;
 
 #endif
 
-// Set iOS7 style blur background color
+/** @brief Set iOS7 style blur background color
+ *
+ * @param color The color of blur display color.
+ * @param alpha The opacity value of the color object, specified as a value from 0.0 to 1.0.
+ *
+ * @warning This method only available iOS7.
+ */
 - (void)setBlurBackgroundWithColor:(UIColor *)color alpha:(CGFloat)alpha NS_AVAILABLE_IOS(7_0);
 
-// Set positive button enable or disable. Default is Enable.
+/** Default is Enable.
+ * @brief Set positive button enable or disable.
+ *
+ * @param enable If NO the positive button will disable.
+ */
 - (void)setPositiveButtonEnable:(BOOL)enable;
 
-/* 
- Adjust the current progress status at DTAlertViewModeDuoProgress mode,
- first (top) progress view's progress will adjust by this receiver at DTAlertViewModeDuoProgress mode.
+/** @brief Adjust the current progress status at DTAlertViewModeDuoProgress mode,<br/>
+ * first (top) progress view's progress will adjust by this receiver at DTAlertViewModeDuoProgress mode.
+ * 
+ * @param status The current status of the receiver.
  */
 - (void)setProgressStatus:(DTProgressStatus)status;
 
-/*
- Adjust the current percentage at DTAlertViewModeNormal and DTAlertViewModeDuoProgress mode.
- Percentage show under porgress view at DTAlertViewModeNormal or under second (bottom) progress view at DTAlertViewModeDuoProgress.
- Progress view's (upper this percentage) progress will adjust by this receiver.
- 
- This value represented a floating-point value between 0.0 and 1.0, inclusive, 
- where 1.0 indicates the completion of the task. The default value is 0.0. 
- Values less than 0.0 and greater than 1.0 are pinned to those limits.
+/** @brief Adjust the current percentage at DTAlertViewModeNormal and DTAlertViewModeDuoProgress mode.<br/>
+ * Percentage show under porgress view at DTAlertViewModeNormal or under second (bottom) progress view at DTAlertViewModeDuoProgress.<br/>
+ * Progress view's (upper this percentage) progress will adjust by this receiver.
+ *
+ * @param percentage This value represented a floating-point value between 0.0 and 1.0, inclusive,<br/>
+ * where 1.0 indicates the completion of the task. The default value is 0.0.<br/>
+ * Values less than 0.0 and greater than 1.0 are pinned to those limits.
  */
 - (void)setPercentage:(CGFloat)percentage;
 
 #if __has_feature(blocks)
 
-// Set block to notify when text in textfield is changed.
+/** The method performs textField text change.<br/>
+ * For example, if you want disable positive button on less 10 characters, edable on great 10 characters.
+ *
+ *     <code><pre>[alertView setTextFieldDidChangeBlock:^(DTAlertView *_alertView, NSString *text){
+ *     &#9;[_alertView setPositiveButtonEnable:(text.length > 10)];
+ *     }];</pre></code>
+ *
+ * @brief Set block to notify when text in textField is changed.
+ *
+ * @param textBlock A block containing the changes textFidle text did change. This is where you programmatically change setPositiveButtonEnable enable or disable and other.
+ */
 - (void)setTextFieldDidChangeBlock:(DTAlertViewTextDidChangeBlock)textBlock;
 
 #endif
@@ -118,7 +224,7 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 /* 
  * Shows *
  */
-// Shows popup alert with default animation.
+/// @brief Shows popup alert with default animation.
 - (void)show;
 
 #if __has_feature(blocks)
@@ -132,7 +238,7 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 /* 
  * Dismiss *
  */
-// Hide alert with default animation.
+/// @brief Hide alert with default animation.
 - (void)dismiss;
 
 #if __has_feature(blocks)
@@ -147,18 +253,30 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 
 @protocol DTAlertViewDelegate  <NSObject>
 
-// This method responds what button clicked in alett view.
+/** @brief Sent to the delegate when the user clicks a button on an alert view.
+ * @param alertView The alert view containing the button.
+ * @param buttonIndex The button index of clicked button, value 0 is cancel button, 1 is positive button.
+ */
 - (void)alertView:(DTAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
 
 @optional
 
-// Alert view will dismiss.
+/** @brief Sent to the delegate before an alert view is dismissed.
+ *
+ * @param alertView The alert view that is about to be dismissed.
+ */
 - (void)alertViewWillDismiss:(DTAlertView *)alertView;
 
-// Alert view did dismiss.
+/** @brief Sent to the delegate after an alert view is dismissed from the screen.
+ *
+ * @param alertView The alert view that was dismissed.
+ */
 - (void)alertViewDidDismiss:(DTAlertView *)alertView;
 
-// Text in AlertView did change.
+/** @brief Sent to the delegate when textField text did change.
+ *
+ * @param alertView The alert view containing textField.
+ */
 - (void)alertViewTextDidChanged:(DTAlertView *)alertView;
 
 @end
