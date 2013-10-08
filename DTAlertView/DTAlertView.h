@@ -124,7 +124,8 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 #if __has_feature(blocks)
 
 // Popup alert with custom animation.
-- (void)showWithAnimationBlock:(DTAlertViewAnimationBlock)animationBlock;
+// Deprecate temp, wait to fix.
+- (void)showWithAnimationBlock:(DTAlertViewAnimationBlock)animationBlock NS_DEPRECATED_IOS(2_0, 4_0);
 
 #endif
 
@@ -137,7 +138,8 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 #if __has_feature(blocks)
 
 // Hide alert with custom animation.
-- (void)dismissWithAnimationBlock:(DTAlertViewAnimationBlock)animationBlock;
+// Deprecate temp, wait to fix.
+- (void)dismissWithAnimationBlock:(DTAlertViewAnimationBlock)animationBlock NS_DEPRECATED_IOS(2_0, 4_0);
 
 #endif
 

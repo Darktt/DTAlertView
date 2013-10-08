@@ -494,8 +494,6 @@ static DTBackgroundView *singletion = nil;
 
 - (void)setBlurBackgroundWithColor:(UIColor *)color alpha:(CGFloat)alpha
 {
-    [self setClipsToBounds:YES];
-    
     if (_blurToolbar == nil) {
         // Add alpha into color
         color = [color colorWithAlphaComponent:alpha];
@@ -585,11 +583,16 @@ static DTBackgroundView *singletion = nil;
 
 - (void)show
 {
-    if ([UIToolbar instancesRespondToSelector:@selector(setBarTintColor:)]) {
-        [self setBlurBackgroundWithColor:nil alpha:0];
-    } else if (self.backgroundColor == nil && _backgroundView == nil) {
-        [self setClipsToBounds:YES];
-        [self setBackgroundColor:[UIColor whiteColor]];
+    [self setClipsToBounds:YES];
+    
+    // If background color or background view not set, will set to default scenario.
+    if (self.backgroundColor == nil && _backgroundView == nil) {
+        
+        if ([UIToolbar instancesRespondToSelector:@selector(setBarTintColor:)]) {
+            [self setBlurBackgroundWithColor:nil alpha:0];
+        } else {
+            [self setBackgroundColor:[UIColor whiteColor]];
+        }
     }
     
     if (self.layer.cornerRadius == 0.0f) {
@@ -626,11 +629,16 @@ static DTBackgroundView *singletion = nil;
 
 - (void)showWithAnimationBlock:(DTAlertViewAnimationBlock)animationBlock
 {
-    if ([UIToolbar instancesRespondToSelector:@selector(setBarTintColor:)]) {
-        [self setBlurBackgroundWithColor:nil alpha:0];
-    } else if (self.backgroundColor == nil && _backgroundView == nil) {
-        [self setClipsToBounds:YES];
-        [self setBackgroundColor:[UIColor whiteColor]];
+    [self setClipsToBounds:YES];
+    
+    // If background color or background view not set, will set to default scenario.
+    if (self.backgroundColor == nil && _backgroundView == nil) {
+        
+        if ([UIToolbar instancesRespondToSelector:@selector(setBarTintColor:)]) {
+            [self setBlurBackgroundWithColor:nil alpha:0];
+        } else {
+            [self setBackgroundColor:[UIColor whiteColor]];
+        }
     }
     
     if (self.layer.cornerRadius == 0.0f) {
@@ -649,14 +657,15 @@ static DTBackgroundView *singletion = nil;
     
     // Background of alert view
     DTBackgroundView *backgroundView = [DTBackgroundView currentBackground];
+    [backgroundView setHidden:NO];
     
-    [self setCenter:backgroundView.center];
+//    [self setCenter:backgroundView.center];
     [backgroundView addSubview:self];
     
     // Receive notification for handle rotate issue
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rotationHandle:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
-    [UIView animateWithDuration:0.3f
+    [UIView animateWithDuration:10.0f
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:animationBlock
@@ -686,8 +695,8 @@ static DTBackgroundView *singletion = nil;
     
     CAAnimation *dismissAnimation = [self defaultDismissAnimation];
     
-//    [self.layer removeAllAnimations];
-    [self.layer addAnimation:dismissAnimation forKey:@"popup"];
+    [self.layer removeAllAnimations];
+    [self.layer addAnimation:dismissAnimation forKey:@"dismiss"];
     
     [self performSelector:@selector(dismissCompletion) withObject:nil afterDelay:dismissAnimation.duration];
 }
@@ -697,6 +706,9 @@ static DTBackgroundView *singletion = nil;
     // Dismiss self
     [self removeFromSuperview];
     [[DTBackgroundView currentBackground] setHidden:YES];
+    
+    // Remove dismiss animation
+    [self.layer removeAllAnimations];
     
     _visible = NO;
     
@@ -727,15 +739,15 @@ static DTBackgroundView *singletion = nil;
                      animations:animationBlock
                      completion:^(BOOL finished) {
                          
-                         // Dismiss self
-                         [self removeFromSuperview];
-                         [[DTBackgroundView currentBackground] setHidden:YES];
-                         
-                         _visible = NO;
-                         
-                         if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewDidDismiss:)]) {
-                             [_delegate alertViewDidDismiss:self];
-                         }
+        // Dismiss self
+        [self removeFromSuperview];
+        [[DTBackgroundView currentBackground] setHidden:YES];
+
+        _visible = NO;
+
+        if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewDidDismiss:)]) {
+         [_delegate alertViewDidDismiss:self];
+        }
     }];
 }
 
@@ -1079,7 +1091,12 @@ static DTBackgroundView *singletion = nil;
 
 - (UIButton *)setButtonWithTitle:(NSString *)buttonTitle
 {
-    UIColor *buttonColor = [UIColor whiteColor];
+    UIColor *buttonColor = self.backgroundColor;
+    
+    if (buttonColor == nil) {
+        buttonColor = [UIColor whiteColor];
+    }
+    
     UIColor *buttonTitleColor = [UIColor colorWithRed:0 green:122.0f/255.0f blue:1 alpha:1];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];

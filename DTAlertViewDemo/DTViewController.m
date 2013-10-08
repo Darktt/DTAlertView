@@ -10,7 +10,7 @@
 
 #import "DTAlertView.h"
 
-@interface DTViewController () <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
+@interface DTViewController () <UITableViewDataSource, UITableViewDelegate, DTAlertViewDelegate>
 {
     NSArray *demoArray;
     DTAlertView *progressAlertView;
@@ -72,7 +72,7 @@
 {
     [super viewWillAppear:animated];
     
-    demoArray = [[NSArray alloc] initWithArray:@[@"Normal alert view", @"Alert view with text field", @"Alert view with secure text field", @"Alert view with progress view", @"Alert view with duo progress view"]];
+    demoArray = [[NSArray alloc] initWithArray:@[@"Normal alert view", @"Use with Block", @"With text field", @"With secure text field", @"With progress view", @"With duo progress view"]];
 }
 
 - (void)dealloc
@@ -113,6 +113,7 @@
     [cell setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:0.2f]];
     
     [cell.textLabel setText:demoArray[indexPath.row]];
+    [cell.textLabel setTextColor:[UIColor whiteColor]];
     [cell.textLabel setFont:[UIFont boldSystemFontOfSize:[UIFont labelFontSize]]];
     
     return cell;
@@ -132,30 +133,45 @@
     
     switch (indexPath.row) {
         case 0:
-            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"This is normal alert view." delegate:nil cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"This is normal alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
             [alertView show];
             break;
             
         case 1:
-            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"This is alert view\nwith text field." delegate:nil cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+        {
+            DTAlertViewButtonClickedBlock block = ^(DTAlertView *alertView, NSUInteger buttonIndex, NSUInteger cancelButtonIndex){
+                NSLog(@"You click button title : %@", alertView.clickedButtonTitle);
+            };
+            
+            alertView = [DTAlertView alertViewUseBlock:block title:@"Demo" message:@"Alert view With block" cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+            [alertView show];
+        }
+            break;
+            
+        case 2:
+            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"Alert view\nwith text field." delegate:nil cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
             [alertView setAlertViewMode:DTAlertViewModeTextInput];
             [alertView show];
             break;
             
-        case 2:
-            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"This is alert view\nwith secure text field." delegate:nil cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+        case 3:
+        {
+            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"Alert view\nwith secure text field." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
             [alertView setAlertViewMode:DTAlertViewModeTextInput];
             [alertView setPositiveButtonEnable:NO];
+            
             [alertView setTextFieldDidChangeBlock:^(DTAlertView *_alertView, NSString *text) {
                 [_alertView setPositiveButtonEnable:(text.length >= 10)];
             }];
             
             [alertView show];
             
+            // Set text field to secure text mode after show.
             [alertView.textField setSecureTextEntry:YES];
+        }
             break;
             
-        case 3:
+        case 4:
         {
             DTAlertViewButtonClickedBlock block = ^(DTAlertView *_alertView, NSUInteger buttonIndex, NSUInteger cancelButtonIndex){
                 if (buttonIndex == cancelButtonIndex) {
@@ -163,7 +179,7 @@
                 }
             };
             
-            progressAlertView = [DTAlertView alertViewUseBlock:block title:@"Demo" message:nil cancelButtonTitle:@"Cancel" positiveButtonTitle:nil];
+            progressAlertView = [DTAlertView alertViewUseBlock:block title:@"Demo" message:@"Loading..." cancelButtonTitle:@"Cancel" positiveButtonTitle:nil];
             [progressAlertView setAlertViewMode:DTAlertViewModeProgress];
             [progressAlertView setPercentage:0];
             [progressAlertView show];
@@ -172,7 +188,7 @@
         }
             break;
             
-        case 4:
+        case 5:
         {
             DTAlertViewButtonClickedBlock block = ^(DTAlertView *alertView, NSUInteger buttonIndex, NSUInteger cancelButtonIndex){
                 if (buttonIndex == cancelButtonIndex) {
@@ -180,8 +196,10 @@
                 }
             };
             
-            progressAlertView = [DTAlertView alertViewUseBlock:block title:@"Demo" message:nil cancelButtonTitle:@"Cancel" positiveButtonTitle:nil];
+            progressAlertView = [DTAlertView alertViewUseBlock:block title:@"Demo" message:@"Downloading..." cancelButtonTitle:@"Cancel" positiveButtonTitle:nil];
             [progressAlertView setAlertViewMode:DTAlertViewModeDuoProgress];
+            
+            // Preset progerss status befoure show, when shown alert view will show this setting.
             [progressAlertView setProgressStatus:DTProgressStatusMake(19, 20)];
             
             [progressAlertView show];
@@ -193,6 +211,17 @@
             
         default:
             break;
+    }
+}
+
+#pragma mark - DTAlertView Delegate Methods
+
+- (void)alertView:(DTAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"You click button title : %@", alertView.clickedButtonTitle);
+    
+    if (alertView.textField != nil) {
+        NSLog(@"Inputed Text : %@", alertView.textField.text);
     }
 }
 
@@ -217,7 +246,7 @@
     [progressAlertView setPercentage:0.0f];
 }
 
-#pragma mark - 
+#pragma mark - Support Autorotate
 
 - (NSUInteger)supportedInterfaceOrientations
 {

@@ -20,7 +20,7 @@ Import the header file and declare in want to used class.
 
 	#import "DTAlertView.h"
 	
-Initializing DTAlertView in your class:
+###Initializing DTAlertView in your class:###
 
 ``` objective-c
 // initial for class method
@@ -28,6 +28,38 @@ DTAlertView *alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"This 
 
 // inital for instance method
 DTAlertView *alertView = [[DTAlertView alloc] initWithTitle:@"Demo" message:@"This is normal alert view." delegate:nil cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+```
+
+and you can use **Block** with alert view:
+
+``` objective-c
+DTAlertViewButtonClickedBlock block = ^(DTAlertView *_alertView, NSUInteger buttonIndex, NSUInteger cancelButtonIndex){
+	// You can button title of clicked button.
+    NSLog(@"%@", _alertView.clickedButtonTitle);
+};
+
+DTAlertView *alertView = [DTAlertView alertViewUseBlock:block title:@"Demo" message:@"This is normal alert view with block." cancelButtonTitle:@"Cancel" positiveButtonTitle:nil];
+```
+
+###Show & dismiss:###
+
+Show alert view:
+
+``` objective-c
+[alertView show];
+```
+<!--
+// Show alert view use custom animation.
+[alertView showWithAnimationBlock:^{
+	// Implemnet your custom animation code
+	
+}];
+-->
+
+Dismiss alert view:
+
+``` objective-c
+[alertView dismiss];
 ```
 
 ##License##
