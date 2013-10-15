@@ -783,14 +783,20 @@ static DTBackgroundView *singletion = nil;
     CGFloat labelMaxWidth = self.frame.size.width - 10.0f;
     
     if (titleLabel.frame.size.width > labelMaxWidth) {
-        NSInteger times = ceil(titleLabel.frame.size.width / labelMaxWidth);
-        [titleLabel setNumberOfLines:times];
+        NSInteger multiple = ceil(titleLabel.frame.size.width / labelMaxWidth);
+        
+        // multiple add current number of line, If it great of 1.
+        multiple += (titleLabel.numberOfLines == 1) ? 0 : titleLabel.numberOfLines;
         
         CGRect newFrame = titleLabel.frame;
         newFrame.size.width = labelMaxWidth;
-        newFrame.size.height *= titleLabel.numberOfLines;
         
+        // new height = old height / current number of line * multiple
+        newFrame.size.height = newFrame.size.height / titleLabel.numberOfLines * multiple;
+        
+        [titleLabel setNumberOfLines:multiple];
         [titleLabel setFrame:newFrame];
+        [titleLabel sizeToFit];
     }
     
     [titleLabel setCenter:CGPointMake(CGRectGetMidX(self.bounds), titleLabel.center.y + 20.0f)];
