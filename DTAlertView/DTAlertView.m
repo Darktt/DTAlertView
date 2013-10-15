@@ -833,11 +833,12 @@ static DTBackgroundView *singletion = nil;
         CGRect newFrame = messageLabel.frame;
         newFrame.size.width = labelMaxWidth;
         
-        // new height = old height * ( multiple / current number of line )
-        newFrame.size.height *= (multiple / messageLabel.numberOfLines);
+        // new height = old height / current number of line * multiple
+        newFrame.size.height = newFrame.size.height / messageLabel.numberOfLines * multiple;
         
         [messageLabel setNumberOfLines:multiple];
         [messageLabel setFrame:newFrame];
+        [messageLabel sizeToFit];
     }
     
     [messageLabel setCenter:CGPointMake(CGRectGetMidX(self.bounds), messageLabel.center.y)];
