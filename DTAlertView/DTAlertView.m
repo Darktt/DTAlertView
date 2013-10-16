@@ -164,8 +164,6 @@ static DTBackgroundView *singletion = nil;
     BOOL _keyboardIsShown;
 }
 
-- (UIWindow *)keyWindow;
-
 @end
 
 @implementation DTAlertView
@@ -608,6 +606,7 @@ static DTBackgroundView *singletion = nil;
     
     // Background of alert view
     DTBackgroundView *backgroundView = [DTBackgroundView currentBackground];
+    [backgroundView setAlpha:1.0f];
     [backgroundView setHidden:NO];
     
     [self setCenter:backgroundView.center];
@@ -705,7 +704,12 @@ static DTBackgroundView *singletion = nil;
 {
     // Dismiss self
     [self removeFromSuperview];
-    [[DTBackgroundView currentBackground] setHidden:YES];
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        [[DTBackgroundView currentBackground] setAlpha:0.0f];
+    } completion:^(BOOL finished) {
+        [[DTBackgroundView currentBackground] setHidden:YES];
+    }];
     
     // Remove dismiss animation
     [self.layer removeAllAnimations];
@@ -1122,8 +1126,8 @@ static DTBackgroundView *singletion = nil;
     
     [self setFrame:selfFrame];
     
-    UIWindow *window = [self keyWindow];
-    [self setCenter:window.center];
+    DTBackgroundView *backgroundView = [DTBackgroundView currentBackground];
+    [self setCenter:backgroundView.center];
 }
 
 - (void)renewLayout
@@ -1253,8 +1257,8 @@ static DTBackgroundView *singletion = nil;
     UIInterfaceOrientation orientation = application.statusBarOrientation;
     
     CGFloat currentBottom = isPortrait ? CGRectGetMaxY(self.frame) : CGRectGetMaxX(self.frame);
-    UIWindow *window = [self keyWindow];
-    CGPoint center = CGPointMake(CGRectGetMidX(window.bounds), CGRectGetMidY(window.bounds));
+    DTBackgroundView *backgroundView = [DTBackgroundView currentBackground];
+    CGPoint center = CGPointMake(CGRectGetMidX(backgroundView.bounds), CGRectGetMidY(backgroundView.bounds));
     
     if (!CGPointEqualToPoint(self.center, center)) {
         // currentBottom add the device screen center reduce current alert view center offset value.
@@ -1327,7 +1331,7 @@ static DTBackgroundView *singletion = nil;
 - (CATransform3D)transform3DScale:(CGFloat)scale
 {
     // Add scale on current transform.
-    CATransform3D currentTransfrom = CATransform3DScale(self.layer.transform, scale, scale, scale);
+    CATransform3D currentTransfrom = CATransform3DScale(self.layer.transform, scale, scale, 1.0f);
     
     return currentTransfrom;
 }
@@ -1341,11 +1345,12 @@ static DTBackgroundView *singletion = nil;
 
 - (CAAnimation *)defaultDismissAnimation
 {
-    NSArray *frameValues = @[transform(1.0f), transform(0.5f), transform(0.01f)];
-    NSArray *frameTimes = @[@(0.0f), @(0.3f), @(1.0f)];
+    NSArray *frameValues = @[transform(1.0f), transform(0.5f), transform(0.1f)];
+    NSArray *frameTimes = @[@(0.0f), @(0.5f), @(1.0f)];
     
     CAKeyframeAnimation *animation = [self animationWithValues:frameValues times:frameTimes duration:0.25f];
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    [animation setFillMode:kCAFillModeRemoved];
     
     return animation;
 }
@@ -1395,15 +1400,6 @@ static DTBackgroundView *singletion = nil;
     
     [self.layer removeAllAnimations];
     [self.layer setTransform:CATransform3DMakeRotation(angle, 0.0f, 0.0f, 1.0f)];
-}
-
-#pragma mark - Get Key Window
-
-- (UIWindow *)keyWindow
-{
-    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-    
-    return window;
 }
 
 @end
