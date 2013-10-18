@@ -796,7 +796,6 @@ static DTBackgroundView *singletion = nil;
         
         [titleLabel setNumberOfLines:multiple];
         [titleLabel setFrame:newFrame];
-        [titleLabel sizeToFit];
     }
     
     [titleLabel setCenter:CGPointMake(CGRectGetMidX(self.bounds), titleLabel.center.y + 20.0f)];
@@ -844,7 +843,6 @@ static DTBackgroundView *singletion = nil;
         
         [messageLabel setNumberOfLines:multiple];
         [messageLabel setFrame:newFrame];
-        [messageLabel sizeToFit];
     }
     
     [messageLabel setCenter:CGPointMake(CGRectGetMidX(self.bounds), messageLabel.center.y)];
