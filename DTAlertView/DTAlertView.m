@@ -1355,7 +1355,6 @@ static DTBackgroundView *singletion = nil;
     
     CAKeyframeAnimation *animation = [self animationWithValues:frameValues times:frameTimes duration:0.25f];
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
-    [animation setFillMode:kCAFillModeRemoved];
     
     return animation;
 }
