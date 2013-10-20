@@ -62,6 +62,33 @@ Dismiss alert view:
 [alertView dismiss];
 ```
 
+##Install Code Snippet##
+Copy codesnippet files under `Code Snippet` folder to `~/Library/Developer/Xcode/UserData/CodeSnippets/`. <br/>
+
+* If your Xcode is opened, please quit Xcode and reopen Xcode
+
+You can find code snippet at there.
+
+![Code Snippet](https://raw.github.com/Darktt/DTAlertView/master/Raw/Image/CodeSnippet.png)
+
+Or use key word `DTAlertViewButtonClickedBlock` or `DTAlertViewTextDidChangeBlock`.
+
+![Key Word](https://raw.github.com/Darktt/DTAlertView/master/Raw/Image/KeyWord.png)
+
+##Inatall Document Set##
+
+###USE Xcode Documentation Viewer###
+Copy `com.darktt.DTAlertView.docset` file under `Docset` folder to `~/Library/Developer/Shared/Documentation/DocSets/`. <br/>
+
+* If your Xcode is opened, please quit Xcode and reopen Xcode
+
+You can find it in Documentation Viewer.
+
+###Use Dash###
+Add `com.darktt.DTAlertView.docset` file under `Docset` folder on Dash preferences.
+
+![Dash preferences](https://raw.github.com/Darktt/DTAlertView/master/Raw/Image/Dash.png)
+
 ##License##
 Licensed under the Apache License, Version 2.0 (the "License");  
 you may not use this file except in compliance with the License.  

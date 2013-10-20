@@ -142,6 +142,9 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
  * @return Newly initialized alert view.
  *
  * @see alertViewWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:
+ * @see delegate
+ * @see title
+ * @see message
  */
 - (DTInstancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id<DTAlertViewDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle;
 
@@ -155,6 +158,11 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
  * @param cancelButtonTitle The title of cancel button or nil if there is no cancel button.
  * @param positiveButtonTitle The title of positive button or nil if there is no positive button.
  *
+ * @return Newly initialized alert view.
+ *
+ * @see initWithBlock:title:message:cancelButtonTitle:positiveButtonTitle:
+ * @see title
+ * @see message
  */
 + (DTInstancetype)alertViewUseBlock:(DTAlertViewButtonClickedBlock)block title:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle;
 
@@ -166,6 +174,11 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
  * @param cancelButtonTitle The title of cancel button or nil if there is no cancel button.
  * @param positiveButtonTitle The title of positive button or nil if there is no positive button.
  *
+ * @return Newly initialized alert view.
+ *
+ * @see alertViewUseBlock:title:message:cancelButtonTitle:positiveButtonTitle:
+ * @see title
+ * @see message
  */
 - (DTInstancetype)initWithBlock:(DTAlertViewButtonClickedBlock)block title:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle;
 
