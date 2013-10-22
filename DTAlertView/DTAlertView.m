@@ -119,6 +119,15 @@ static DTBackgroundView *singletion = nil;
     return alertViews;
 }
 
+- (void)setAlpha:(CGFloat)alpha
+{
+    if (alertViews.count > 0) {
+        alpha = 1.0f;
+    }
+    
+    [super setAlpha:alpha];
+}
+
 - (void)setHidden:(BOOL)hidden
 {
     if (alertViews.count > 0) {
@@ -136,11 +145,16 @@ static DTBackgroundView *singletion = nil;
         [previousKeyWindow resignKeyWindow];
         [alertWindow makeKeyWindow];
     }
+    
+    [self setAlpha:1.0f];
 }
 
 - (void)addSubview:(UIView *)view
 {
     [super addSubview:view];
+    
+    DTAlertView *alertView = alertViews.lastObject;
+    [alertView setHidden:YES];
     
     if ([view isKindOfClass:[DTAlertView class]]) {
         [alertViews addObject:view];
@@ -154,6 +168,9 @@ static DTBackgroundView *singletion = nil;
     if ([subview isKindOfClass:[DTAlertView class]]) {
         [alertViews removeObject:subview];
     }
+    
+    DTAlertView *alertView = alertViews.lastObject;
+    [alertView setHidden:NO];
 }
 
 @end
@@ -612,7 +629,11 @@ static DTBackgroundView *singletion = nil;
 
 - (void)show
 {
+#ifndef DEBUG_MODE
+
     [self setClipsToBounds:YES];
+
+#endif
     
     // If background color or background view not set, will set to default scenario.
     if (self.backgroundColor == nil && _backgroundView == nil) {
@@ -637,7 +658,6 @@ static DTBackgroundView *singletion = nil;
     
     // Background of alert view
     DTBackgroundView *backgroundView = [DTBackgroundView currentBackground];
-    [backgroundView setAlpha:1.0f];
     [backgroundView setHidden:NO];
     
     [self setCenter:backgroundView.center];
@@ -659,7 +679,11 @@ static DTBackgroundView *singletion = nil;
 
 - (void)showWithAnimationBlock:(DTAlertViewAnimationBlock)animationBlock
 {
+#ifndef DEBUG_MODE
+
     [self setClipsToBounds:YES];
+
+#endif
     
     // If background color or background view not set, will set to default scenario.
     if (self.backgroundColor == nil && _backgroundView == nil) {
@@ -768,7 +792,7 @@ static DTBackgroundView *singletion = nil;
 {
     // Remove notification for rotate
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-    
+
     if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewWillDismiss:)]) {
         [_delegate alertViewWillDismiss:self];
     }
@@ -1481,15 +1505,7 @@ static DTBackgroundView *singletion = nil;
 - (void)rotationHandle:(NSNotification *)sender
 {
     CGFloat angle = [self angleForCurrentOrientation];
-    
-    // Use the system rotation duration.
-    CGFloat duration = [[UIApplication sharedApplication] statusBarOrientationAnimationDuration];
-    
-    // Egregious hax. iPad lies about its rotation duration.
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        duration = 0.4f;
-    }
-    
+        
     [self.layer removeAllAnimations];
     [self.layer setTransform:CATransform3DMakeRotation(angle, 0.0f, 0.0f, 1.0f)];
 }

@@ -135,6 +135,8 @@
         case 0:
             alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"This is normal alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
             [alertView show];
+            
+            [self performSelector:@selector(showOtherAlertView) withObject:nil afterDelay:2];
             break;
             
         case 1:
@@ -223,6 +225,8 @@
     if (alertView.textField != nil) {
         NSLog(@"Inputed Text : %@", alertView.textField.text);
     }
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
 #pragma mark -
@@ -244,6 +248,12 @@
 {
     [progressAlertView setProgressStatus:DTProgressStatusMake(20, 20)];
     [progressAlertView setPercentage:0.0f];
+}
+
+- (void)showOtherAlertView
+{
+    DTAlertView *alert = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm secound alertView" delegate:nil cancelButtonTitle:@"OK" positiveButtonTitle:nil];
+    [alert show];
 }
 
 #pragma mark - Support Autorotate
