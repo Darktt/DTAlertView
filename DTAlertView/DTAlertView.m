@@ -111,6 +111,8 @@ static DTBackgroundView *singletion = nil;
     
     alertViews = [NSMutableArray new];
     
+    [self setHidden:YES];
+    
     return self;
 }
 
