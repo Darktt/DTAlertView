@@ -113,7 +113,7 @@
     [cell setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:0.2f]];
     
     [cell.textLabel setText:demoArray[indexPath.row]];
-    [cell.textLabel setTextColor:[UIColor whiteColor]];
+    [cell.textLabel setTextColor:[UIColor darkGrayColor]];
     [cell.textLabel setFont:[UIFont boldSystemFontOfSize:[UIFont labelFontSize]]];
     
     return cell;

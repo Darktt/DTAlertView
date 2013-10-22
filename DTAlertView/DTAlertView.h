@@ -248,9 +248,36 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 
 #endif
 
-/* 
+/*
  * Dismiss *
  */
+
+/** @brief Hide all alert.
+ *
+ *  @return If Yes is succed hide all alert view, No is failed hide alert view or no alert view is shown.
+ */
++ (BOOL)dismissAllAlertView;
+
+/** @brief Hide correspond the title alert view.
+ *
+ * @param title The title to filter all of shown alert views.
+ *
+ * @return If Yes is succed hide all alert view, No is failed hide alert view or no alert view correspond the receive title.
+ *
+ * @see title
+ */
++ (BOOL)dismissAlertViewWithTitle:(NSString *)title;
+
+/** @brief Hide correspond the message alert view.
+ *
+ * @param message The message to filter all of shown alert views.
+ *
+ * @return If Yes is succed hide all alert view, No is failed hide alert view or no alert view correspond the receive message.
+ *
+ * @see message
+ */
++ (BOOL)dismissAlertViewWithMessage:(NSString *)message;
+
 /// @brief Hide alert with default animation.
 - (void)dismiss;
 

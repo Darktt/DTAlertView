@@ -70,11 +70,13 @@
 
 @interface DTBackgroundView : UIView
 {
+    UIWindow *previousKeyWindow;
     UIWindow *alertWindow;
-    UIView *keyView;
+    NSMutableArray *alertViews;
 }
 
 + (DTInstancetype)currentBackground;
+- (NSArray *)allAlertView;
 
 @end
 
@@ -99,18 +101,27 @@ static DTBackgroundView *singletion = nil;
     
     [self setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.5f]];
     
+    previousKeyWindow = [[[UIApplication sharedApplication] keyWindow] retain];
+    
     alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [alertWindow setWindowLevel:UIWindowLevelAlert];
     [alertWindow setBackgroundColor:[UIColor clearColor]];
     [alertWindow addSubview:self];
     [alertWindow makeKeyAndVisible];
     
+    alertViews = [NSMutableArray new];
+    
     return self;
+}
+
+- (NSArray *)allAlertView
+{
+    return alertViews;
 }
 
 - (void)setHidden:(BOOL)hidden
 {
-    if (self.subviews.count > 0) {
+    if (alertViews.count > 0) {
         hidden = NO;
     }
     
@@ -120,8 +131,28 @@ static DTBackgroundView *singletion = nil;
     
     if (hidden) {
         [alertWindow resignKeyWindow];
+        [previousKeyWindow makeKeyWindow];
     } else {
+        [previousKeyWindow resignKeyWindow];
         [alertWindow makeKeyWindow];
+    }
+}
+
+- (void)addSubview:(UIView *)view
+{
+    [super addSubview:view];
+    
+    if ([view isKindOfClass:[DTAlertView class]]) {
+        [alertViews addObject:view];
+    }
+}
+
+- (void)willRemoveSubview:(UIView *)subview
+{
+    [super willRemoveSubview:subview];
+    
+    if ([subview isKindOfClass:[DTAlertView class]]) {
+        [alertViews removeObject:subview];
     }
 }
 
@@ -675,6 +706,63 @@ static DTBackgroundView *singletion = nil;
 }
 
 #pragma mark Dismiss Alert View Method
+
++ (BOOL)dismissAllAlertView
+{
+    NSArray *alertViews = [[DTBackgroundView currentBackground] allAlertView];
+    
+    if (alertViews.count == 0) {
+        return NO;
+    }
+    
+    [alertViews enumerateObjectsUsingBlock:^(DTAlertView *alertView, NSUInteger idx, BOOL *stop) {
+        [alertView dismiss];
+    }];
+    
+    return YES;
+}
+
++ (BOOL)dismissAlertViewWithTitle:(NSString *)title
+{
+    NSArray *alertViews = [[DTBackgroundView currentBackground] allAlertView];
+    
+    if (alertViews.count == 0) {
+        return NO;
+    }
+    
+    __block BOOL isCorrespond = NO;
+    
+    [alertViews enumerateObjectsUsingBlock:^(DTAlertView *alertView, NSUInteger idx, BOOL *stop) {
+        if ([alertView.title isEqualToString:title]) {
+            [alertView dismiss];
+            
+            isCorrespond = YES;
+        }
+    }];
+    
+    return isCorrespond;
+}
+
++ (BOOL)dismissAlertViewWithMessage:(NSString *)message
+{
+    NSArray *alertViews = [[DTBackgroundView currentBackground] allAlertView];
+    
+    if (alertViews.count == 0) {
+        return NO;
+    }
+    
+    __block BOOL isCorrespond = NO;
+    
+    [alertViews enumerateObjectsUsingBlock:^(DTAlertView *alertView, NSUInteger idx, BOOL *stop) {
+        if ([alertView.message isEqualToString:message]) {
+            [alertView dismiss];
+            
+            isCorrespond = YES;
+        }
+    }];
+    
+    return isCorrespond;
+}
 
 - (void)dismiss
 {

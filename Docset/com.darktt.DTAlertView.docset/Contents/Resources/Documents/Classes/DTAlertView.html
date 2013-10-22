@@ -70,6 +70,12 @@
 	
 	<option value="//api/name/alertViewWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:">&nbsp;&nbsp;&nbsp;&nbsp;+ alertViewWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:</option>
 	
+	<option value="//api/name/dismissAlertViewWithMessage:">&nbsp;&nbsp;&nbsp;&nbsp;+ dismissAlertViewWithMessage:</option>
+	
+	<option value="//api/name/dismissAlertViewWithTitle:">&nbsp;&nbsp;&nbsp;&nbsp;+ dismissAlertViewWithTitle:</option>
+	
+	<option value="//api/name/dismissAllAlertView">&nbsp;&nbsp;&nbsp;&nbsp;+ dismissAllAlertView</option>
+	
 	
 	
 	
@@ -148,6 +154,12 @@
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/alertViewUseBlock:title:message:cancelButtonTitle:positiveButtonTitle:">alertViewUseBlock:title:message:cancelButtonTitle:positiveButtonTitle:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/alertViewWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:">alertViewWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/dismissAlertViewWithMessage:">dismissAlertViewWithMessage:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/dismissAlertViewWithTitle:">dismissAlertViewWithTitle:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/dismissAllAlertView">dismissAllAlertView</a></span></li>
 	
 </ul></li>
 
@@ -349,6 +361,24 @@
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/show">&ndash;&nbsp;show</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/dismissAllAlertView">+&nbsp;dismissAllAlertView</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/dismissAlertViewWithTitle:">+&nbsp;dismissAlertViewWithTitle:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/dismissAlertViewWithMessage:">+&nbsp;dismissAlertViewWithMessage:</a></code>
 	</span>
 	
 	
@@ -1020,6 +1050,167 @@ Only can get it when <a href="../Constants/DTAlertViewMode.html">DTAlertViewMode
 	
 </div>
 						
+						<div class="section-method">
+	<a name="//api/name/dismissAlertViewWithMessage:" title="dismissAlertViewWithMessage:"></a>
+	<h3 class="subsubtitle method-title">dismissAlertViewWithMessage:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Hide correspond the <a href="#//api/name/message">message</a> alert view.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (BOOL)dismissAlertViewWithMessage:(NSString *)<em>message</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>message</em></dt>
+			<dd><p>The <a href="#//api/name/message">message</a> to filter all of shown alert views.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>If Yes is succed hide all alert view, No is failed hide alert view or no alert view correspond the receive <a href="#//api/name/message">message</a>.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="#//api/name/message">@property message</a></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DTAlertView.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/dismissAlertViewWithTitle:" title="dismissAlertViewWithTitle:"></a>
+	<h3 class="subsubtitle method-title">dismissAlertViewWithTitle:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Hide correspond the <a href="#//api/name/title">title</a> alert view.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (BOOL)dismissAlertViewWithTitle:(NSString *)<em>title</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>title</em></dt>
+			<dd><p>The <a href="#//api/name/title">title</a> to filter all of shown alert views.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>If Yes is succed hide all alert view, No is failed hide alert view or no alert view correspond the receive <a href="#//api/name/title">title</a>.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="#//api/name/title">@property title</a></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DTAlertView.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/dismissAllAlertView" title="dismissAllAlertView"></a>
+	<h3 class="subsubtitle method-title">dismissAllAlertView</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Hide all alert.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (BOOL)dismissAllAlertView</code></div>
+
+    
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>If Yes is succed hide all alert view, No is failed hide alert view or no alert view is shown.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DTAlertView.h</code><br />
+	</div>				
+	
+	
+</div>
+						
 					</div>
 					
 					
@@ -1545,7 +1736,7 @@ For example, if you want disable positive button on less 10 characters, edable o
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2013 Darktt personal company. All rights reserved. (Last updated: 2013-10-20)</span><br />
+						<p><span class="copyright">&copy; 2013 Darktt personal company. All rights reserved. (Last updated: 2013-10-22)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 961)</a>.</span></p>
 						

@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.darktt.dtalertview.DTAlertView</string>
+	<string>com.darktt.DTAlertView</string>
 	<key>CFBundleName</key>
 	<string>DTAlertView Documentation</string>
 	<key>CFBundleShortVersionString</key>
@@ -25,7 +25,7 @@
 	<key>DashDocSetFamily</key>
 	<string>appledoc</string>
 	<key>DocSetPublisherIdentifier</key>
-	<string>com.darktt.dtalertview.documentation</string>
+	<string>com.darktt.documentation</string>
 	<key>DocSetPublisherName</key>
 	<string>Darktt personal company</string>
 	<key>NSHumanReadableCopyright</key>

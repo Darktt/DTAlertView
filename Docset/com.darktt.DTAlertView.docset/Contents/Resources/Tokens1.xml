@@ -506,6 +506,9 @@
 			
 	<RelatedTokens>
 		<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/alertViewWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/delegate</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/title</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/message</TokenIdentifier>
 		
 	</RelatedTokens>
 	
@@ -538,6 +541,13 @@
 			<Abstract type="html">Initial for class method with block.</Abstract>
 			<DeclaredIn>DTAlertView.h</DeclaredIn>
 			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/initWithBlock:title:message:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/title</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/message</TokenIdentifier>
+		
+	</RelatedTokens>
+	
 			<Declaration>+ (DTInstancetype)alertViewUseBlock:(DTAlertViewButtonClickedBlock)block title:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle</Declaration>
 			<Parameters>
 				<Parameter>
@@ -557,7 +567,7 @@
 					<Abstract type="html">The title of positive button or nil if there is no positive button.</Abstract>
 				</Parameter>
 			</Parameters>
-			
+			<ReturnValue><Abstract type="html">Newly initialized alert view.</Abstract></ReturnValue>
 			<Anchor>//api/name/alertViewUseBlock:title:message:cancelButtonTitle:positiveButtonTitle:</Anchor>
             <NodeRef refid="1"/>
 		</Token>
@@ -567,6 +577,13 @@
 			<Abstract type="html">Initial method with block.</Abstract>
 			<DeclaredIn>DTAlertView.h</DeclaredIn>
 			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/alertViewUseBlock:title:message:cancelButtonTitle:positiveButtonTitle:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/title</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/message</TokenIdentifier>
+		
+	</RelatedTokens>
+	
 			<Declaration>- (DTInstancetype)initWithBlock:(DTAlertViewButtonClickedBlock)block title:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle</Declaration>
 			<Parameters>
 				<Parameter>
@@ -586,7 +603,7 @@
 					<Abstract type="html">The title of positive button or nil if there is no positive button.</Abstract>
 				</Parameter>
 			</Parameters>
-			
+			<ReturnValue><Abstract type="html">Newly initialized alert view.</Abstract></ReturnValue>
 			<Anchor>//api/name/initWithBlock:title:message:cancelButtonTitle:positiveButtonTitle:</Anchor>
             <NodeRef refid="1"/>
 		</Token>
@@ -693,6 +710,62 @@ Values less than 0.0 and greater than 1.0 are pinned to those limits.</Abstract>
 			
 			
 			<Anchor>//api/name/show</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/dismissAllAlertView</TokenIdentifier>
+			<Abstract type="html">Hide all alert.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)dismissAllAlertView</Declaration>
+			
+			<ReturnValue><Abstract type="html">If Yes is succed hide all alert view, No is failed hide alert view or no alert view is shown.</Abstract></ReturnValue>
+			<Anchor>//api/name/dismissAllAlertView</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/dismissAlertViewWithTitle:</TokenIdentifier>
+			<Abstract type="html">Hide correspond the title alert view.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/title</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>+ (BOOL)dismissAlertViewWithTitle:(NSString *)title</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>title</Name>
+					<Abstract type="html">The title to filter all of shown alert views.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">If Yes is succed hide all alert view, No is failed hide alert view or no alert view correspond the receive title.</Abstract></ReturnValue>
+			<Anchor>//api/name/dismissAlertViewWithTitle:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/dismissAlertViewWithMessage:</TokenIdentifier>
+			<Abstract type="html">Hide correspond the message alert view.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/message</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>+ (BOOL)dismissAlertViewWithMessage:(NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>message</Name>
+					<Abstract type="html">The message to filter all of shown alert views.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">If Yes is succed hide all alert view, No is failed hide alert view or no alert view correspond the receive message.</Abstract></ReturnValue>
+			<Anchor>//api/name/dismissAlertViewWithMessage:</Anchor>
             <NodeRef refid="1"/>
 		</Token>
 		

@@ -34,7 +34,7 @@ and you can use **Block** with alert view:
 
 ``` objective-c
 DTAlertViewButtonClickedBlock block = ^(DTAlertView *_alertView, NSUInteger buttonIndex, NSUInteger cancelButtonIndex){
-	// You can button title of clicked button.
+	// You can get button title of clicked button.
     NSLog(@"%@", _alertView.clickedButtonTitle);
 };
 
