@@ -726,8 +726,8 @@ Values less than 0.0 and greater than 1.0 are pinned to those limits.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/dismissAlertViewWithTitle:</TokenIdentifier>
-			<Abstract type="html">Hide correspond the title alert view.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/dismissAlertViewViaTitle:</TokenIdentifier>
+			<Abstract type="html">Hide filtered alert view via correspond the title.</Abstract>
 			<DeclaredIn>DTAlertView.h</DeclaredIn>
 			
 	<RelatedTokens>
@@ -735,21 +735,21 @@ Values less than 0.0 and greater than 1.0 are pinned to those limits.</Abstract>
 		
 	</RelatedTokens>
 	
-			<Declaration>+ (BOOL)dismissAlertViewWithTitle:(NSString *)title</Declaration>
+			<Declaration>+ (BOOL)dismissAlertViewViaTitle:(NSString *)title</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>title</Name>
 					<Abstract type="html">The title to filter all of shown alert views.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">If Yes is succed hide all alert view, No is failed hide alert view or no alert view correspond the receive title.</Abstract></ReturnValue>
-			<Anchor>//api/name/dismissAlertViewWithTitle:</Anchor>
+			<ReturnValue><Abstract type="html">If &lt;b&gt;Yes&lt;/b&gt; is succed hide all alert view, &lt;b&gt;No&lt;/b&gt; is failed hide alert view or no alert view correspond the receive title.</Abstract></ReturnValue>
+			<Anchor>//api/name/dismissAlertViewViaTitle:</Anchor>
             <NodeRef refid="1"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/dismissAlertViewWithMessage:</TokenIdentifier>
-			<Abstract type="html">Hide correspond the message alert view.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/dismissAlertViewViaMessage:</TokenIdentifier>
+			<Abstract type="html">Hide filtered alert view via correspond the message .</Abstract>
 			<DeclaredIn>DTAlertView.h</DeclaredIn>
 			
 	<RelatedTokens>
@@ -757,15 +757,15 @@ Values less than 0.0 and greater than 1.0 are pinned to those limits.</Abstract>
 		
 	</RelatedTokens>
 	
-			<Declaration>+ (BOOL)dismissAlertViewWithMessage:(NSString *)message</Declaration>
+			<Declaration>+ (BOOL)dismissAlertViewViaMessage:(NSString *)message</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>message</Name>
 					<Abstract type="html">The message to filter all of shown alert views.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">If Yes is succed hide all alert view, No is failed hide alert view or no alert view correspond the receive message.</Abstract></ReturnValue>
-			<Anchor>//api/name/dismissAlertViewWithMessage:</Anchor>
+			<ReturnValue><Abstract type="html">If &lt;b&gt;Yes&lt;/b&gt; is succed hide all alert view, &lt;b&gt;No&lt;/b&gt; is failed hide alert view or no alert view correspond the receive message.</Abstract></ReturnValue>
+			<Anchor>//api/name/dismissAlertViewViaMessage:</Anchor>
             <NodeRef refid="1"/>
 		</Token>
 		

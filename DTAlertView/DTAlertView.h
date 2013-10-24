@@ -258,25 +258,25 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
  */
 + (BOOL)dismissAllAlertView;
 
-/** @brief Hide correspond the title alert view.
+/** @brief Hide filtered alert view via correspond the title.
  *
  * @param title The title to filter all of shown alert views.
  *
- * @return If Yes is succed hide all alert view, No is failed hide alert view or no alert view correspond the receive title.
+ * @return If <b>Yes</b> is succed hide all alert view, <b>No</b> is failed hide alert view or no alert view correspond the receive title.
  *
  * @see title
  */
-+ (BOOL)dismissAlertViewWithTitle:(NSString *)title;
++ (BOOL)dismissAlertViewViaTitle:(NSString *)title;
 
-/** @brief Hide correspond the message alert view.
+/** @brief Hide filtered alert view via correspond the message .
  *
  * @param message The message to filter all of shown alert views.
  *
- * @return If Yes is succed hide all alert view, No is failed hide alert view or no alert view correspond the receive message.
+ * @return If <b>Yes</b> is succed hide all alert view, <b>No</b> is failed hide alert view or no alert view correspond the receive message.
  *
  * @see message
  */
-+ (BOOL)dismissAlertViewWithMessage:(NSString *)message;
++ (BOOL)dismissAlertViewViaMessage:(NSString *)message;
 
 /// @brief Hide alert with default animation.
 - (void)dismiss;
@@ -294,6 +294,7 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 @protocol DTAlertViewDelegate  <NSObject>
 
 /** @brief Sent to the delegate when the user clicks a button on an alert view.
+ *
  * @param alertView The alert view containing the button.
  * @param buttonIndex The button index of clicked button, value 0 is cancel button, 1 is positive button.
  */

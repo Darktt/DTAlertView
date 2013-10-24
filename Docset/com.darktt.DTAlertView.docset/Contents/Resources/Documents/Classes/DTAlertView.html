@@ -70,9 +70,9 @@
 	
 	<option value="//api/name/alertViewWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:">&nbsp;&nbsp;&nbsp;&nbsp;+ alertViewWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:</option>
 	
-	<option value="//api/name/dismissAlertViewWithMessage:">&nbsp;&nbsp;&nbsp;&nbsp;+ dismissAlertViewWithMessage:</option>
+	<option value="//api/name/dismissAlertViewViaMessage:">&nbsp;&nbsp;&nbsp;&nbsp;+ dismissAlertViewViaMessage:</option>
 	
-	<option value="//api/name/dismissAlertViewWithTitle:">&nbsp;&nbsp;&nbsp;&nbsp;+ dismissAlertViewWithTitle:</option>
+	<option value="//api/name/dismissAlertViewViaTitle:">&nbsp;&nbsp;&nbsp;&nbsp;+ dismissAlertViewViaTitle:</option>
 	
 	<option value="//api/name/dismissAllAlertView">&nbsp;&nbsp;&nbsp;&nbsp;+ dismissAllAlertView</option>
 	
@@ -155,9 +155,9 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/alertViewWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:">alertViewWithTitle:message:delegate:cancelButtonTitle:positiveButtonTitle:</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/dismissAlertViewWithMessage:">dismissAlertViewWithMessage:</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/dismissAlertViewViaMessage:">dismissAlertViewViaMessage:</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/dismissAlertViewWithTitle:">dismissAlertViewWithTitle:</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/dismissAlertViewViaTitle:">dismissAlertViewViaTitle:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/dismissAllAlertView">dismissAllAlertView</a></span></li>
 	
@@ -372,13 +372,13 @@
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/dismissAlertViewWithTitle:">+&nbsp;dismissAlertViewWithTitle:</a></code>
+		<code><a href="#//api/name/dismissAlertViewViaTitle:">+&nbsp;dismissAlertViewViaTitle:</a></code>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/dismissAlertViewWithMessage:">+&nbsp;dismissAlertViewWithMessage:</a></code>
+		<code><a href="#//api/name/dismissAlertViewViaMessage:">+&nbsp;dismissAlertViewViaMessage:</a></code>
 	</span>
 	
 	
@@ -1051,18 +1051,18 @@ Only can get it when <a href="../Constants/DTAlertViewMode.html">DTAlertViewMode
 </div>
 						
 						<div class="section-method">
-	<a name="//api/name/dismissAlertViewWithMessage:" title="dismissAlertViewWithMessage:"></a>
-	<h3 class="subsubtitle method-title">dismissAlertViewWithMessage:</h3>
+	<a name="//api/name/dismissAlertViewViaMessage:" title="dismissAlertViewViaMessage:"></a>
+	<h3 class="subsubtitle method-title">dismissAlertViewViaMessage:</h3>
 	
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Hide correspond the <a href="#//api/name/message">message</a> alert view.</p>
+		<p>Hide filtered alert view via correspond the <a href="#//api/name/message">message</a> .</p>
 	</div>		
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (BOOL)dismissAlertViewWithMessage:(NSString *)<em>message</em></code></div>
+	<div class="method-subsection method-declaration"><code>+ (BOOL)dismissAlertViewViaMessage:(NSString *)<em>message</em></code></div>
 
     
 	
@@ -1080,7 +1080,7 @@ Only can get it when <a href="../Constants/DTAlertViewMode.html">DTAlertViewMode
 	
 	<div class="method-subsection return">
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
-		<p>If Yes is succed hide all alert view, No is failed hide alert view or no alert view correspond the receive <a href="#//api/name/message">message</a>.</p>
+		<p>If <b>Yes</b> is succed hide all alert view, <b>No</b> is failed hide alert view or no alert view correspond the receive <a href="#//api/name/message">message</a>.</p>
 	</div>
 	
 	
@@ -1111,18 +1111,18 @@ Only can get it when <a href="../Constants/DTAlertViewMode.html">DTAlertViewMode
 </div>
 						
 						<div class="section-method">
-	<a name="//api/name/dismissAlertViewWithTitle:" title="dismissAlertViewWithTitle:"></a>
-	<h3 class="subsubtitle method-title">dismissAlertViewWithTitle:</h3>
+	<a name="//api/name/dismissAlertViewViaTitle:" title="dismissAlertViewViaTitle:"></a>
+	<h3 class="subsubtitle method-title">dismissAlertViewViaTitle:</h3>
 	
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Hide correspond the <a href="#//api/name/title">title</a> alert view.</p>
+		<p>Hide filtered alert view via correspond the <a href="#//api/name/title">title</a>.</p>
 	</div>		
 	
     
 
-	<div class="method-subsection method-declaration"><code>+ (BOOL)dismissAlertViewWithTitle:(NSString *)<em>title</em></code></div>
+	<div class="method-subsection method-declaration"><code>+ (BOOL)dismissAlertViewViaTitle:(NSString *)<em>title</em></code></div>
 
     
 	
@@ -1140,7 +1140,7 @@ Only can get it when <a href="../Constants/DTAlertViewMode.html">DTAlertViewMode
 	
 	<div class="method-subsection return">
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
-		<p>If Yes is succed hide all alert view, No is failed hide alert view or no alert view correspond the receive <a href="#//api/name/title">title</a>.</p>
+		<p>If <b>Yes</b> is succed hide all alert view, <b>No</b> is failed hide alert view or no alert view correspond the receive <a href="#//api/name/title">title</a>.</p>
 	</div>
 	
 	
@@ -1736,7 +1736,7 @@ For example, if you want disable positive button on less 10 characters, edable o
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2013 Darktt personal company. All rights reserved. (Last updated: 2013-10-22)</span><br />
+						<p><span class="copyright">&copy; 2013 Darktt personal company. All rights reserved. (Last updated: 2013-10-24)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 961)</a>.</span></p>
 						
