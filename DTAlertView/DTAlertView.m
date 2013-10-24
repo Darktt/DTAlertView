@@ -748,7 +748,7 @@ static DTBackgroundView *singletion = nil;
     return YES;
 }
 
-+ (BOOL)dismissAlertViewWithTitle:(NSString *)title
++ (BOOL)dismissAlertViewViaTitle:(NSString *)title
 {
     NSArray *alertViews = [[DTBackgroundView currentBackground] allAlertView];
     
@@ -769,7 +769,7 @@ static DTBackgroundView *singletion = nil;
     return isCorrespond;
 }
 
-+ (BOOL)dismissAlertViewWithMessage:(NSString *)message
++ (BOOL)dismissAlertViewViaMessage:(NSString *)message
 {
     NSArray *alertViews = [[DTBackgroundView currentBackground] allAlertView];
     
