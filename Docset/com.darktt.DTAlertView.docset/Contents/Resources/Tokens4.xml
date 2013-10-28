@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/DTAlertViewMode.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/DTAlertViewMode</TokenIdentifier>
+			<Abstract type="html">The mode of display to user.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+            
+			
+			<NodeRef refid="4"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/DTAlertViewModeNormal</TokenIdentifier>
+            <Abstract type="html">Normal alert view, it&apos;s dafult mode.</Abstract>
+            <Declaration>DTAlertViewModeNormal</Declaration>
+            
+            <DeclaredIn>DTAlertView.h</DeclaredIn>
+            
+            <NodeRef refid="4"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/DTAlertViewModeTextInput</TokenIdentifier>
+            <Abstract type="html">Alert view with UITextField.</Abstract>
+            <Declaration>DTAlertViewModeTextInput</Declaration>
+            
+            <DeclaredIn>DTAlertView.h</DeclaredIn>
+            
+            <NodeRef refid="4"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/DTAlertViewModeProgress</TokenIdentifier>
+            <Abstract type="html">Alert view with Single UIProgressView.</Abstract>
+            <Declaration>DTAlertViewModeProgress</Declaration>
+            
+            <DeclaredIn>DTAlertView.h</DeclaredIn>
+            
+            <NodeRef refid="4"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/DTAlertViewModeDuoProgress</TokenIdentifier>
+            <Abstract type="html">Alert view with Two UIProgressView.</Abstract>
+            <Declaration>DTAlertViewModeDuoProgress</Declaration>
+            
+            <DeclaredIn>DTAlertView.h</DeclaredIn>
+            
+            <NodeRef refid="4"/>
+        </Token>
+        
+	</File>
+</Tokens>

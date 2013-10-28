@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/DTAlertViewMode.html">
+	<File path="Constants/DTAlertViewAnimation.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/DTAlertViewMode</TokenIdentifier>
-			<Abstract type="html">The mode of display to user.</Abstract>
+			<TokenIdentifier>//apple_ref/c/tdef/DTAlertViewAnimation</TokenIdentifier>
+			<Abstract type="html">Type of show or dismiss animations.</Abstract>
 			<DeclaredIn>DTAlertView.h</DeclaredIn>
             
 			
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/DTAlertViewModeNormal</TokenIdentifier>
-            <Abstract type="html">Normal alert view, it&apos;s dafult mode.</Abstract>
-            <Declaration>DTAlertViewModeNormal</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/DTAlertViewAnimationDefault</TokenIdentifier>
+            <Abstract type="html">Default animation.</Abstract>
+            <Declaration>DTAlertViewAnimationDefault</Declaration>
             
             <DeclaredIn>DTAlertView.h</DeclaredIn>
             
@@ -24,9 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/DTAlertViewModeTextInput</TokenIdentifier>
-            <Abstract type="html">Alert view with UITextField.</Abstract>
-            <Declaration>DTAlertViewModeTextInput</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/DTAlertViewAnimationSlideLeft</TokenIdentifier>
+            <Abstract type="html">The alert view slide to left side.</Abstract>
+            <Declaration>DTAlertViewAnimationSlideLeft</Declaration>
             
             <DeclaredIn>DTAlertView.h</DeclaredIn>
             
@@ -34,19 +34,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/DTAlertViewModeProgress</TokenIdentifier>
-            <Abstract type="html">Alert view with Single UIProgressView.</Abstract>
-            <Declaration>DTAlertViewModeProgress</Declaration>
-            
-            <DeclaredIn>DTAlertView.h</DeclaredIn>
-            
-            <NodeRef refid="3"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/DTAlertViewModeDuoProgress</TokenIdentifier>
-            <Abstract type="html">Alert view with Two UIProgressView.</Abstract>
-            <Declaration>DTAlertViewModeDuoProgress</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/DTAlertViewAnimationSlideRight</TokenIdentifier>
+            <Abstract type="html">The alert view slide to right side.</Abstract>
+            <Declaration>DTAlertViewAnimationSlideRight</Declaration>
             
             <DeclaredIn>DTAlertView.h</DeclaredIn>
             

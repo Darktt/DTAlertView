@@ -32,19 +32,33 @@
 typedef NS_ENUM(NSInteger, DTAlertViewMode) {
     /** Normal alert view, it's dafult mode. */
     DTAlertViewModeNormal = 0,
+    
     /** Alert view with UITextField. */
     DTAlertViewModeTextInput,
+    
     /** Alert view with Single UIProgressView. */
     DTAlertViewModeProgress,
+    
     /** Alert view with Two UIProgressView. */
     DTAlertViewModeDuoProgress,
     };
+
+/** Type of show or dismiss animations. */
+typedef NS_ENUM(NSInteger, DTAlertViewAnimation) {
+    /** Default animation. */
+    DTAlertViewAnimationDefault = 0,
+    
+    /** The alert view slide to left side. */
+    DTAlertViewAnimationSlideLeft,
+    
+    /** The alert view slide to right side. */
+    DTAlertViewAnimationSlideRight,
+};
 
 #if __has_feature(blocks)
 
 // Blocks
 typedef void (^DTAlertViewButtonClickedBlock) (DTAlertView *alertView, NSUInteger buttonIndex, NSUInteger cancelButtonIndex);
-typedef void (^DTAlertViewAnimationBlock) (void);
 typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *text);
 
 #endif
@@ -55,6 +69,7 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 // Default settings
 /**
  * The receiver's delegate, If DTAlertViewButtonClickedBlock is setted, it will ignore the receiver value.
+ *
  * @brief The DTAlertView delegate.
  *
  * @see DTAlertViewDelegate
@@ -68,10 +83,20 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 @property (nonatomic, retain) NSString *message;
 
 /** Default is DTAlertViewModeNormal.
+ *
  * @brief The alert mode display to th user.
+ *
  * @see DTAlertViewMode
  */
 @property (nonatomic, assign) DTAlertViewMode alertViewMode;
+
+/** Default is DTAlertViewAnimationDefault. 
+ *
+ * @brief The dismiss animetion, when button clicked.
+ *
+ * @see DTAlertViewAnimation
+ */
+@property (nonatomic, assign) DTAlertViewAnimation dismissAnimationWhenButtonClicked;
 
 /** Default is -1 if cancelButtonTitle not set or 0.
  * @brief The button index of cancel button.
@@ -87,29 +112,34 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 @property (nonatomic, readonly, getter = isVisible) BOOL visible;
 
 /** Defalt is nil, when alert view clicked, value is the clicked button title.
+ *
  * @brief The button title of clicked button.
  */
 @property (nonatomic, readonly) NSString *clickedButtonTitle;
 
 // View settings
 /** Defauls value 0.0, when shown is 25.0 if value not changed.
+ *
  * @brief The corner radius dispaly in alert view background.
  */
 @property (assign) CGFloat cornerRadius;
 
 /** Default is nil. 
+ *
  * @brief The background view display in alert view.
  */
 @property (nonatomic, retain) UIView *backgroundView;
 
 /** Default is nil on not shown. inital it at shown.<br/>
  * Only can get it when DTAlertViewMode is DTAlertViewModeTextInput.
+ *
  * @brief The UITextField appears DTAlertViewModeTextInput.
  */
 @property (nonatomic, readonly) UITextField *textField;
 
 /** Default is nil.<br/>
  * Only can be set it when DTAlertViewMode is DTAlertViewModeProgress and DTAlertViewModeDuoProgress.
+ *
  * @brief Set all of UIProgressView progress bar tint color.
  */
 @property (nonatomic, retain) UIColor *progressBarColor;
@@ -240,13 +270,12 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 /// @brief Shows popup alert with default animation.
 - (void)show;
 
-#if __has_feature(blocks)
-
-// Popup alert with custom animation.
-// Deprecate to temp, wait to fixed.
-- (void)showWithAnimationBlock:(DTAlertViewAnimationBlock)animationBlock NS_DEPRECATED_IOS(2_0, 4_0);
-
-#endif
+/** See the descriptions of the constants of the DTAlertViewAnimation type for more information.
+ * @brief Shows popup alert with receiver animation.
+ *
+ * @param animation A constant to define what animation will show alert view.
+ */
+- (void)showWithAnimation:(DTAlertViewAnimation)animation;
 
 /*
  * Dismiss *
@@ -281,13 +310,12 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 /// @brief Hide alert with default animation.
 - (void)dismiss;
 
-#if __has_feature(blocks)
-
-// Hide alert with custom animation.
-// Deprecate to temp, wait to fixed.
-- (void)dismissWithAnimationBlock:(DTAlertViewAnimationBlock)animationBlock NS_DEPRECATED_IOS(2_0, 4_0);
-
-#endif
+/** See the descriptions of the constants of the DTAlertViewAnimation type for more information.
+ * @brief Hide alert with receiver animation.
+ *
+ * @param animation A constant to define what animation will dismiss alert view.
+ */
+- (void)dismissWithAnimation:(DTAlertViewAnimation)animation;
 
 @end
 

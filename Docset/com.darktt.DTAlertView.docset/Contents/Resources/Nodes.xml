@@ -33,6 +33,7 @@
 					<Path>index.html</Path>
 					<Subnodes>
 						<NodeRef refid="3"/>
+						<NodeRef refid="4"/>
 						
 					</Subnodes>
 				</Node>
@@ -112,6 +113,11 @@
         </Node>
 		
         <Node id="3" type="file" documentType="reference">
+            <Name>DTAlertViewAnimation</Name>
+            <Path>Constants/DTAlertViewAnimation.html</Path>
+            
+        </Node>
+		<Node id="4" type="file" documentType="reference">
             <Name>DTAlertViewMode</Name>
             <Path>Constants/DTAlertViewMode.html</Path>
             
