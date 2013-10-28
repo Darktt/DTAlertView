@@ -717,58 +717,6 @@ static DTBackgroundView *singletion = nil;
     _visible = YES;
 }
 
-- (void)showWithAnimationBlock:(DTAlertViewAnimationBlock)animationBlock
-{
-#ifndef DEBUG_MODE
-
-    [self setClipsToBounds:YES];
-
-#endif
-    
-    // If background color or background view not set, will set to default scenario.
-    if (self.backgroundColor == nil && _backgroundView == nil) {
-        
-        if ([UIToolbar instancesRespondToSelector:@selector(setBarTintColor:)]) {
-            [self setBlurBackgroundWithColor:nil alpha:0];
-        } else {
-            [self setBackgroundColor:[UIColor whiteColor]];
-        }
-    }
-    
-    if (self.layer.cornerRadius == 0.0f) {
-        [self.layer setCornerRadius:5.0f];
-    }
-    
-    CGRect selfFrame = self.frame;
-    selfFrame.size = CGSizeMake(270, 270);
-    
-    [self setFrame:selfFrame];
-    [self setViews];
-    
-    // Rotate self befoure show.
-    CGFloat angle = [self angleForCurrentOrientation];
-    [self setTransform:CGAffineTransformMakeRotation(angle)];
-    
-    // Background of alert view
-    DTBackgroundView *backgroundView = [DTBackgroundView currentBackground];
-    [backgroundView setHidden:NO];
-    
-//    [self setCenter:backgroundView.center];
-    [backgroundView addSubview:self];
-    
-    // Receive notification for handle rotate issue
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rotationHandle:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-    
-    [UIView animateWithDuration:10.0f
-                          delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:animationBlock
-                     completion:^(BOOL finished) {
-                         
-        _visible = YES;
-    }];
-}
-
 #pragma mark Dismiss Alert View Method
 
 + (BOOL)dismissAllAlertView
@@ -896,40 +844,6 @@ static DTBackgroundView *singletion = nil;
     if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewDidDismiss:)]) {
         [_delegate alertViewDidDismiss:self];
     }
-}
-
-- (void)dismissWithAnimationBlock:(DTAlertViewAnimationBlock)animationBlock
-{
-    // Remove notification for rotate
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-    
-    if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewWillDismiss:)]) {
-        [_delegate alertViewWillDismiss:self];
-    }
-    
-    if (_keyboardIsShown) {
-        [_textField resignFirstResponder];
-        
-        // Remove notification
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    }
-    
-    [UIView animateWithDuration:0.3f
-                          delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:animationBlock
-                     completion:^(BOOL finished) {
-                         
-        // Dismiss self
-        [self removeFromSuperview];
-        [[DTBackgroundView currentBackground] setHidden:YES];
-
-        _visible = NO;
-
-        if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewDidDismiss:)]) {
-         [_delegate alertViewDidDismiss:self];
-        }
-    }];
 }
 
 #pragma mark Set TextField Did Cahnge Block
@@ -1592,8 +1506,6 @@ static DTBackgroundView *singletion = nil;
 - (CAAnimation *)sildeOutLeftAnimation
 {
     CGFloat moveLength = [self getMoveLength];
-    
-    NSLog(@"moveLength = %.2f", moveLength);
     
     NSArray *frameValues = @[transformTranslateX(0.0f), transformTranslateX(-moveLength)];
     NSArray *frameTimes = @[@(0.0f), @(1.0f)];
