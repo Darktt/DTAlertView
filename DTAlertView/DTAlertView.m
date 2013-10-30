@@ -1456,14 +1456,12 @@ const static CGFloat kMotionEffectExtent = 10.0f;
         return;
     }
     
-#ifdef __IPHONE_7_0
-    
-    UIInterpolatingMotionEffect* xAxis = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x"
+    UIInterpolatingMotionEffect *xAxis = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x"
                                                                                          type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
     [xAxis setMinimumRelativeValue:@(-kMotionEffectExtent)];
     [xAxis setMaximumRelativeValue:@(kMotionEffectExtent)];
     
-    UIInterpolatingMotionEffect* yAxis = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y"
+    UIInterpolatingMotionEffect *yAxis = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y"
                                                                                          type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
     [yAxis setMinimumRelativeValue:@(-kMotionEffectExtent)];
     [yAxis setMaximumRelativeValue:@(kMotionEffectExtent)];
@@ -1477,8 +1475,6 @@ const static CGFloat kMotionEffectExtent = 10.0f;
     [self addMotionEffect:motionEffect];
     
     DTRelease(motionEffect);
-    
-#endif
     
 }
 
