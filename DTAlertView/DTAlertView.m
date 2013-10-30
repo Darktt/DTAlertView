@@ -179,6 +179,8 @@ static DTBackgroundView *singletion = nil;
 
 #pragma mark - Implement DTAlertView Class
 
+const static CGFloat kMotionEffectExtent = 10.0f;
+
 @interface DTAlertView ()
 {
     id<DTAlertViewDelegate> _delegate;
@@ -234,6 +236,7 @@ static DTBackgroundView *singletion = nil;
     self = [super init];
     
     if (self == nil) return nil;
+    [self setMotionEffect];
     
     _delegate = delegate;
     _clickedBlock = nil;
@@ -280,6 +283,7 @@ static DTBackgroundView *singletion = nil;
     self = [super init];
     
     if (self == nil) return nil;
+    [self setMotionEffect];
     
     _delegate = nil;
     _clickedBlock = DTBlockCopy(block);
@@ -1441,6 +1445,41 @@ static DTBackgroundView *singletion = nil;
     }
     
     _cancelButtonIndex = 0;
+}
+
+#pragma mark - Motion Effect Setting
+
+- (void)setMotionEffect
+{
+    
+    if (![self respondsToSelector:@selector(setMotionEffects:)]) {
+        return;
+    }
+    
+#ifdef __IPHONE_7_0
+    
+    UIInterpolatingMotionEffect* xAxis = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x"
+                                                                                         type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+    [xAxis setMinimumRelativeValue:@(-kMotionEffectExtent)];
+    [xAxis setMaximumRelativeValue:@(kMotionEffectExtent)];
+    
+    UIInterpolatingMotionEffect* yAxis = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y"
+                                                                                         type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+    [yAxis setMinimumRelativeValue:@(-kMotionEffectExtent)];
+    [yAxis setMaximumRelativeValue:@(kMotionEffectExtent)];
+    
+    UIMotionEffectGroup *motionEffect = [UIMotionEffectGroup new];
+    [motionEffect setMotionEffects:@[xAxis, yAxis]];
+    
+    DTRelease(xAxis);
+    DTRelease(yAxis);
+    
+    [self addMotionEffect:motionEffect];
+    
+    DTRelease(motionEffect);
+    
+#endif
+    
 }
 
 #pragma mark - Default Animation
