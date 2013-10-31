@@ -190,6 +190,7 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     NSString *_title;
     NSString *_message;
     DTAlertViewMode _alertViewMode;
+    DTAlertViewAnimation _animationWhenDismiss;
     
     // Progress label
     DTProgressStatus _status;
@@ -292,6 +293,7 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     _message = DTRetain(message);
     
     _alertViewMode = DTAlertViewModeNormal;
+    _animationWhenDismiss = DTAlertViewAnimationDefault;
     
     _cancelButtonTitle = DTRetain(cancelButtonTitle);
     _positiveButtonTitle = DTRetain(positiveButtonTitle);
@@ -446,6 +448,16 @@ const static CGFloat kMotionEffectExtent = 30.0f;
 - (DTAlertViewMode)alertViewMode
 {
     return _alertViewMode;
+}
+
+- (void)setDismissAnimationWhenButtonClicked:(DTAlertViewAnimation)dismissAnimationWhenButtonClicked
+{
+    _animationWhenDismiss = dismissAnimationWhenButtonClicked;
+}
+
+- (DTAlertViewAnimation)dismissAnimationWhenButtonClicked
+{
+    return _animationWhenDismiss;
 }
 
 - (NSInteger)cancelButtonIndex
@@ -635,10 +647,15 @@ const static CGFloat kMotionEffectExtent = 30.0f;
 
 - (void)show
 {
+    [self showWithAnimation:DTAlertViewAnimationDefault];
+}
+
+- (void)showWithAnimation:(DTAlertViewAnimation)animation
+{
 #ifndef DEBUG_MODE
-
+    
     [self setClipsToBounds:YES];
-
+    
 #endif
     
     // If background color or background view not set, will set to default scenario.
@@ -669,7 +686,28 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     [self setCenter:backgroundView.center];
     [backgroundView addSubview:self];
     
-    CAAnimation *showsAnimation = [self defaultShowsAnimation];
+    CAAnimation *showsAnimation = nil;
+    
+    switch (animation) {
+        case DTAlertViewAnimationDefault:
+            showsAnimation = [self defaultShowsAnimation];
+            break;
+            
+        case DTAlertViewAnimationSlideLeft:
+            // Slide in from right of screen.
+            showsAnimation = [self sildeInRightAnimation];
+            break;
+            
+        case DTAlertViewAnimationSlideRight:
+            // Slide in from left of screen.
+            showsAnimation = [self sildeInLeftAnimation];
+            break;
+            
+        default:
+            NSLog(@"DTAlertViewAnimation style error!!");
+            break;
+    }
+    
     [self.layer addAnimation:showsAnimation forKey:@"popup"];
     
     [self performSelector:@selector(showsCompletion) withObject:nil afterDelay:showsAnimation.duration];
@@ -681,58 +719,6 @@ const static CGFloat kMotionEffectExtent = 30.0f;
 - (void)showsCompletion
 {
     _visible = YES;
-}
-
-- (void)showWithAnimationBlock:(DTAlertViewAnimationBlock)animationBlock
-{
-#ifndef DEBUG_MODE
-
-    [self setClipsToBounds:YES];
-
-#endif
-    
-    // If background color or background view not set, will set to default scenario.
-    if (self.backgroundColor == nil && _backgroundView == nil) {
-        
-        if ([UIToolbar instancesRespondToSelector:@selector(setBarTintColor:)]) {
-            [self setBlurBackgroundWithColor:nil alpha:0];
-        } else {
-            [self setBackgroundColor:[UIColor whiteColor]];
-        }
-    }
-    
-    if (self.layer.cornerRadius == 0.0f) {
-        [self.layer setCornerRadius:5.0f];
-    }
-    
-    CGRect selfFrame = self.frame;
-    selfFrame.size = CGSizeMake(270, 270);
-    
-    [self setFrame:selfFrame];
-    [self setViews];
-    
-    // Rotate self befoure show.
-    CGFloat angle = [self angleForCurrentOrientation];
-    [self setTransform:CGAffineTransformMakeRotation(angle)];
-    
-    // Background of alert view
-    DTBackgroundView *backgroundView = [DTBackgroundView currentBackground];
-    [backgroundView setHidden:NO];
-    
-//    [self setCenter:backgroundView.center];
-    [backgroundView addSubview:self];
-    
-    // Receive notification for handle rotate issue
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rotationHandle:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-    
-    [UIView animateWithDuration:10.0f
-                          delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:animationBlock
-                     completion:^(BOOL finished) {
-                         
-        _visible = YES;
-    }];
 }
 
 #pragma mark Dismiss Alert View Method
@@ -796,6 +782,11 @@ const static CGFloat kMotionEffectExtent = 30.0f;
 
 - (void)dismiss
 {
+    [self dismissWithAnimation:DTAlertViewAnimationDefault];
+}
+
+- (void)dismissWithAnimation:(DTAlertViewAnimation)animation
+{
     // Remove notification for rotate
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 
@@ -810,7 +801,27 @@ const static CGFloat kMotionEffectExtent = 30.0f;
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     }
     
-    CAAnimation *dismissAnimation = [self defaultDismissAnimation];
+    CAAnimation *dismissAnimation = nil;
+    
+    switch (animation) {
+        case DTAlertViewAnimationDefault:
+            dismissAnimation = [self defaultDismissAnimation];
+            break;
+            
+        case DTAlertViewAnimationSlideLeft:
+            // Slide out to left of screen.
+            dismissAnimation = [self sildeOutLeftAnimation];
+            break;
+            
+        case DTAlertViewAnimationSlideRight:
+            // Slide out to right of screen.
+            dismissAnimation = [self sildeOutRightAnimation];
+            break;
+            
+        default:
+            NSLog(@"DTAlertViewAnimation style error!!");
+            break;
+    }
     
     [self.layer removeAllAnimations];
     [self.layer addAnimation:dismissAnimation forKey:@"dismiss"];
@@ -823,7 +834,7 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     // Dismiss self
     [self removeFromSuperview];
     
-    [UIView animateWithDuration:0.2 animations:^{
+    [UIView animateWithDuration:0.2f animations:^{
         [[DTBackgroundView currentBackground] setAlpha:0.0f];
     } completion:^(BOOL finished) {
         [[DTBackgroundView currentBackground] setHidden:YES];
@@ -837,40 +848,6 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewDidDismiss:)]) {
         [_delegate alertViewDidDismiss:self];
     }
-}
-
-- (void)dismissWithAnimationBlock:(DTAlertViewAnimationBlock)animationBlock
-{
-    // Remove notification for rotate
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-    
-    if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewWillDismiss:)]) {
-        [_delegate alertViewWillDismiss:self];
-    }
-    
-    if (_keyboardIsShown) {
-        [_textField resignFirstResponder];
-        
-        // Remove notification
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    }
-    
-    [UIView animateWithDuration:0.3f
-                          delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:animationBlock
-                     completion:^(BOOL finished) {
-                         
-        // Dismiss self
-        [self removeFromSuperview];
-        [[DTBackgroundView currentBackground] setHidden:YES];
-
-        _visible = NO;
-
-        if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewDidDismiss:)]) {
-         [_delegate alertViewDidDismiss:self];
-        }
-    }];
 }
 
 #pragma mark Set TextField Did Cahnge Block
@@ -1316,7 +1293,7 @@ const static CGFloat kMotionEffectExtent = 30.0f;
 
 - (IBAction)buttonClicked:(UIButton *)sender
 {
-    [self dismiss];
+    [self dismissWithAnimation:_animationWhenDismiss];
     _clickedButtonTitle = DTRetain([sender titleForState:UIControlStateNormal]);
     
     if (_clickedBlock != nil) {
@@ -1479,7 +1456,7 @@ const static CGFloat kMotionEffectExtent = 30.0f;
 
 #pragma mark - Default Animation
 
-#define transform(scale) [NSValue valueWithCATransform3D:[self transform3DScale:scale]]
+#define transformScale(scale) [NSValue valueWithCATransform3D:[self transform3DScale:scale]]
 
 - (CATransform3D)transform3DScale:(CGFloat)scale
 {
@@ -1489,22 +1466,14 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     return currentTransfrom;
 }
 
-- (CAAnimation *)defaultShowsAnimation
-{
-    NSArray *frameValues = @[transform(0.1f), transform(1.15f), transform(0.9f), transform(1.0f)];
-    NSArray *frameTimes = @[@(0.0f), @(0.5f), @(0.9f), @(1.0f)];
-    return [self animationWithValues:frameValues times:frameTimes duration:0.4f];
-}
+#define transformTranslateX(translate) [NSValue valueWithCATransform3D:[self transform3DTranslateX:translate]]
 
-- (CAAnimation *)defaultDismissAnimation
+- (CATransform3D)transform3DTranslateX:(CGFloat)translate
 {
-    NSArray *frameValues = @[transform(1.0f), transform(0.5f), transform(0.1f)];
-    NSArray *frameTimes = @[@(0.0f), @(0.5f), @(1.0f)];
+    // Add scale on current transform.
+    CATransform3D currentTransfrom = CATransform3DTranslate(self.layer.transform, translate, 1.0f, 1.0f);
     
-    CAKeyframeAnimation *animation = [self animationWithValues:frameValues times:frameTimes duration:0.25f];
-    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
-    
-    return animation;
+    return currentTransfrom;
 }
 
 - (CAKeyframeAnimation *)animationWithValues:(NSArray*)values times:(NSArray*)times duration:(CGFloat)duration {
@@ -1515,8 +1484,87 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
     [animation setRemovedOnCompletion:NO];
     [animation setDuration:duration];
-
+    
     return animation;
+}
+
+- (CGFloat)getMoveLength
+{
+    CGFloat moveLength;
+    
+    if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+        moveLength = CGRectGetMidX([[DTBackgroundView currentBackground] bounds]) + CGRectGetMidX(self.bounds);
+    } else {
+        moveLength = CGRectGetMidY([[DTBackgroundView currentBackground] bounds]) + CGRectGetMidX(self.bounds);
+    }
+    
+    return moveLength;
+}
+
+#pragma mark Show animations
+
+- (CAAnimation *)defaultShowsAnimation
+{
+    NSArray *frameValues = @[transformScale(0.1f), transformScale(1.15f), transformScale(0.9f), transformScale(1.0f)];
+    NSArray *frameTimes = @[@(0.0f), @(0.5f), @(0.9f), @(1.0f)];
+    return [self animationWithValues:frameValues times:frameTimes duration:0.4f];
+}
+
+- (CAAnimation *)sildeInLeftAnimation
+{
+    NSArray *frameValues = @[transformTranslateX(-300.0f), transformTranslateX(0.0f)];
+    NSArray *frameTimes = @[@(0.0f), @(1.0f)];
+    return [self animationWithValues:frameValues times:frameTimes duration:0.2f];
+}
+
+- (CAAnimation *)sildeInRightAnimation
+{
+    NSArray *frameValues = @[transformTranslateX(300.0f), transformTranslateX(0.0f)];
+    NSArray *frameTimes = @[@(0.0f), @(1.0f)];
+    return [self animationWithValues:frameValues times:frameTimes duration:0.2f];
+}
+
+#pragma mark Dismiss animations
+
+- (CAAnimation *)defaultDismissAnimation
+{
+    NSArray *frameValues = @[transformScale(1.0f), transformScale(0.5f), transformScale(0.1f)];
+    NSArray *frameTimes = @[@(0.0f), @(0.5f), @(1.0f)];
+    
+    CAKeyframeAnimation *animation = [self animationWithValues:frameValues times:frameTimes duration:0.25f];
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    
+    return animation;
+}
+
+- (CAAnimation *)sildeOutLeftAnimation
+{
+    CGFloat moveLength = [self getMoveLength];
+    
+    NSArray *frameValues = @[transformTranslateX(0.0f), transformTranslateX(-moveLength)];
+    NSArray *frameTimes = @[@(0.0f), @(1.0f)];
+    return [self animationWithValues:frameValues times:frameTimes duration:0.2f];
+}
+
+- (CAAnimation *)sildeOutRightAnimation
+{
+    CGFloat moveLength = [self getMoveLength];
+    
+    NSArray *frameValues = @[transformTranslateX(0.0f), transformTranslateX(moveLength)];
+    NSArray *frameTimes = @[@(0.0f), @(1.0f)];
+    return [self animationWithValues:frameValues times:frameTimes duration:0.2f];
+}
+
+- (CAAnimation *)fadeOutAnimation
+{
+    CABasicAnimation *fadeOutAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    [fadeOutAnimation setDuration:0.5f];
+    [fadeOutAnimation setRemovedOnCompletion:NO];
+    [fadeOutAnimation setFillMode:kCAFillModeForwards];
+    [fadeOutAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+    [fadeOutAnimation setToValue:@(0.0f)];
+    
+    return fadeOutAnimation;
 }
 
 #pragma mark - Rotation Handler

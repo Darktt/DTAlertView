@@ -187,6 +187,57 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setDismissAnimationWhenButtonClicked:</TokenIdentifier>
+			<Abstract type="html">The dismiss animetion, when button clicked.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/c/tdef/DTAlertViewAnimation</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign) DTAlertViewAnimation dismissAnimationWhenButtonClicked</Declaration>
+			
+			
+			<Anchor>//api/name/dismissAnimationWhenButtonClicked</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/dismissAnimationWhenButtonClicked</TokenIdentifier>
+			<Abstract type="html">The dismiss animetion, when button clicked.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/c/tdef/DTAlertViewAnimation</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign) DTAlertViewAnimation dismissAnimationWhenButtonClicked</Declaration>
+			
+			
+			<Anchor>//api/name/dismissAnimationWhenButtonClicked</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/dismissAnimationWhenButtonClicked</TokenIdentifier>
+			<Abstract type="html">The dismiss animetion, when button clicked.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/c/tdef/DTAlertViewAnimation</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, assign) DTAlertViewAnimation dismissAnimationWhenButtonClicked</Declaration>
+			
+			
+			<Anchor>//api/name/dismissAnimationWhenButtonClicked</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setCancelButtonIndex:</TokenIdentifier>
 			<Abstract type="html">The button index of cancel button.</Abstract>
 			<DeclaredIn>DTAlertView.h</DeclaredIn>
@@ -714,6 +765,23 @@ Values less than 0.0 and greater than 1.0 are pinned to those limits.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/showWithAnimation:</TokenIdentifier>
+			<Abstract type="html">Shows popup alert with receiver animation.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>- (void)showWithAnimation:(DTAlertViewAnimation)animation</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>animation</Name>
+					<Abstract type="html">A constant to define what animation will show alert view.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/showWithAnimation:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/DTAlertView/dismissAllAlertView</TokenIdentifier>
 			<Abstract type="html">Hide all alert.</Abstract>
 			<DeclaredIn>DTAlertView.h</DeclaredIn>
@@ -778,6 +846,23 @@ Values less than 0.0 and greater than 1.0 are pinned to those limits.</Abstract>
 			
 			
 			<Anchor>//api/name/dismiss</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/dismissWithAnimation:</TokenIdentifier>
+			<Abstract type="html">Hide alert with receiver animation.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>- (void)dismissWithAnimation:(DTAlertViewAnimation)animation</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>animation</Name>
+					<Abstract type="html">A constant to define what animation will dismiss alert view.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/dismissWithAnimation:</Anchor>
             <NodeRef refid="1"/>
 		</Token>
 		

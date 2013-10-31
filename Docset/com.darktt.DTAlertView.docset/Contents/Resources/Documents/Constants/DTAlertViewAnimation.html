@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
-		<title>DTAlertViewMode Constants Reference</title>
+		<title>DTAlertViewAnimation Constants Reference</title>
 		<meta id="xcode-display" name="xcode-display" content="render"/>
 		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
 		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
@@ -16,7 +16,7 @@
 			</div>
 			
 			<div id="title" role="banner">
-				<h1 class="hideInXcode">DTAlertViewMode Constants Reference</h1>
+				<h1 class="hideInXcode">DTAlertViewAnimation Constants Reference</h1>
 			</div>
 			<ul id="headerButtons" role="toolbar">
 				<li id="toc_button">
@@ -45,7 +45,7 @@
 		</nav>
 		<article>
 			<div id="contents" class="isShowingTOC" role="main">
-				<a title="DTAlertViewMode Constants Reference" name="top"></a>
+				<a title="DTAlertViewAnimation Constants Reference" name="top"></a>
 				<div class="main-navigation navigation-top">
 					<ul>
 	<li><a href="../index.html">Index</a></li>
@@ -54,7 +54,7 @@
 				</div>
 				<div id="header">
 					<div class="section-header">
-						<h1 class="title title-header">DTAlertViewMode Constants Reference</h1>
+						<h1 class="title title-header">DTAlertViewAnimation Constants Reference</h1>
 					</div>		
 				</div>
 				<div id="container">	
@@ -74,11 +74,11 @@
 					
                     
                     
-                    <h3 class="subsubtitle method-title">DTAlertViewMode</h3>
+                    <h3 class="subsubtitle method-title">DTAlertViewAnimation</h3>
                     
 					
 					<div class="section section-overview">
-                        <p>The mode of display to user.</p>
+                        <p>Type of show or dismiss animations.</p>
 					</div>
 					
 					
@@ -86,15 +86,13 @@
                         <!-- display enum values -->
                         
                         <h4 class="method-subtitle">Definition</h4>
-                        <code>typedef NS_ENUM(NSInteger, DTAlertViewMode ) {<br/>
+                        <code>typedef NS_ENUM(NSInteger, DTAlertViewAnimation ) {<br/>
                             
-                            &nbsp;&nbsp; <a href="">DTAlertViewModeNormal</a> = 0,<br/>
+                            &nbsp;&nbsp; <a href="">DTAlertViewAnimationDefault</a> = 0,<br/>
                             
-                            &nbsp;&nbsp; <a href="">DTAlertViewModeTextInput</a>,<br/>
+                            &nbsp;&nbsp; <a href="">DTAlertViewAnimationSlideLeft</a>,<br/>
                             
-                            &nbsp;&nbsp; <a href="">DTAlertViewModeProgress</a>,<br/>
-                            
-                            &nbsp;&nbsp; <a href="">DTAlertViewModeDuoProgress</a>,<br/>
+                            &nbsp;&nbsp; <a href="">DTAlertViewAnimationSlideRight</a>,<br/>
                             
                             };</code>
                     
@@ -104,11 +102,11 @@
                         <h4 class="method-subtitle">Constants</h4>
                         <dl class="termdef">
                             
-                            <dt><a name="" title="DTAlertViewModeNormal"></a><code>DTAlertViewModeNormal</code></dt>
+                            <dt><a name="" title="DTAlertViewAnimationDefault"></a><code>DTAlertViewAnimationDefault</code></dt>
 <dd>
 
 
-<p>Normal alert view, it&rsquo;s dafult mode.</p>
+<p>Default animation.</p>
 
     
 
@@ -121,11 +119,11 @@
 	
 </dd>
                             
-                            <dt><a name="" title="DTAlertViewModeTextInput"></a><code>DTAlertViewModeTextInput</code></dt>
+                            <dt><a name="" title="DTAlertViewAnimationSlideLeft"></a><code>DTAlertViewAnimationSlideLeft</code></dt>
 <dd>
 
 
-<p>Alert view with UITextField.</p>
+<p>The alert view slide to left side.</p>
 
     
 
@@ -138,28 +136,11 @@
 	
 </dd>
                             
-                            <dt><a name="" title="DTAlertViewModeProgress"></a><code>DTAlertViewModeProgress</code></dt>
+                            <dt><a name="" title="DTAlertViewAnimationSlideRight"></a><code>DTAlertViewAnimationSlideRight</code></dt>
 <dd>
 
 
-<p>Alert view with Single UIProgressView.</p>
-
-    
-
-    
-
-    
-	<p>
-		Declared In <code class="declared-in-ref">DTAlertView.h</code>.
-	</p>
-	
-</dd>
-                            
-                            <dt><a name="" title="DTAlertViewModeDuoProgress"></a><code>DTAlertViewModeDuoProgress</code></dt>
-<dd>
-
-
-<p>Alert view with Two UIProgressView.</p>
+<p>The alert view slide to right side.</p>
 
     
 
