@@ -179,7 +179,7 @@ static DTBackgroundView *singletion = nil;
 
 #pragma mark - Implement DTAlertView Class
 
-const static CGFloat kMotionEffectExtent = 10.0f;
+const static CGFloat kMotionEffectExtent = 30.0f;
 
 @interface DTAlertView ()
 {
@@ -1475,7 +1475,6 @@ const static CGFloat kMotionEffectExtent = 10.0f;
     [self addMotionEffect:motionEffect];
     
     DTRelease(motionEffect);
-    
 }
 
 #pragma mark - Default Animation
