@@ -1293,6 +1293,8 @@ const static CGFloat kMotionEffectExtent = 30.0f;
 
 - (IBAction)buttonClicked:(UIButton *)sender
 {
+    [sender setEnabled:NO];
+    
     [self dismissWithAnimation:_animationWhenDismiss];
     _clickedButtonTitle = DTRetain([sender titleForState:UIControlStateNormal]);
     
