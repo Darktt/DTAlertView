@@ -4,6 +4,30 @@ DTAlertView
 
 Custom alert view to solved the UIAlertView can't addSubview problem on iOS7.
 
+**NEW Feature:**
+
+New effect for show and dismiss animations.
+* DTAlertViewAnimationSlideTop
+
+![Slide to top](https://raw.github.com/Darktt/DTAlertView/master/Raw/DemoGif/SlideTop.gif)
+* DTAlertViewAnimationSlideBottom
+
+![Slide to bottom](https://raw.github.com/Darktt/DTAlertView/master/Raw/DemoGif/SlideBottom.gif)
+* DTAlertViewAnimationSlideLeft
+
+![Slide to left](https://raw.github.com/Darktt/DTAlertView/master/Raw/DemoGif/SlideLeft.gif)
+* DTAlertViewAnimationSlideRight
+
+![Slide to right](https://raw.github.com/Darktt/DTAlertView/master/Raw/DemoGif/SlideRight.gif)
+
+And also can use different dismiss animation at click different button.
+
+![Use different animation](https://raw.github.com/Darktt/DTAlertView/master/Raw/DemoGif/Different.gif)
+
+New method **-showForPasswordInputWithAnimation:** for input password scenario, and animation **-shakeAlertView** for password error scenario.
+
+![Password error](https://raw.github.com/Darktt/DTAlertView/master/Raw/DemoGif/PasswordError.gif)
+
 ##ATTENTION##
 
 * This demo code create on **Xcode 5.0**, but probably have issues on **Xcode 4 or less**.

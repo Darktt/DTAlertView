@@ -1637,7 +1637,7 @@ const static CGFloat kMotionEffectExtent = 30.0f;
 {
     CGFloat moveLength = [self getMoveLengthForHeight];
     
-    NSArray *frameValues = @[transformTranslateY(0.0f), transformTranslateY(-moveLength)];
+    NSArray *frameValues = @[transformTranslateY(0.0f), transformTranslateY(moveLength)];
     NSArray *frameTimes = @[@(0.0f), @(1.0f)];
     return [self animationWithValues:frameValues times:frameTimes duration:0.2f];
 }

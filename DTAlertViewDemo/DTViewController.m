@@ -134,8 +134,8 @@
     switch (indexPath.row) {
         case 0:
             alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
-            [alertView setDismissAnimationWhenButtonClicked:DTAlertViewAnimationSlideTop];
-            [alertView showWithAnimation:DTAlertViewAnimationSlideTop];
+            [alertView setDismissAnimationWhenButtonClicked:DTAlertViewAnimationSlideLeft];
+            [alertView showWithAnimation:DTAlertViewAnimationSlideLeft];
             
             [self performSelector:@selector(showOtherAlertView) withObject:nil afterDelay:2];
             break;
