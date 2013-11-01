@@ -33,6 +33,12 @@ New method **-showForPasswordInputWithAnimation:** for input password scenario, 
 * This demo code create on **Xcode 5.0**, but probably have issues on **Xcode 4 or less**.
 * Demo code use at **non-ARC** mode, but **DTAlertView** main class support **ARC** and **non-ARC** mode.
 
+##Q & A##
+
+Q: How to hidden status bar when alert presented on iOS 7?
+
+A: Set **UIViewControllerBasedStatusBarAppearance** to **NO** in your *info.plist*, the status bar won't appear again.
+
 ##Installation##
 
 1. Add `QuartzCore` framework.
