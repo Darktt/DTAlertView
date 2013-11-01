@@ -765,6 +765,24 @@ Values less than 0.0 and greater than 1.0 are pinned to those limits.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/showForPasswordInputWithAnimation:</TokenIdentifier>
+			<Abstract type="html">Shows popup alert for input pasword with receiver animation and would not dissmiss when click button.&lt;/br&gt;
+Want to dismiss this alert to use dismiss or dismissWithAnimation: .</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>- (void)showForPasswordInputWithAnimation:(DTAlertViewAnimation)animation</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>animation</Name>
+					<Abstract type="html">A constant to define what animation will show alert view.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/showForPasswordInputWithAnimation:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/showWithAnimation:</TokenIdentifier>
 			<Abstract type="html">Shows popup alert with receiver animation.</Abstract>
 			<DeclaredIn>DTAlertView.h</DeclaredIn>
@@ -863,6 +881,18 @@ Values less than 0.0 and greater than 1.0 are pinned to those limits.</Abstract>
 			</Parameters>
 			
 			<Anchor>//api/name/dismissWithAnimation:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/shakeAlertView</TokenIdentifier>
+			<Abstract type="html">The shake animation, appearance like password error animation on OS X.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>- (void)shakeAlertView</Declaration>
+			
+			
+			<Anchor>//api/name/shakeAlertView</Anchor>
             <NodeRef refid="1"/>
 		</Token>
 		

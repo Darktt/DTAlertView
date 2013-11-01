@@ -24,6 +24,26 @@
         </Token>
         
         <Token>
+            <TokenIdentifier>//apple_ref/c/econst/DTAlertViewAnimationSlideTop</TokenIdentifier>
+            <Abstract type="html">The alert view slide to top side.</Abstract>
+            <Declaration>DTAlertViewAnimationSlideTop</Declaration>
+            
+            <DeclaredIn>DTAlertView.h</DeclaredIn>
+            
+            <NodeRef refid="3"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/DTAlertViewAnimationSlideBottom</TokenIdentifier>
+            <Abstract type="html">The alert view slide to bottom side.</Abstract>
+            <Declaration>DTAlertViewAnimationSlideBottom</Declaration>
+            
+            <DeclaredIn>DTAlertView.h</DeclaredIn>
+            
+            <NodeRef refid="3"/>
+        </Token>
+        
+        <Token>
             <TokenIdentifier>//apple_ref/c/econst/DTAlertViewAnimationSlideLeft</TokenIdentifier>
             <Abstract type="html">The alert view slide to left side.</Abstract>
             <Declaration>DTAlertViewAnimationSlideLeft</Declaration>

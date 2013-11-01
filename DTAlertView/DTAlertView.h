@@ -48,6 +48,12 @@ typedef NS_ENUM(NSInteger, DTAlertViewAnimation) {
     /** Default animation. */
     DTAlertViewAnimationDefault = 0,
     
+    /** The alert view slide to top side. */
+    DTAlertViewAnimationSlideTop,
+    
+    /** The alert view slide to bottom side. */
+    DTAlertViewAnimationSlideBottom,
+    
     /** The alert view slide to left side. */
     DTAlertViewAnimationSlideLeft,
     
@@ -271,6 +277,14 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 - (void)show;
 
 /** See the descriptions of the constants of the DTAlertViewAnimation type for more information.
+ * @brief Shows popup alert for input pasword with receiver animation and would not dissmiss when click button.</br>
+ * Want to dismiss this alert to use dismiss or dismissWithAnimation: .
+ *
+ * @param animation A constant to define what animation will show alert view.
+ */
+- (void)showForPasswordInputWithAnimation:(DTAlertViewAnimation)animation;
+
+/** See the descriptions of the constants of the DTAlertViewAnimation type for more information.
  * @brief Shows popup alert with receiver animation.
  *
  * @param animation A constant to define what animation will show alert view.
@@ -316,6 +330,9 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
  * @param animation A constant to define what animation will dismiss alert view.
  */
 - (void)dismissWithAnimation:(DTAlertViewAnimation)animation;
+
+/// @brief The shake animation, appearance like password error animation on OS X.
+- (void)shakeAlertView;
 
 @end
 

@@ -215,6 +215,8 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     
     BOOL _visible;
     BOOL _keyboardIsShown;
+    
+    BOOL _showForInputPassword;
 }
 
 @end
@@ -254,6 +256,8 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     _progressTintColor = [[UIColor alloc] initWithRed:0 green:122.0f/255.0f blue:1 alpha:1];
     
     _keyboardIsShown = NO;
+    
+    _showForInputPassword = NO;
     
     [self setCancelButtonIndex];
     
@@ -304,6 +308,8 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     _progressTintColor = [[UIColor alloc] initWithRed:0 green:122.0f/255.0f blue:1 alpha:1];
     
     _keyboardIsShown = NO;
+    
+    _showForInputPassword = NO;
     
     [self setCancelButtonIndex];
 
@@ -650,6 +656,13 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     [self showWithAnimation:DTAlertViewAnimationDefault];
 }
 
+- (void)showForPasswordInputWithAnimation:(DTAlertViewAnimation)animation;
+{
+    _showForInputPassword = YES;
+    
+    [self showWithAnimation:animation];
+}
+
 - (void)showWithAnimation:(DTAlertViewAnimation)animation
 {
 #ifndef DEBUG_MODE
@@ -691,6 +704,14 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     switch (animation) {
         case DTAlertViewAnimationDefault:
             showsAnimation = [self defaultShowsAnimation];
+            break;
+            
+        case DTAlertViewAnimationSlideTop:
+            showsAnimation = [self sildeInBottomAnimation];
+            break;
+            
+        case DTAlertViewAnimationSlideBottom:
+            showsAnimation = [self sildeInTopAnimation];
             break;
             
         case DTAlertViewAnimationSlideLeft:
@@ -808,6 +829,14 @@ const static CGFloat kMotionEffectExtent = 30.0f;
             dismissAnimation = [self defaultDismissAnimation];
             break;
             
+        case DTAlertViewAnimationSlideTop:
+            dismissAnimation = [self sildeOutTopAnimation];
+            break;
+            
+        case DTAlertViewAnimationSlideBottom:
+            dismissAnimation = [self sildeOutBottomAnimation];
+            break;
+            
         case DTAlertViewAnimationSlideLeft:
             // Slide out to left of screen.
             dismissAnimation = [self sildeOutLeftAnimation];
@@ -848,6 +877,16 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewDidDismiss:)]) {
         [_delegate alertViewDidDismiss:self];
     }
+}
+
+#pragma mark Shake AlertView Method
+
+- (void)shakeAlertView
+{
+    CAAnimation *shakeAnimation = [self shakeAnimation];
+    
+    [self.layer removeAllAnimations];
+    [self.layer addAnimation:shakeAnimation forKey:@"Shake"];
 }
 
 #pragma mark Set TextField Did Cahnge Block
@@ -1294,20 +1333,26 @@ const static CGFloat kMotionEffectExtent = 30.0f;
 - (IBAction)buttonClicked:(UIButton *)sender
 {
     [sender setEnabled:NO];
-    
-    [self dismissWithAnimation:_animationWhenDismiss];
+
     _clickedButtonTitle = DTRetain([sender titleForState:UIControlStateNormal]);
     
     if (_clickedBlock != nil) {
         _clickedBlock(self, sender.tag - 1, _cancelButtonIndex);
         
-        return;
+        // Ignore the deleage setting.
+        _delegate = nil;
     }
     
     if ([_delegate respondsToSelector:@selector(alertView:clickedButtonAtIndex:)]) {
         [_delegate alertView:self clickedButtonAtIndex:sender.tag - 1];
         
-        return;
+        // Ignore the block setting.
+        _clickedBlock = nil;
+    }
+    
+    if (!_showForInputPassword) {
+        [sender setEnabled:YES];
+        [self dismissWithAnimation:_animationWhenDismiss];
     }
 }
 
@@ -1469,11 +1514,20 @@ const static CGFloat kMotionEffectExtent = 30.0f;
 }
 
 #define transformTranslateX(translate) [NSValue valueWithCATransform3D:[self transform3DTranslateX:translate]]
+#define transformTranslateY(translate) [NSValue valueWithCATransform3D:[self transform3DTranslateY:translate]]
 
 - (CATransform3D)transform3DTranslateX:(CGFloat)translate
 {
     // Add scale on current transform.
     CATransform3D currentTransfrom = CATransform3DTranslate(self.layer.transform, translate, 1.0f, 1.0f);
+    
+    return currentTransfrom;
+}
+
+- (CATransform3D)transform3DTranslateY:(CGFloat)translate
+{
+    // Add scale on current transform.
+    CATransform3D currentTransfrom = CATransform3DTranslate(self.layer.transform, 1.0f, translate, 1.0f);
     
     return currentTransfrom;
 }
@@ -1490,7 +1544,20 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     return animation;
 }
 
-- (CGFloat)getMoveLength
+- (CGFloat)getMoveLengthForHeight
+{
+    CGFloat moveLength;
+    
+    if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+        moveLength = CGRectGetMidY([[DTBackgroundView currentBackground] bounds]) + CGRectGetMidY(self.bounds);
+    } else {
+        moveLength = CGRectGetMidX([[DTBackgroundView currentBackground] bounds]) + CGRectGetMidY(self.bounds);
+    }
+    
+    return moveLength;
+}
+
+- (CGFloat)getMoveLengthForWidth
 {
     CGFloat moveLength;
     
@@ -1503,13 +1570,27 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     return moveLength;
 }
 
-#pragma mark Show animations
+#pragma mark Show Animations
 
 - (CAAnimation *)defaultShowsAnimation
 {
     NSArray *frameValues = @[transformScale(0.1f), transformScale(1.15f), transformScale(0.9f), transformScale(1.0f)];
     NSArray *frameTimes = @[@(0.0f), @(0.5f), @(0.9f), @(1.0f)];
     return [self animationWithValues:frameValues times:frameTimes duration:0.4f];
+}
+
+- (CAAnimation *)sildeInTopAnimation
+{
+    NSArray *frameValues = @[transformTranslateY(-300.0f), transformTranslateY(0.0f)];
+    NSArray *frameTimes = @[@(0.0f), @(1.0f)];
+    return [self animationWithValues:frameValues times:frameTimes duration:0.2f];
+}
+
+- (CAAnimation *)sildeInBottomAnimation
+{
+    NSArray *frameValues = @[transformTranslateY(300.0f), transformTranslateY(0.0f)];
+    NSArray *frameTimes = @[@(0.0f), @(1.0f)];
+    return [self animationWithValues:frameValues times:frameTimes duration:0.2f];
 }
 
 - (CAAnimation *)sildeInLeftAnimation
@@ -1526,7 +1607,7 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     return [self animationWithValues:frameValues times:frameTimes duration:0.2f];
 }
 
-#pragma mark Dismiss animations
+#pragma mark Dismiss Animations
 
 - (CAAnimation *)defaultDismissAnimation
 {
@@ -1539,9 +1620,27 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     return animation;
 }
 
+- (CAAnimation *)sildeOutTopAnimation
+{
+    CGFloat moveLength = [self getMoveLengthForHeight];
+    
+    NSArray *frameValues = @[transformTranslateY(0.0f), transformTranslateY(-moveLength)];
+    NSArray *frameTimes = @[@(0.0f), @(1.0f)];
+    return [self animationWithValues:frameValues times:frameTimes duration:0.2f];
+}
+
+- (CAAnimation *)sildeOutBottomAnimation
+{
+    CGFloat moveLength = [self getMoveLengthForHeight];
+    
+    NSArray *frameValues = @[transformTranslateY(0.0f), transformTranslateY(-moveLength)];
+    NSArray *frameTimes = @[@(0.0f), @(1.0f)];
+    return [self animationWithValues:frameValues times:frameTimes duration:0.2f];
+}
+
 - (CAAnimation *)sildeOutLeftAnimation
 {
-    CGFloat moveLength = [self getMoveLength];
+    CGFloat moveLength = [self getMoveLengthForWidth];
     
     NSArray *frameValues = @[transformTranslateX(0.0f), transformTranslateX(-moveLength)];
     NSArray *frameTimes = @[@(0.0f), @(1.0f)];
@@ -1550,23 +1649,20 @@ const static CGFloat kMotionEffectExtent = 30.0f;
 
 - (CAAnimation *)sildeOutRightAnimation
 {
-    CGFloat moveLength = [self getMoveLength];
+    CGFloat moveLength = [self getMoveLengthForWidth];
     
     NSArray *frameValues = @[transformTranslateX(0.0f), transformTranslateX(moveLength)];
     NSArray *frameTimes = @[@(0.0f), @(1.0f)];
     return [self animationWithValues:frameValues times:frameTimes duration:0.2f];
 }
 
-- (CAAnimation *)fadeOutAnimation
+#pragma mark Shake Animations
+
+- (CAAnimation *)shakeAnimation
 {
-    CABasicAnimation *fadeOutAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
-    [fadeOutAnimation setDuration:0.5f];
-    [fadeOutAnimation setRemovedOnCompletion:NO];
-    [fadeOutAnimation setFillMode:kCAFillModeForwards];
-    [fadeOutAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-    [fadeOutAnimation setToValue:@(0.0f)];
-    
-    return fadeOutAnimation;
+    NSArray *frameValues = @[transformTranslateX(10.0f), transformTranslateX(-10.0f), transformTranslateX(6.0f), transformTranslateX(-6.0f),transformTranslateX(3.0f), transformTranslateX(-3.0f), transformTranslateX(0.0f)];
+    NSArray *frameTimes = @[@(0.14f), @(0.28f), @(0.42f), @(0.57f), @(0.71f), @(0.85f), @(1.0f)];
+    return [self animationWithValues:frameValues times:frameTimes duration:0.5f];
 }
 
 #pragma mark - Rotation Handler
