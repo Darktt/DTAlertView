@@ -1333,6 +1333,11 @@ const static CGFloat kMotionEffectExtent = 30.0f;
 - (IBAction)buttonClicked:(UIButton *)sender
 {
     [sender setEnabled:NO];
+    
+    // When using showForInputPassword: Method, don't disable it.
+    if ((sender.tag - 1) != _cancelButtonIndex && _showForInputPassword) {
+        [sender setEnabled:_showForInputPassword];
+    }
 
     _clickedButtonTitle = DTRetain([sender titleForState:UIControlStateNormal]);
     
@@ -1351,7 +1356,6 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     }
     
     if (!_showForInputPassword) {
-        [sender setEnabled:YES];
         [self dismissWithAnimation:_animationWhenDismiss];
     }
 }

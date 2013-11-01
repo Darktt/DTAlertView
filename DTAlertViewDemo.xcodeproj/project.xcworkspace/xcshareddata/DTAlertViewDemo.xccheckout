@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>D8AFADE0-46CF-4A1E-90A0-960832AA748D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>DTAlertViewDemo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>51408985-54E7-4846-886C-B8FA12B6C13D</key>
+		<string>https://github.com/Darktt/DTAlertView.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>DTAlertViewDemo.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>51408985-54E7-4846-886C-B8FA12B6C13D</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/Darktt/DTAlertView.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>51408985-54E7-4846-886C-B8FA12B6C13D</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>51408985-54E7-4846-886C-B8FA12B6C13D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>DTAlertView</string>
+		</dict>
+	</array>
+</dict>
+</plist>
