@@ -1,1 +1,1 @@
-appledoc --output ~/Desktop/ --project-name "DTAlertView" --project-company "Darktt personal company" --company-id "com.darktt" --no-warn-undocumented-object --keep-intermediate-files ../DTAlertView/
+appledoc --output ~/Desktop/ --project-name "DTAlertView" --project-company "Darktt personal company" --company-id "com.darktt" --no-warn-undocumented-object --keep-intermediate-files ../DTAlertView/; rm -r ./com.darktt.DTAlertView.docset; cp -r ~/Library/Developer/Shared/Documentation/DocSets/com.darktt.DTAlertView.docset ./

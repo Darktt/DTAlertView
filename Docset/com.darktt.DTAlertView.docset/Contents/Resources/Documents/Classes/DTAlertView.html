@@ -101,7 +101,11 @@
 	
 	<option value="//api/name/setTextFieldDidChangeBlock:">&nbsp;&nbsp;&nbsp;&nbsp;- setTextFieldDidChangeBlock:</option>
 	
+	<option value="//api/name/shakeAlertView">&nbsp;&nbsp;&nbsp;&nbsp;- shakeAlertView</option>
+	
 	<option value="//api/name/show">&nbsp;&nbsp;&nbsp;&nbsp;- show</option>
+	
+	<option value="//api/name/showForPasswordInputWithAnimation:">&nbsp;&nbsp;&nbsp;&nbsp;- showForPasswordInputWithAnimation:</option>
 	
 	<option value="//api/name/showWithAnimation:">&nbsp;&nbsp;&nbsp;&nbsp;- showWithAnimation:</option>
 	
@@ -193,7 +197,11 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setTextFieldDidChangeBlock:">setTextFieldDidChangeBlock:</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/shakeAlertView">shakeAlertView</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/show">show</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/showForPasswordInputWithAnimation:">showForPasswordInputWithAnimation:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/showWithAnimation:">showWithAnimation:</a></span></li>
 	
@@ -384,6 +392,12 @@
 	
 </li><li>
 	<span class="tooltip">
+		<code><a href="#//api/name/showForPasswordInputWithAnimation:">&ndash;&nbsp;showForPasswordInputWithAnimation:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
 		<code><a href="#//api/name/showWithAnimation:">&ndash;&nbsp;showWithAnimation:</a></code>
 	</span>
 	
@@ -415,6 +429,12 @@
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/dismissWithAnimation:">&ndash;&nbsp;dismissWithAnimation:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/shakeAlertView">&ndash;&nbsp;shakeAlertView</a></code>
 	</span>
 	
 	
@@ -1817,6 +1837,42 @@ For example, if you want disable positive button on less 10 characters, edable o
 </div>
 						
 						<div class="section-method">
+	<a name="//api/name/shakeAlertView" title="shakeAlertView"></a>
+	<h3 class="subsubtitle method-title">shakeAlertView</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The shake animation, appearance like password error animation on OS X.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)shakeAlertView</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DTAlertView.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
 	<a name="//api/name/show" title="show"></a>
 	<h3 class="subsubtitle method-title">show</h3>
 	
@@ -1837,6 +1893,58 @@ For example, if you want disable positive button on less 10 characters, edable o
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DTAlertView.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/showForPasswordInputWithAnimation:" title="showForPasswordInputWithAnimation:"></a>
+	<h3 class="subsubtitle method-title">showForPasswordInputWithAnimation:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Shows popup alert for input pasword with receiver animation and would not dissmiss when click button.</br>
+Want to <a href="#//api/name/dismiss">dismiss</a> this alert to use <a href="#//api/name/dismiss">dismiss</a> or <a href="#//api/name/dismissWithAnimation:">dismissWithAnimation:</a> .</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)showForPasswordInputWithAnimation:(DTAlertViewAnimation)<em>animation</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>animation</em></dt>
+			<dd><p>A constant to define what animation will <a href="#//api/name/show">show</a> alert view.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>See the descriptions of the constants of the <a href="../Constants/DTAlertViewAnimation.html">DTAlertViewAnimation</a> type for more information.</p>
+	</div>
 	
 	
 	
@@ -1918,7 +2026,7 @@ For example, if you want disable positive button on less 10 characters, edable o
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2013 Darktt personal company. All rights reserved. (Last updated: 2013-10-28)</span><br />
+						<p><span class="copyright">&copy; 2013 Darktt personal company. All rights reserved. (Last updated: 2013-11-01)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 961)</a>.</span></p>
 						
