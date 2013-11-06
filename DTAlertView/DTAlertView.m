@@ -863,14 +863,14 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     // Dismiss self
     [self removeFromSuperview];
     
+    // Remove dismiss animation
+    [self.layer removeAllAnimations];
+    
     [UIView animateWithDuration:0.2f animations:^{
         [[DTBackgroundView currentBackground] setAlpha:0.0f];
     } completion:^(BOOL finished) {
         [[DTBackgroundView currentBackground] setHidden:YES];
     }];
-    
-    // Remove dismiss animation
-    [self.layer removeAllAnimations];
     
     _visible = NO;
     
@@ -1615,11 +1615,11 @@ const static CGFloat kMotionEffectExtent = 30.0f;
 
 - (CAAnimation *)defaultDismissAnimation
 {
-    NSArray *frameValues = @[transformScale(1.0f), transformScale(0.5f), transformScale(0.1f)];
+    NSArray *frameValues = @[transformScale(1.0f), transformScale(0.95f), transformScale(0.5f)];
     NSArray *frameTimes = @[@(0.0f), @(0.5f), @(1.0f)];
     
-    CAKeyframeAnimation *animation = [self animationWithValues:frameValues times:frameTimes duration:0.25f];
-    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    CAKeyframeAnimation *animation = [self animationWithValues:frameValues times:frameTimes duration:0.3f];
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
     
     return animation;
 }

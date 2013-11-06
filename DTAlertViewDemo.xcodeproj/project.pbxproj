@@ -444,6 +444,7 @@
 				);
 				INFOPLIST_FILE = "DTAlertViewDemoTests/DTAlertViewDemoTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -463,6 +464,7 @@
 				GCC_PREFIX_HEADER = "DTAlertViewDemo/DTAlertViewDemo-Prefix.pch";
 				INFOPLIST_FILE = "DTAlertViewDemoTests/DTAlertViewDemoTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
