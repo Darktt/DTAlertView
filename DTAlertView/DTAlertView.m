@@ -1199,6 +1199,7 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     // Positive Button
     if (_positiveButtonTitle != nil) {
         UIButton *positiveButton = [self setButtonWithTitle:_positiveButtonTitle];
+        [positiveButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         [positiveButton setTag:_cancelButtonIndex + 2];
         [positiveButton.titleLabel setFont:[UIFont systemFontOfSize:17.0f]];
         [positiveButton setEnabled:_positiveButtonEnable];
