@@ -1199,7 +1199,6 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     // Positive Button
     if (_positiveButtonTitle != nil) {
         UIButton *positiveButton = [self setButtonWithTitle:_positiveButtonTitle];
-        [positiveButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         [positiveButton setTag:_cancelButtonIndex + 2];
         [positiveButton.titleLabel setFont:[UIFont systemFontOfSize:17.0f]];
         [positiveButton setEnabled:_positiveButtonEnable];
@@ -1334,9 +1333,13 @@ const static CGFloat kMotionEffectExtent = 30.0f;
 {
     [sender setEnabled:NO];
     
-    // When using showForInputPassword: Method, don't disable it.
+    // When using showForInputPassword: Method, delay 0.35 second to enable it.
     if ((sender.tag - 1) != _cancelButtonIndex && _showForInputPassword) {
-        [sender setEnabled:_showForInputPassword];
+        dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.35f * NSEC_PER_SEC));
+        
+        dispatch_after(delayTime, dispatch_get_main_queue(), ^(void){
+           [sender setEnabled:_showForInputPassword];
+        });
     }
 
     _clickedButtonTitle = DTRetain([sender titleForState:UIControlStateNormal]);
