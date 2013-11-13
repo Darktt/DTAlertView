@@ -239,6 +239,7 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     self = [super init];
     
     if (self == nil) return nil;
+    [self setAutoresizesSubviews:YES];
     [self setMotionEffect];
     
     _delegate = delegate;
@@ -1483,7 +1484,6 @@ const static CGFloat kMotionEffectExtent = 30.0f;
 
 - (void)setMotionEffect
 {
-    
     if (![self respondsToSelector:@selector(setMotionEffects:)]) {
         return;
     }

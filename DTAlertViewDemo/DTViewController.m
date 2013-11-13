@@ -72,7 +72,7 @@
 {
     [super viewWillAppear:animated];
     
-    demoArray = [[NSArray alloc] initWithArray:@[@"Normal alert view", @"Use with Block", @"With text field", @"With secure text field", @"With progress view", @"With duo progress view"]];
+    demoArray = [[NSArray alloc] initWithArray:@[@"Normal alert view (Default)", @"Normal alert view (Slide UP)", @"Normal alert view (Slide Down)", @"Normal alert view (Slide Left)", @"Normal alert view (Slide Right)", @"Use with Block", @"With text field", @"With secure text field", @"With progress view", @"With duo progress view"]];
 }
 
 - (void)dealloc
@@ -134,13 +134,36 @@
     switch (indexPath.row) {
         case 0:
             alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
-            [alertView setDismissAnimationWhenButtonClicked:DTAlertViewAnimationSlideLeft];
-            [alertView showWithAnimation:DTAlertViewAnimationSlideLeft];
+            [alertView show];
             
             [self performSelector:@selector(showOtherAlertView) withObject:nil afterDelay:2];
             break;
             
         case 1:
+            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+            [alertView setDismissAnimationWhenButtonClicked:DTAlertViewAnimationSlideTop];
+            [alertView showWithAnimation:DTAlertViewAnimationSlideTop];
+            break;
+            
+        case 2:
+            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+            [alertView setDismissAnimationWhenButtonClicked:DTAlertViewAnimationSlideBottom];
+            [alertView showWithAnimation:DTAlertViewAnimationSlideBottom];
+            break;
+            
+        case 3:
+            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+            [alertView setDismissAnimationWhenButtonClicked:DTAlertViewAnimationSlideLeft];
+            [alertView showWithAnimation:DTAlertViewAnimationSlideLeft];
+            break;
+            
+        case 4:
+            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+            [alertView setDismissAnimationWhenButtonClicked:DTAlertViewAnimationSlideRight];
+            [alertView showWithAnimation:DTAlertViewAnimationSlideRight];
+            break;
+            
+        case 5:
         {
             DTAlertViewButtonClickedBlock block = ^(DTAlertView *alertView, NSUInteger buttonIndex, NSUInteger cancelButtonIndex){
                 NSLog(@"You click button title : %@", alertView.clickedButtonTitle);
@@ -159,13 +182,13 @@
         }
             break;
             
-        case 2:
+        case 6:
             alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"Input some word" delegate:nil cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
             [alertView setAlertViewMode:DTAlertViewModeTextInput];
             [alertView show];
             break;
             
-        case 3:
+        case 7:
         {
             alertView = [DTAlertView alertViewWithTitle:@"Please Input Password!!" message:@"Password is \"1234567890\"" delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
             [alertView setAlertViewMode:DTAlertViewModeTextInput];
@@ -182,7 +205,7 @@
         }
             break;
             
-        case 4:
+        case 8:
         {
             DTAlertViewButtonClickedBlock block = ^(DTAlertView *_alertView, NSUInteger buttonIndex, NSUInteger cancelButtonIndex){
                 if (buttonIndex == cancelButtonIndex) {
@@ -199,7 +222,7 @@
         }
             break;
             
-        case 5:
+        case 9:
         {
             DTAlertViewButtonClickedBlock block = ^(DTAlertView *alertView, NSUInteger buttonIndex, NSUInteger cancelButtonIndex){
                 if (buttonIndex == cancelButtonIndex) {
