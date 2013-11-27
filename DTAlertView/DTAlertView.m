@@ -66,6 +66,11 @@
 
 #define kButtonBGViewTag        2099
 
+// Animation Keys
+static NSString *kAnimationShow = @"Popup";
+static NSString *kAnimationDismiss = @"Dismiss";
+static NSString *kAnimationShake = @"Shake";
+
 #pragma mark - Implement DTBackgroundView Class
 
 @interface DTBackgroundView : UIView
@@ -179,7 +184,7 @@ static DTBackgroundView *singletion = nil;
 
 #pragma mark - Implement DTAlertView Class
 
-const static CGFloat kMotionEffectExtent = 30.0f;
+const static CGFloat kMotionEffectExtent = 15.0f;
 
 @interface DTAlertView ()
 {
@@ -730,7 +735,7 @@ const static CGFloat kMotionEffectExtent = 30.0f;
             break;
     }
     
-    [self.layer addAnimation:showsAnimation forKey:@"popup"];
+    [self.layer addAnimation:showsAnimation forKey:kAnimationShow];
     
     [self performSelector:@selector(showsCompletion) withObject:nil afterDelay:showsAnimation.duration];
     
@@ -741,6 +746,8 @@ const static CGFloat kMotionEffectExtent = 30.0f;
 - (void)showsCompletion
 {
     _visible = YES;
+    
+    [self.layer removeAnimationForKey:kAnimationShow];
 }
 
 #pragma mark Dismiss Alert View Method
@@ -853,8 +860,7 @@ const static CGFloat kMotionEffectExtent = 30.0f;
             break;
     }
     
-    [self.layer removeAllAnimations];
-    [self.layer addAnimation:dismissAnimation forKey:@"dismiss"];
+    [self.layer addAnimation:dismissAnimation forKey:kAnimationDismiss];
     
     [self performSelector:@selector(dismissCompletion) withObject:nil afterDelay:dismissAnimation.duration];
 }
@@ -865,7 +871,7 @@ const static CGFloat kMotionEffectExtent = 30.0f;
     [self removeFromSuperview];
     
     // Remove dismiss animation
-    [self.layer removeAllAnimations];
+    [self.layer removeAnimationForKey:kAnimationDismiss];
     
     [UIView animateWithDuration:0.2f animations:^{
         [[DTBackgroundView currentBackground] setAlpha:0.0f];
@@ -886,8 +892,8 @@ const static CGFloat kMotionEffectExtent = 30.0f;
 {
     CAAnimation *shakeAnimation = [self shakeAnimation];
     
-    [self.layer removeAllAnimations];
-    [self.layer addAnimation:shakeAnimation forKey:@"Shake"];
+    [self.layer removeAnimationForKey:kAnimationShake];
+    [self.layer addAnimation:shakeAnimation forKey:kAnimationShake];
 }
 
 #pragma mark Set TextField Did Cahnge Block
@@ -1695,8 +1701,8 @@ const static CGFloat kMotionEffectExtent = 30.0f;
 - (void)rotationHandle:(NSNotification *)sender
 {
     CGFloat angle = [self angleForCurrentOrientation];
-        
-    [self.layer removeAllAnimations];
+    
+    [self.layer removeAnimationForKey:kAnimationShake];
     [self.layer setTransform:CATransform3DMakeRotation(angle, 0.0f, 0.0f, 1.0f)];
 }
 

@@ -264,6 +264,7 @@
         NSLog(@"Inputed Text : %@", alertView.textField.text);
         
         if (![alertView.textField.text isEqualToString:@"1234567890"]) {
+            NSLog(@"%@", NSStringFromCGRect(alertView.frame));
             NSLog(@"Password Error !!");
             
             [alertView shakeAlertView];
