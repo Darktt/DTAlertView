@@ -1350,6 +1350,10 @@ const static CGFloat kMotionEffectExtent = 15.0f;
         });
     }
 
+    if (_clickedButtonTitle != nil) {
+        [_clickedButtonTitle release];
+    }
+    
     _clickedButtonTitle = DTRetain([sender titleForState:UIControlStateNormal]);
     
     if (_clickedBlock != nil) {
