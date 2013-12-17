@@ -133,7 +133,9 @@
     
     switch (indexPath.row) {
         case 0:
-            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+//            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+            
+            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm very long long long long long long long long long long long long long long long long long long long long long long long\n long long long long long\n long long long long long long long long long long long long long long long long long long long long long long long long long\n long long long long long long long long long long long long long long long long long long long long long long long message." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
             [alertView show];
             
             [self performSelector:@selector(showOtherAlertView) withObject:nil afterDelay:2];

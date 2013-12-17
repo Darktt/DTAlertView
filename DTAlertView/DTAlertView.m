@@ -909,6 +909,10 @@ const static CGFloat kMotionEffectExtent = 15.0f;
 {
     //MARK: Labels
     
+    // Label default value.
+    CGFloat labelMaxWidth = self.frame.size.width - 10.0f;
+    CGRect labelDefaultRect = CGRectMake(0, 0, labelMaxWidth, labelMaxWidth);
+    
     // Title
     UILabel *titleLabel = [[UILabel alloc] init];
     [titleLabel setText:_title];
@@ -917,31 +921,12 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     [titleLabel setFont:[UIFont boldSystemFontOfSize:17.0f]];
     [titleLabel setTag:kTitleLableTag];
     
-    // Set lines of message text.
-    NSArray *linesOfTitle = [_title componentsSeparatedByString:@"\n"];
-    [titleLabel setNumberOfLines:linesOfTitle.count];
+    // Set lines of title text.
+    [titleLabel setNumberOfLines:0];
     
     // Set title label position and size.
+    [titleLabel setFrame:labelDefaultRect];
     [titleLabel sizeToFit];
-    
-    // When title length too long, calculator new frame.
-    CGFloat labelMaxWidth = self.frame.size.width - 10.0f;
-    
-    if (titleLabel.frame.size.width > labelMaxWidth) {
-        NSInteger multiple = ceil(titleLabel.frame.size.width / labelMaxWidth);
-        
-        // multiple add current number of line, If it great of 1.
-        multiple += (titleLabel.numberOfLines == 1) ? 0 : titleLabel.numberOfLines;
-        
-        CGRect newFrame = titleLabel.frame;
-        newFrame.size.width = labelMaxWidth;
-        
-        // new height = old height / current number of line * multiple
-        newFrame.size.height = newFrame.size.height / titleLabel.numberOfLines * multiple;
-        
-        [titleLabel setNumberOfLines:multiple];
-        [titleLabel setFrame:newFrame];
-    }
     
     [titleLabel setCenter:CGPointMake(CGRectGetMidX(self.bounds), titleLabel.center.y + 20.0f)];
     
@@ -963,33 +948,15 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     [messageLabel setTag:kMessageLabelTag];
     
     // Set lines of message text.
-    NSArray *linesOfMessage = [_message componentsSeparatedByString:@"\n"];
-    [messageLabel setNumberOfLines:linesOfMessage.count];
+    [messageLabel setNumberOfLines:0];
     
     // Set message label position and size.
     CGRect messageRect = CGRectZero;
     messageRect.origin.y = CGRectGetMaxY(titleLabel.frame) + 5.0f;
+    messageRect.size = labelDefaultRect.size;
     
     [messageLabel setFrame:messageRect];
     [messageLabel sizeToFit];
-    
-    // When message length too long, calculator new frame.
-    if (messageLabel.frame.size.width > labelMaxWidth) {
-        NSInteger multiple = ceil(messageLabel.frame.size.width / labelMaxWidth);
-        
-        // multiple add current number of line, If it great of 1.
-        multiple += (messageLabel.numberOfLines == 1) ? 0 : messageLabel.numberOfLines;
-        
-        CGRect newFrame = messageLabel.frame;
-        newFrame.size.width = labelMaxWidth;
-        
-        // new height = old height / current number of line * multiple
-        newFrame.size.height = newFrame.size.height / messageLabel.numberOfLines * multiple;
-        
-        [messageLabel setNumberOfLines:multiple];
-        [messageLabel setFrame:newFrame];
-    }
-    
     [messageLabel setCenter:CGPointMake(CGRectGetMidX(self.bounds), messageLabel.center.y)];
     
     [self addSubview:messageLabel];
