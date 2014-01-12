@@ -106,7 +106,7 @@ static DTBackgroundView *singletion = nil;
     
     [self setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.5f]];
     
-    previousKeyWindow = [[[UIApplication sharedApplication] keyWindow] retain];
+    previousKeyWindow = DTRetain([[UIApplication sharedApplication] keyWindow]);
     
     alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [alertWindow setWindowLevel:UIWindowLevelAlert];
@@ -214,7 +214,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     BOOL _positiveButtonEnable;
     NSString *_clickedButtonTitle;
     
-    // Back ground
+    // Back Ground
     UIView *_backgroundView;
     UIToolbar *_blurToolbar;
     
@@ -502,7 +502,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     if (backgroundView == nil) {
         [self setBackgroundColor:kDefaultBGColor];
         
-        DTRetain(_backgroundView);
+        DTRelease(_backgroundView);
         _backgroundView = nil;
         
         return;
@@ -543,7 +543,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     }
     
     if (_progressTintColor != nil) {
-        [_progressTintColor release];
+        DTRelease(_progressTintColor);
     }
     
     _progressTintColor = DTRetain(progressBarColor);
@@ -1318,7 +1318,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     }
 
     if (_clickedButtonTitle != nil) {
-        [_clickedButtonTitle release];
+        DTRelease(_clickedButtonTitle);
     }
     
     _clickedButtonTitle = DTRetain([sender titleForState:UIControlStateNormal]);
