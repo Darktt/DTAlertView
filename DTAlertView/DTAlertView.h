@@ -124,7 +124,7 @@ typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *
 @property (nonatomic, readonly) NSString *clickedButtonTitle;
 
 // View settings
-/** Defauls value 0.0, when shown is 25.0 if value not changed.
+/** Defauls value 0.0, when shown is 5.0 if value not changed.
  *
  * @brief The corner radius dispaly in alert view background.
  */
