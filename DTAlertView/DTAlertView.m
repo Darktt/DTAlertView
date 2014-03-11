@@ -1599,7 +1599,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     NSArray *frameValues = @[transformScale(1.0f), transformScale(0.95f), transformScale(0.5f)];
     NSArray *frameTimes = @[@(0.0f), @(0.5f), @(1.0f)];
     
-    CAKeyframeAnimation *animation = [self animationWithValues:frameValues times:frameTimes duration:0.3f];
+    CAKeyframeAnimation *animation = [self animationWithValues:frameValues times:frameTimes duration:0.2f];
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
     
     return animation;

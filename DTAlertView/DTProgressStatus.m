@@ -26,5 +26,5 @@ bool DTProgressStatusIsZero(DTProgressStatus status)
 
 NSString *NSStringFromDTProgressStatus(DTProgressStatus status)
 {
-    return [NSString stringWithFormat:@"%d/%d", status.current, status.total];
+    return [NSString stringWithFormat:@"%zd/%zd", status.current, status.total];
 }
