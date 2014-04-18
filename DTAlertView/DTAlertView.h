@@ -65,7 +65,7 @@ typedef NS_ENUM(NSInteger, DTAlertViewAnimation) {
 
 // Blocks
 typedef void (^DTAlertViewButtonClickedBlock) (DTAlertView *alertView, NSUInteger buttonIndex, NSUInteger cancelButtonIndex);
-typedef void (^DTAlertViewTextDidChangeBlock)(DTAlertView *alertView, NSString *text);
+typedef void (^DTAlertViewTextDidChangeBlock) (DTAlertView *alertView, NSString *text);
 
 #endif
 
