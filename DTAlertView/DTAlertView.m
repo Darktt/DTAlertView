@@ -455,6 +455,10 @@ const static CGFloat kMotionEffectExtent = 15.0f;
 - (void)setAlertViewMode:(DTAlertViewMode)alertViewMode
 {
     _alertViewMode = alertViewMode;
+    
+    if (_visible) {
+        [self renewLayout];
+    }
 }
 
 - (DTAlertViewMode)alertViewMode

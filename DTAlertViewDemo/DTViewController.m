@@ -215,12 +215,10 @@
                 }
             };
             
-            progressAlertView = [DTAlertView alertViewUseBlock:block title:@"Loading..." message:nil cancelButtonTitle:@"Cancel" positiveButtonTitle:nil];
-            [progressAlertView setAlertViewMode:DTAlertViewModeProgress];
-            [progressAlertView setPercentage:0];
+            progressAlertView = [DTAlertView alertViewUseBlock:block title:@"Loading..." message:@"Prepareing..." cancelButtonTitle:@"Cancel" positiveButtonTitle:nil];
             [progressAlertView show];
             
-            [self performSelector:@selector(changePercentage:) withObject:@(0.1f) afterDelay:1.0f];
+            [self performSelector:@selector(changePercentage:) withObject:@(0.0f) afterDelay:1.0f];
         }
             break;
             
@@ -286,6 +284,8 @@
 {
     CGFloat _percentage = [percentage floatValue];
     
+    [progressAlertView setAlertViewMode:DTAlertViewModeProgress];
+    [progressAlertView setMessage:nil];
     [progressAlertView setPercentage:_percentage];
     
     if (_percentage < 1.0f) {
