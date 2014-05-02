@@ -143,7 +143,13 @@ typedef void (^DTAlertViewTextDidChangeBlock) (DTAlertView *alertView, NSString 
  */
 @property (nonatomic, readonly) UITextField *textField;
 
-/** Default is nil.<br/>
+/** Default is blue (aka. iOS 7 default blue color).
+ *
+ * @brief Set all of button text color.
+ */
+@property (nonatomic, retain) UIColor *buttonTextColor;
+
+/** Default is blue (aka. iOS 7 default blue color).<br/>
  * Only can be set it when DTAlertViewMode is DTAlertViewModeProgress and DTAlertViewModeDuoProgress.
  *
  * @brief Set all of UIProgressView progress bar tint color.

@@ -304,6 +304,8 @@
 - (void)showOtherAlertView
 {
     DTAlertView *alert = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm secound alert view" delegate:nil cancelButtonTitle:@"OK" positiveButtonTitle:nil];
+    [alert setButtonTextColor:[UIColor orangeColor]];
+    
     [alert show];
 }
 

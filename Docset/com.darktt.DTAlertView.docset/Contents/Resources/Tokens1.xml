@@ -478,6 +478,42 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setButtonTextColor:</TokenIdentifier>
+			<Abstract type="html">Set all of button text color.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) UIColor *buttonTextColor</Declaration>
+			
+			
+			<Anchor>//api/name/buttonTextColor</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/buttonTextColor</TokenIdentifier>
+			<Abstract type="html">Set all of button text color.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) UIColor *buttonTextColor</Declaration>
+			
+			
+			<Anchor>//api/name/buttonTextColor</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/DTAlertView/buttonTextColor</TokenIdentifier>
+			<Abstract type="html">Set all of button text color.</Abstract>
+			<DeclaredIn>DTAlertView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) UIColor *buttonTextColor</Declaration>
+			
+			
+			<Anchor>//api/name/buttonTextColor</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setProgressBarColor:</TokenIdentifier>
 			<Abstract type="html">Set all of UIProgressView progress bar tint color.</Abstract>
 			<DeclaredIn>DTAlertView.h</DeclaredIn>

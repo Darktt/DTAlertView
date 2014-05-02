@@ -214,6 +214,9 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     BOOL _positiveButtonEnable;
     NSString *_clickedButtonTitle;
     
+    // Button Color
+    UIColor *_buttonTextColor;
+    
     // Back Ground
     UIView *_backgroundView;
     UIToolbar *_blurToolbar;
@@ -260,6 +263,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     _backgroundView = nil;
     _visible = NO;
     _progressTintColor = [[UIColor alloc] initWithRed:0 green:122.0f/255.0f blue:1 alpha:1];
+    _buttonTextColor = [[UIColor alloc] initWithRed:0 green:122.0f/255.0f blue:1 alpha:1];
     
     _keyboardIsShown = NO;
     
@@ -312,6 +316,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     _backgroundView = nil;
     _visible = NO;
     _progressTintColor = [[UIColor alloc] initWithRed:0 green:122.0f/255.0f blue:1 alpha:1];
+    _buttonTextColor = [[UIColor alloc] initWithRed:0 green:122.0f/255.0f blue:1 alpha:1];
     
     _keyboardIsShown = NO;
     
@@ -353,6 +358,11 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     if (_cancelButtonTitle != nil) {
         [_cancelButtonTitle release];
         _cancelButtonTitle = nil;
+    }
+    
+    if (_buttonTextColor != nil) {
+        [_buttonTextColor release];
+        _buttonTextColor = nil;
     }
     
     if (_positiveButtonTitle != nil) {
@@ -539,6 +549,36 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     return _textField;
 }
 
+- (void)setButtonTextColor:(UIColor *)buttonTextColor
+{
+    if (_buttonTextColor != nil) {
+        DTRelease(_buttonTextColor);
+    }
+    
+    if (buttonTextColor != nil) {
+        _buttonTextColor = DTRetain(buttonTextColor);
+    } else {
+        _buttonTextColor = [[UIColor alloc] initWithRed:0 green:122.0f/255.0f blue:1 alpha:1];
+    }
+    
+    if (_visible && [self checkButtonTitleExist]) {
+        if (_cancelButtonTitle != nil) {
+            UIButton *cancelButton = (UIButton *)[self viewWithTag:_cancelButtonIndex + 1];
+            [cancelButton setTitleColor:_buttonTextColor forState:UIControlStateNormal];
+        }
+        
+        if (_positiveButtonTitle != nil) {
+            UIButton *positiveButton = (UIButton *)[self viewWithTag:_cancelButtonIndex + 2];
+            [positiveButton setTitleColor:_buttonTextColor forState:UIControlStateNormal];
+        }
+    }
+}
+
+- (UIColor *)buttonTextColor
+{
+    return _buttonTextColor;
+}
+
 - (void)setProgressBarColor:(UIColor *)progressBarColor
 {
     // Only set at DTAlertViewModeProgress and DTAlertViewModeDuoProgress
@@ -550,7 +590,11 @@ const static CGFloat kMotionEffectExtent = 15.0f;
         DTRelease(_progressTintColor);
     }
     
-    _progressTintColor = DTRetain(progressBarColor);
+    if (progressBarColor != nil) {
+        _progressTintColor = DTRetain(progressBarColor);
+    } else {
+        _progressTintColor = [[UIColor alloc] initWithRed:0 green:122.0f/255.0f blue:1 alpha:1];
+    }
     
     if (_visible && (_alertViewMode == DTAlertViewModeProgress || _alertViewMode == DTAlertViewModeDuoProgress)) {
         UIProgressView *firstProgress = (UIProgressView *)[self viewWithTag:kFirstProgressTag];
@@ -1218,12 +1262,10 @@ const static CGFloat kMotionEffectExtent = 15.0f;
         buttonColor = [UIColor whiteColor];
     }
     
-    UIColor *buttonTitleColor = [UIColor colorWithRed:0 green:122.0f/255.0f blue:1 alpha:1];
-    
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setBackgroundColor:buttonColor];
     [button setTitle:buttonTitle forState:UIControlStateNormal];
-    [button setTitleColor:buttonTitleColor forState:UIControlStateNormal];
+    [button setTitleColor:_buttonTextColor forState:UIControlStateNormal];
     [button setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     [button.titleLabel setFont:[UIFont boldSystemFontOfSize:17.0f]];
     [button setClipsToBounds:YES];
