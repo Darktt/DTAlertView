@@ -16,6 +16,7 @@
 // limitations under the License.
 
 #import "DTAlertView.h"
+#import <tgmath.h>
 #import <QuartzCore/QuartzCore.h>
 
 //#define DEBUG_MODE
@@ -875,7 +876,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
         [_textField resignFirstResponder];
         
         // Remove notification
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+        [self removeNotification];
     }
     
     CAAnimation *dismissAnimation = nil;
@@ -1392,10 +1393,12 @@ const static CGFloat kMotionEffectExtent = 15.0f;
 
 - (IBAction)textFieldDidBegin:(id)sender
 {
+    _keyboardIsShown = YES;
+    
     // Receive notification
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(textFieldDidBeginEditing:)
-                                                 name:UIKeyboardWillShowNotification
+                                             selector:@selector(keyboardWillChangeFrame:)
+                                                 name:UIKeyboardWillChangeFrameNotification
                                                object:nil];
 }
 
@@ -1413,7 +1416,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     }
 }
 
-- (IBAction)textFieldDidEndEditing:(NSNotification *)notification
+- (IBAction)textFieldDidEndEditing:(id)sender
 {
     _keyboardIsShown = NO;
     
@@ -1422,14 +1425,13 @@ const static CGFloat kMotionEffectExtent = 15.0f;
         UIView *backGround = [self superview];
         [self setCenter:backGround.center];
     } completion:^(BOOL finished) {
-        // Remove notification
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+        [self removeNotification];
     }];
 }
 
 #pragma mark - KeyBoard Notification Mesthods
 
-- (CGPoint)calculateNewCenterWithKeyOffset:(CGFloat)keyboardOffset
+- (CGPoint)calculateNewCenterWithKeyboardOffset:(CGFloat)keyboardOffset
 {
     UIApplication *application = [UIApplication sharedApplication];
     BOOL isPortrait = UIInterfaceOrientationIsPortrait(application.statusBarOrientation);
@@ -1444,50 +1446,131 @@ const static CGFloat kMotionEffectExtent = 15.0f;
         currentBottom += isPortrait ? center.y - self.center.y : center.x - self.center.x;
     }
     
+#ifdef DEBUG_MODE
+    
+    NSLog(@"Current Bottom: %.2f", currentBottom);
+    NSLog(@"Keyboard Bottom: %.2f", keyboardOffset);
+    
+#endif
+    
     if (currentBottom >= keyboardOffset) {
         // Set self botton higher than keyboard top more.
         CGFloat delta = currentBottom - keyboardOffset + 45.0f;
         
+        // Portrait
         if (orientation == UIInterfaceOrientationPortrait) {
             center.y -= delta;
         }
         
+        // Upside Down
         if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
             center.y += delta;
         }
         
+        /* Reduce the interval between keyboard and alert view on landscape view */
+        
+        // Right Landscape
         if (orientation == UIInterfaceOrientationLandscapeRight) {
-            center.x += delta;
+            center.x += delta - 25.0f;
         }
         
+        // Left Landscape
         if (orientation == UIInterfaceOrientationLandscapeLeft) {
-            center.x -= delta;
+            center.x -= delta - 25.0f;
         }
     }
+    
+#ifdef DEBUG_MODE
+    
+    UIScreen *screen = [UIScreen mainScreen];
+    CGPoint screenCenter = (isPortrait) ? CGPointMake(CGRectGetMidX(screen.bounds), CGRectGetMidY(screen.bounds)) : CGPointMake(CGRectGetMidY(screen.bounds), CGRectGetMidX(screen.bounds)) ;
+    
+    NSLog(@"Screen Center: %@", NSStringFromCGPoint(screenCenter));
+    NSLog(@"New Center: %@", NSStringFromCGPoint(center));
+    
+#endif
     
     return center;
 }
 
-- (void)textFieldDidBeginEditing:(NSNotification *)notification
+- (IBAction)keyboardWillChangeFrame:(NSNotification *)notification
 {
-    _keyboardIsShown = YES;
+    if (!_keyboardIsShown) {
+        return;
+    }
     
+    NSDictionary *parameter = (NSDictionary *)notification.userInfo;
+    
+    [self setNewCenterWhenKeyboardApearWithKeyboardParameter:parameter];
+}
+
+- (void)setNewCenterWhenKeyboardApearWithKeyboardParameter:(NSDictionary *)parameter
+{
     UIApplication *application = [UIApplication sharedApplication];
     BOOL isPortrait = UIInterfaceOrientationIsPortrait(application.statusBarOrientation);
     
-    NSDictionary *params = (NSDictionary *)notification.userInfo;
+    CGRect frame = [[parameter objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    NSTimeInterval duration = [parameter[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
-    CGRect frame = [[params objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    NSTimeInterval duration = [params[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+#ifdef DEBUG_MODE
+    
+    NSLog(@"Keyboard Frame: %@", NSStringFromCGRect(frame));
+    
+#endif
     
     UIScreen *screen = [UIScreen mainScreen];
+    
+    // Check keyboard is hide in iPad device.
+    BOOL keyboardWillHide = NO;
+    
+    switch (application.statusBarOrientation) {
+        case UIInterfaceOrientationPortrait:
+            keyboardWillHide = fabs(CGRectGetMinY(frame)) == CGRectGetHeight(frame);
+            break;
+            
+        case UIInterfaceOrientationPortraitUpsideDown:
+            keyboardWillHide = fabs(CGRectGetMinY(frame)) == CGRectGetHeight(screen.bounds);
+            break;
+            
+        case UIInterfaceOrientationLandscapeLeft:
+            keyboardWillHide = fabs(CGRectGetMinX(frame) == CGRectGetWidth(screen.bounds));
+            break;
+            
+        case UIInterfaceOrientationLandscapeRight:
+            keyboardWillHide = fabs(CGRectGetMinX(frame)) == CGRectGetWidth(frame);
+            break;
+            
+        default:
+            break;
+    }
+    
+    if (keyboardWillHide) {
+        
+        [self textFieldDidEndEditing:nil];
+        
+        return;
+    }
+    
     // Keyboard offset value is screen height reduce keyboard height at portrait, when landscape value is keyboard width.
     CGFloat keyboardOffset = isPortrait ? CGRectGetHeight(screen.bounds) - CGRectGetHeight(frame) : CGRectGetWidth(screen.bounds) - CGRectGetWidth(frame);
-    CGPoint newCenter = [self calculateNewCenterWithKeyOffset:keyboardOffset];
+    CGPoint newCenter = [self calculateNewCenterWithKeyboardOffset:keyboardOffset];
     
     [UIView animateWithDuration:duration animations:^{
         [self setCenter:newCenter];
     }];
+}
+
+- (void)removeNotification
+{
+    
+#ifdef DEBUG_MODE
+    
+    NSLog(@"** Remove notification **");
+    
+#endif
+    
+    // Remove notification
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 #pragma mark - Set Cancel Button Index

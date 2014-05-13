@@ -54,7 +54,7 @@
     UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     [tableView setDataSource:self];
     [tableView setDelegate:self];
-    [tableView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+    [tableView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     
     NSString *version = [[UIDevice currentDevice] systemVersion];
     
