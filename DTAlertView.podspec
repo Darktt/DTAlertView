@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.license      = { :type => 'Apache 2.0', :file => 'LICENSE' }
   s.author       = { "Darktt" => "darktt@me.com" }
   s.platform     = :ios, '5.0'
-  s.source       = { :git => "https://github.com/ChandleWEi/DTAlertView.git", :tag => "1.3" }
+  s.source       = { :git => "https://github.com/Darktt/DTAlertView.git", :tag => "1.3" }
   s.source_files  = 'DTAlertView/*.{h,m}'
   s.frameworks = 'QuartzCore'
 end
