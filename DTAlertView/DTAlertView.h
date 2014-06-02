@@ -226,15 +226,6 @@ typedef void (^DTAlertViewTextDidChangeBlock) (DTAlertView *alertView, NSString 
 
 #endif
 
-/** @brief Set iOS7 style blur background color
- *
- * @param color The color of blur display color.
- * @param alpha The opacity value of the color object, specified as a value from 0.0 to 1.0.
- *
- * @warning This method only available iOS7.
- */
-- (void)setBlurBackgroundWithColor:(UIColor *)color alpha:(CGFloat)alpha NS_AVAILABLE_IOS(7_0);
-
 /** Default is Enable.
  * @brief Set positive button enable or disable.
  *

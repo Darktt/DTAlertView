@@ -696,26 +696,6 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setBlurBackgroundWithColor:alpha:</TokenIdentifier>
-			<Abstract type="html">Set iOS7 style blur background color</Abstract>
-			<DeclaredIn>DTAlertView.h</DeclaredIn>
-			
-			<Declaration>- (void)setBlurBackgroundWithColor:(UIColor *)color alpha:(CGFloat)alpha</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>color</Name>
-					<Abstract type="html">The color of blur display color.</Abstract>
-				</Parameter><Parameter>
-					<Name>alpha</Name>
-					<Abstract type="html">The opacity value of the color object, specified as a value from 0.0 to 1.0.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setBlurBackgroundWithColor:alpha:</Anchor>
-            <NodeRef refid="1"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/DTAlertView/setPositiveButtonEnable:</TokenIdentifier>
 			<Abstract type="html">Set positive button enable or disable.</Abstract>
 			<DeclaredIn>DTAlertView.h</DeclaredIn>
