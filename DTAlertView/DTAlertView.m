@@ -786,10 +786,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     
     [self.layer addAnimation:showsAnimation forKey:kAnimationShow];
     
-    [self performSelector:@selector(showsCompletion) withObject:nil afterDelay:showsAnimation.duration];
-    
-    // Receive notification for handle rotate issue
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rotationHandle:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    [self performSelector:@selector(showsCompletion) withObject:nil afterDelay:0.1f];
 }
 
 - (void)showsCompletion
@@ -797,6 +794,14 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     _visible = YES;
     
     [self.layer removeAnimationForKey:kAnimationShow];
+    
+    // Trigger keyboard to show
+    if (_textField != nil) {
+        [_textField becomeFirstResponder];
+    }
+    
+    // Regist notification for handle rotate issue
+    [self registRotationHandleNotification];
 }
 
 #pragma mark Dismiss Alert View Method
@@ -866,7 +871,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
 - (void)dismissWithAnimation:(DTAlertViewAnimation)animation
 {
     // Remove notification for rotate
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    [self removeRotationHandleNotification];
 
     if (_delegate != nil && [_delegate respondsToSelector:@selector(alertViewWillDismiss:)]) {
         [_delegate alertViewWillDismiss:self];
@@ -876,7 +881,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
         [_textField resignFirstResponder];
         
         // Remove notification
-        [self removeNotification];
+        [self removeKeyboarHandleNotification];
     }
     
     CAAnimation *dismissAnimation = nil;
@@ -1044,7 +1049,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
             [_textField setCenter:CGPointMake(CGRectGetMidX(self.bounds), _textField.center.y)];
             
             if ([_textField respondsToSelector:@selector(setTintColor:)]) {
-                [_textField setTintColor:[UIColor blueColor]];
+                [_textField setTintColor:[UIColor colorWithRed:0 green:122.0f/255.0f blue:1 alpha:1]];
             }
             
             [self addSubview:_textField];
@@ -1246,6 +1251,8 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     [self resizeViewWithLastRect:buttonsField];
 }
 
+#pragma mark Default Views Setting
+
 - (UIProgressView *)setProgressViewWithFrame:(CGRect)frame
 {
     UIProgressView *progress = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
@@ -1278,6 +1285,8 @@ const static CGFloat kMotionEffectExtent = 15.0f;
 {
     return (_cancelButtonTitle != nil || _positiveButtonTitle != nil);
 }
+
+#pragma mark Layout Handle
 
 - (void)resizeViewWithLastRect:(CGRect)lastRect
 {
@@ -1349,6 +1358,19 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     [self setViews];
 }
 
+#pragma mark Set Cancel Button Index
+
+- (void)setCancelButtonIndex
+{
+    if (_cancelButtonTitle == nil) {
+        _cancelButtonIndex = -1;
+        
+        return;
+    }
+    
+    _cancelButtonIndex = 0;
+}
+
 #pragma mark - Button Action
 
 - (IBAction)buttonClicked:(UIButton *)sender
@@ -1393,13 +1415,11 @@ const static CGFloat kMotionEffectExtent = 15.0f;
 
 - (IBAction)textFieldDidBegin:(id)sender
 {
-    _keyboardIsShown = YES;
+    // Remove keyboard notification first
+    [self removeKeyboarHandleNotification];
     
-    // Receive notification
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillChangeFrame:)
-                                                 name:UIKeyboardWillChangeFrameNotification
-                                               object:nil];
+    // Then regist notification
+    [self registKeyboardHandleNotification];
 }
 
 - (IBAction)textFieldDidChange:(id)sender
@@ -1418,18 +1438,111 @@ const static CGFloat kMotionEffectExtent = 15.0f;
 
 - (IBAction)textFieldDidEndEditing:(id)sender
 {
+    [_textField resignFirstResponder];
+}
+
+#pragma mark - Handle Notification
+
+- (void)registRotationHandleNotification
+{
+#ifdef DEBUG_MODE
+    
+    NSLog(@"** Regist rotation notification **");
+    
+#endif
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRotationHandle:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+}
+
+- (void)removeRotationHandleNotification
+{
+#ifdef DEBUG_MODE
+    
+    NSLog(@"** Remove rotation notification **");
+    
+#endif
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+}
+
+- (void)registKeyboardHandleNotification
+{
+#ifdef DEBUG_MODE
+    
+    NSLog(@"** Regist keyboard notification **");
+    
+#endif
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)removeKeyboarHandleNotification
+{
+#ifdef DEBUG_MODE
+    
+    NSLog(@"** Remove keyboard notification **");
+    
+#endif
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
+#pragma mark KeyBoard Notification Methods
+
+- (IBAction)keyboardWillShow:(NSNotification *)notification
+{
+    _keyboardIsShown = YES;
+}
+
+- (IBAction)keyboardWillChangeFrame:(NSNotification *)notification
+{
+    NSDictionary *parameter = (NSDictionary *)notification.userInfo;
+    
+    [self setNewCenterWhenKeyboardApearWithKeyboardParameter:parameter];
+}
+
+- (IBAction)keyboardWillHide:(NSNotification *)notification
+{
     _keyboardIsShown = NO;
     
-    [UIView animateWithDuration:0.25f animations:^{
+    NSDictionary *parameter = (NSDictionary *)notification.userInfo;
+    NSNumber *keyboardHideDuration = (NSNumber *)parameter[UIKeyboardAnimationDurationUserInfoKey];
+    
+    [UIView animateWithDuration:[keyboardHideDuration doubleValue] animations:^{
         // Move current view to center
         UIView *backGround = [self superview];
         [self setCenter:backGround.center];
-    } completion:^(BOOL finished) {
-        [self removeNotification];
     }];
 }
 
-#pragma mark - KeyBoard Notification Mesthods
+- (void)setNewCenterWhenKeyboardApearWithKeyboardParameter:(NSDictionary *)parameter
+{
+    UIApplication *application = [UIApplication sharedApplication];
+    BOOL isPortrait = UIInterfaceOrientationIsPortrait(application.statusBarOrientation);
+    
+    CGRect frame = [[parameter objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    NSTimeInterval duration = [parameter[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+#ifdef DEBUG_MODE
+    
+    NSLog(@"Keyboard Frame: %@", NSStringFromCGRect(frame));
+    
+#endif
+    
+    UIScreen *screen = [UIScreen mainScreen];
+    
+    // Keyboard offset value is screen height reduce keyboard height at portrait, when landscape value is keyboard width.
+    CGFloat keyboardOffset = isPortrait ? CGRectGetHeight(screen.bounds) - CGRectGetHeight(frame) : CGRectGetWidth(screen.bounds) - CGRectGetWidth(frame);
+    CGPoint newCenter = [self calculateNewCenterWithKeyboardOffset:keyboardOffset];
+    
+    [UIView animateWithDuration:duration animations:^{
+        [self setCenter:newCenter];
+    }];
+}
 
 - (CGPoint)calculateNewCenterWithKeyboardOffset:(CGFloat)keyboardOffset
 {
@@ -1493,97 +1606,31 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     return center;
 }
 
-- (IBAction)keyboardWillChangeFrame:(NSNotification *)notification
-{
-    if (!_keyboardIsShown) {
-        return;
+#pragma mark Rotation Notification Methods
+
+- (CGFloat)angleForCurrentOrientation {
+    
+	// Calculate a rotation transform that matches the current interface orientation.
+	CGFloat angle = 0.0f;
+	UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
+	if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
+        angle = M_PI;
+    } else if (orientation == UIInterfaceOrientationLandscapeLeft) {
+        angle = -M_PI_2;
+    } else if (orientation == UIInterfaceOrientationLandscapeRight) {
+        angle = M_PI_2;
     }
     
-    NSDictionary *parameter = (NSDictionary *)notification.userInfo;
-    
-    [self setNewCenterWhenKeyboardApearWithKeyboardParameter:parameter];
+	return angle;
 }
 
-- (void)setNewCenterWhenKeyboardApearWithKeyboardParameter:(NSDictionary *)parameter
+- (void)didRotationHandle:(NSNotification *)sender
 {
-    UIApplication *application = [UIApplication sharedApplication];
-    BOOL isPortrait = UIInterfaceOrientationIsPortrait(application.statusBarOrientation);
+    CGFloat angle = [self angleForCurrentOrientation];
     
-    CGRect frame = [[parameter objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    NSTimeInterval duration = [parameter[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    
-#ifdef DEBUG_MODE
-    
-    NSLog(@"Keyboard Frame: %@", NSStringFromCGRect(frame));
-    
-#endif
-    
-    UIScreen *screen = [UIScreen mainScreen];
-    
-    // Check keyboard is hide in iPad device.
-    BOOL keyboardWillHide = NO;
-    
-    switch (application.statusBarOrientation) {
-        case UIInterfaceOrientationPortrait:
-            keyboardWillHide = fabs(CGRectGetMinY(frame)) == CGRectGetHeight(frame);
-            break;
-            
-        case UIInterfaceOrientationPortraitUpsideDown:
-            keyboardWillHide = fabs(CGRectGetMinY(frame)) == CGRectGetHeight(screen.bounds);
-            break;
-            
-        case UIInterfaceOrientationLandscapeLeft:
-            keyboardWillHide = fabs(CGRectGetMinX(frame) == CGRectGetWidth(screen.bounds));
-            break;
-            
-        case UIInterfaceOrientationLandscapeRight:
-            keyboardWillHide = fabs(CGRectGetMinX(frame)) == CGRectGetWidth(frame);
-            break;
-            
-        default:
-            break;
-    }
-    
-    if (keyboardWillHide) {
-        
-        [self textFieldDidEndEditing:nil];
-        
-        return;
-    }
-    
-    // Keyboard offset value is screen height reduce keyboard height at portrait, when landscape value is keyboard width.
-    CGFloat keyboardOffset = isPortrait ? CGRectGetHeight(screen.bounds) - CGRectGetHeight(frame) : CGRectGetWidth(screen.bounds) - CGRectGetWidth(frame);
-    CGPoint newCenter = [self calculateNewCenterWithKeyboardOffset:keyboardOffset];
-    
-    [UIView animateWithDuration:duration animations:^{
-        [self setCenter:newCenter];
-    }];
-}
-
-- (void)removeNotification
-{
-    
-#ifdef DEBUG_MODE
-    
-    NSLog(@"** Remove notification **");
-    
-#endif
-    
-    // Remove notification
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
-}
-
-#pragma mark - Set Cancel Button Index
-
-- (void)setCancelButtonIndex
-{
-    if (_cancelButtonTitle == nil) {
-        _cancelButtonIndex = -1;
-        
-        return;
-    }
-    
-    _cancelButtonIndex = 0;
+    [self.layer removeAnimationForKey:kAnimationShake];
+    [self.layer setTransform:CATransform3DMakeRotation(angle, 0.0f, 0.0f, 1.0f)];
 }
 
 #pragma mark - Motion Effect Setting
@@ -1690,7 +1737,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
 {
     NSArray *frameValues = @[transformScale(0.1f), transformScale(1.15f), transformScale(0.9f), transformScale(1.0f)];
     NSArray *frameTimes = @[@(0.0f), @(0.5f), @(0.9f), @(1.0f)];
-    return [self animationWithValues:frameValues times:frameTimes duration:0.4f];
+    return [self animationWithValues:frameValues times:frameTimes duration:0.2f];
 }
 
 - (CAAnimation *)sildeInTopAnimation
@@ -1777,33 +1824,6 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     NSArray *frameValues = @[transformTranslateX(10.0f), transformTranslateX(-10.0f), transformTranslateX(6.0f), transformTranslateX(-6.0f),transformTranslateX(3.0f), transformTranslateX(-3.0f), transformTranslateX(0.0f)];
     NSArray *frameTimes = @[@(0.14f), @(0.28f), @(0.42f), @(0.57f), @(0.71f), @(0.85f), @(1.0f)];
     return [self animationWithValues:frameValues times:frameTimes duration:0.5f];
-}
-
-#pragma mark - Rotation Handler
-
-- (CGFloat)angleForCurrentOrientation {
-    
-	// Calculate a rotation transform that matches the current interface orientation.
-	CGFloat angle = 0.0f;
-	UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    
-	if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
-        angle = M_PI;
-    } else if (orientation == UIInterfaceOrientationLandscapeLeft) {
-        angle = -M_PI_2;
-    } else if (orientation == UIInterfaceOrientationLandscapeRight) {
-        angle = M_PI_2;
-    }
-    
-	return angle;
-}
-
-- (void)rotationHandle:(NSNotification *)sender
-{
-    CGFloat angle = [self angleForCurrentOrientation];
-    
-    [self.layer removeAnimationForKey:kAnimationShake];
-    [self.layer setTransform:CATransform3DMakeRotation(angle, 0.0f, 0.0f, 1.0f)];
 }
 
 @end

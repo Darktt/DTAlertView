@@ -222,6 +222,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Darktt;
 				TargetAttributes = {
+					5520143D17E867620005621E = {
+						DevelopmentTeam = HHA6P9K77D;
+					};
 					5520145E17E867620005621E = {
 						TestTargetID = 5520143D17E867620005621E;
 					};
@@ -395,11 +398,13 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DTAlertViewDemo/DTAlertViewDemo-Prefix.pch";
 				INFOPLIST_FILE = "DTAlertViewDemo/DTAlertViewDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -412,11 +417,13 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DTAlertViewDemo/DTAlertViewDemo-Prefix.pch";
 				INFOPLIST_FILE = "DTAlertViewDemo/DTAlertViewDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
