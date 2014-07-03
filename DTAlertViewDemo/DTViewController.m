@@ -284,7 +284,10 @@
 {
     CGFloat _percentage = [percentage floatValue];
     
-    [progressAlertView setAlertViewMode:DTAlertViewModeProgress];
+    if (progressAlertView.alertViewMode != DTAlertViewModeDuoProgress) {
+        [progressAlertView setAlertViewMode:DTAlertViewModeProgress];
+    }
+    
     [progressAlertView setMessage:nil];
     [progressAlertView setPercentage:_percentage];
     
