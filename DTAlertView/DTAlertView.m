@@ -129,7 +129,7 @@ static DTBackgroundView *singletion = nil;
 
 - (void)setAlpha:(CGFloat)alpha
 {
-    if (alertViews.count > 0) {
+    if ([alertViews count] > 0) {
         alpha = 1.0f;
     }
     
@@ -138,7 +138,7 @@ static DTBackgroundView *singletion = nil;
 
 - (void)setHidden:(BOOL)hidden
 {
-    if (alertViews.count > 0) {
+    if ([alertViews count] > 0) {
         hidden = NO;
     }
     
@@ -810,7 +810,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
 {
     NSArray *alertViews = [[DTBackgroundView currentBackground] allAlertView];
     
-    if (alertViews.count == 0) {
+    if ([alertViews count] == 0) {
         return NO;
     }
     
@@ -825,7 +825,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
 {
     NSArray *alertViews = [[DTBackgroundView currentBackground] allAlertView];
     
-    if (alertViews.count == 0) {
+    if ([alertViews count] == 0) {
         return NO;
     }
     
@@ -846,7 +846,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
 {
     NSArray *alertViews = [[DTBackgroundView currentBackground] allAlertView];
     
-    if (alertViews.count == 0) {
+    if ([alertViews count] == 0) {
         return NO;
     }
     
