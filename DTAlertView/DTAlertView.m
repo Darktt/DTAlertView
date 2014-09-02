@@ -1439,6 +1439,9 @@ const static CGFloat kMotionEffectExtent = 15.0f;
 - (IBAction)textFieldDidEndEditing:(id)sender
 {
     [_textField resignFirstResponder];
+    
+    // Remove notification
+    [self removeKeyboarHandleNotification];
 }
 
 #pragma mark - Handle Notification
