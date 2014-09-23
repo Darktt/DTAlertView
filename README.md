@@ -1,8 +1,9 @@
 DTAlertView
 ===========
 
-##IMPORTANT##
+**IMPORTANT**:
 UIWindow appearance changed on iOS 8, I cant not fix it on landscape view.
+
 So I will create a new one for iOS8.
 
 ![Perview 1](https://raw.github.com/Darktt/DTAlertView/master/Raw/Image/Perview1.png)![Perview 2](https://raw.github.com/Darktt/DTAlertView/master/Raw/Image/Perview2.png)
