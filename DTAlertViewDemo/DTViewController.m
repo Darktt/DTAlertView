@@ -133,12 +133,14 @@
     
     switch (indexPath.row) {
         case 0:
-//            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+        {
+            NSString *thinkDifferent = @"Here's to the crazy ones.\nThe misfits.\nThe rebels.\nThe troublemakers.\nThe round pegs in the square holes.\nThe ones who see things differently.\nThey're not fond of rules\nAnd they have no respect for the status quo.\nYou can praise them, quote them, disagree with them\ndisbelieve them, glorify or vilify them.\nAbout the only thing that you can't do is ignore them.\nBecause they change things.\nThey invent.     They imagine.     They heal.\nThey explore.   They create.        They inspire.\nThey push the human race forward.\nMaybe they have to be crazy.\nHow else can you stare at an empty canvas and see a work of art?\nOr sit in silence and hear a song that's never been written?\nOr gaze at a red planet and see a laboratory on wheels?\nWe make tools for these kinds of people.\nWhile some may see them as the crazy ones, we see genius.\nBecause the people who are crazy enough to think that they can\nchange the world, are the ones who do.";
             
-            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm very long long long long long long long long long long long long long long long long long long long long long long long\n long long long long long\n long long long long long long long long long long long long long long long long long long long long long long long long long\n long long long long long long long long long long long long long long long long long long long long long long long message." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+            alertView = [DTAlertView alertViewWithTitle:@"Think Different" message:thinkDifferent delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
             [alertView show];
             
             [self performSelector:@selector(showOtherAlertView) withObject:nil afterDelay:2];
+        }
             break;
             
         case 1:

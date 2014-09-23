@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5276A69619D151220052E4EE /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5276A69519D151220052E4EE /* Launch Screen.xib */; };
 		5520144217E867620005621E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5520144117E867620005621E /* Foundation.framework */; };
 		5520144417E867620005621E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5520144317E867620005621E /* CoreGraphics.framework */; };
 		5520144617E867620005621E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5520144517E867620005621E /* UIKit.framework */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5276A69519D151220052E4EE /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		5520143E17E867620005621E /* DTAlertViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DTAlertViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5520144117E867620005621E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5520144317E867620005621E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -130,6 +132,7 @@
 				55DFE4B617FC10860024265E /* rainbow.jpg */,
 				5520145917E867620005621E /* Images.xcassets */,
 				5520144817E867620005621E /* Supporting Files */,
+				5276A69519D151220052E4EE /* Launch Screen.xib */,
 			);
 			path = DTAlertViewDemo;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				55DFE4B717FC10860024265E /* rainbow.jpg in Resources */,
+				5276A69619D151220052E4EE /* Launch Screen.xib in Resources */,
 				5520145A17E867620005621E /* Images.xcassets in Resources */,
 				5520144C17E867620005621E /* InfoPlist.strings in Resources */,
 			);

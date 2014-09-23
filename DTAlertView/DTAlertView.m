@@ -72,13 +72,16 @@ static NSString *kAnimationShow = @"Popup";
 static NSString *kAnimationDismiss = @"Dismiss";
 static NSString *kAnimationShake = @"Shake";
 
+// Message Limit Height
+CGFloat const kMessageLabelLimitHight = 400.0f;
+
 #pragma mark - Implement DTBackgroundView Class
 
 @interface DTBackgroundView : UIView
 {
-    UIWindow *previousKeyWindow;
-    UIWindow *alertWindow;
-    NSMutableArray *alertViews;
+    UIWindow *_previousKeyWindow;
+    UIWindow *_alertWindow;
+    NSMutableArray *_alertViews;
 }
 
 + (DTInstancetype)currentBackground;
@@ -102,34 +105,61 @@ static DTBackgroundView *singletion = nil;
 
 - (id)init
 {
-    self = [super initWithFrame:[[UIScreen mainScreen] bounds]];
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    
+    NSLog(@"Screen Rect: %@", NSStringFromCGRect(screenRect));
+    
+    self = [super initWithFrame:screenRect];
     if (self == nil) return nil;
     
     [self setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.5f]];
+//    [self setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     
-    previousKeyWindow = DTRetain([[UIApplication sharedApplication] keyWindow]);
+    _previousKeyWindow = DTRetain([[UIApplication sharedApplication] keyWindow]);
+    [_previousKeyWindow resignKeyWindow];
     
-    alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [alertWindow setWindowLevel:UIWindowLevelAlert];
-    [alertWindow setBackgroundColor:[UIColor clearColor]];
-    [alertWindow addSubview:self];
-    [alertWindow makeKeyAndVisible];
+    _alertWindow = [[UIWindow alloc] initWithFrame:screenRect];
+    [_alertWindow setWindowLevel:UIWindowLevelAlert];
+    [_alertWindow setBackgroundColor:[UIColor clearColor]];
+    [_alertWindow addSubview:self];
+    [_alertWindow makeKeyAndVisible];
+    [_alertWindow setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     
-    alertViews = [NSMutableArray new];
+    _alertViews = [NSMutableArray new];
     
     [self setHidden:YES];
     
     return self;
 }
 
+- (void)drawRect:(CGRect)rect
+{
+    [super drawRect:rect];
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    
+    if (CGRectEqualToRect(self.frame, screenRect)) {
+        return;
+    }
+    
+    [_alertWindow setFrame:screenRect];
+    [self setFrame:screenRect];
+    
+    [_alertViews enumerateObjectsUsingBlock:^(UIView *alertView, NSUInteger idx, BOOL *stop) {
+        CGPoint backgroundCenter = CGPointMake(CGRectGetMidX(screenRect), CGRectGetMidY(screenRect));
+        
+        [alertView setCenter:backgroundCenter];
+    }];
+}
+
 - (NSArray *)allAlertView
 {
-    return alertViews;
+    return _alertViews;
 }
 
 - (void)setAlpha:(CGFloat)alpha
 {
-    if ([alertViews count] > 0) {
+    if ([_alertViews count] > 0) {
         alpha = 1.0f;
     }
     
@@ -138,20 +168,20 @@ static DTBackgroundView *singletion = nil;
 
 - (void)setHidden:(BOOL)hidden
 {
-    if ([alertViews count] > 0) {
+    if ([_alertViews count] > 0) {
         hidden = NO;
     }
     
     [super setHidden:hidden];
     
-    [alertWindow setHidden:hidden];
+    [_alertWindow setHidden:hidden];
     
     if (hidden) {
-        [alertWindow resignKeyWindow];
-        [previousKeyWindow makeKeyWindow];
+        [_alertWindow resignKeyWindow];
+        [_previousKeyWindow makeKeyAndVisible];
     } else {
-        [previousKeyWindow resignKeyWindow];
-        [alertWindow makeKeyWindow];
+        [_previousKeyWindow resignKeyWindow];
+        [_alertWindow makeKeyAndVisible];
     }
     
     [self setAlpha:1.0f];
@@ -161,12 +191,14 @@ static DTBackgroundView *singletion = nil;
 {
     [super addSubview:view];
     
-    DTAlertView *alertView = alertViews.lastObject;
+    DTAlertView *alertView = _alertViews.lastObject;
     [alertView setHidden:YES];
     
     if ([view isKindOfClass:[DTAlertView class]]) {
-        [alertViews addObject:view];
+        [_alertViews addObject:view];
     }
+    
+    [self setNeedsDisplay];
 }
 
 - (void)willRemoveSubview:(UIView *)subview
@@ -174,10 +206,10 @@ static DTBackgroundView *singletion = nil;
     [super willRemoveSubview:subview];
     
     if ([subview isKindOfClass:[DTAlertView class]]) {
-        [alertViews removeObject:subview];
+        [_alertViews removeObject:subview];
     }
     
-    DTAlertView *alertView = alertViews.lastObject;
+    DTAlertView *alertView = _alertViews.lastObject;
     [alertView setHidden:NO];
 }
 
@@ -619,16 +651,18 @@ const static CGFloat kMotionEffectExtent = 15.0f;
 
 - (void)setBlurBackgroundWithColor:(UIColor *)color alpha:(CGFloat)alpha
 {
-    if (_blurToolbar == nil) {
-        // Add alpha into color
-        color = [color colorWithAlphaComponent:alpha];
-        
-        // Set blur use toolBar create it.
-        _blurToolbar = [[UIToolbar alloc] initWithFrame:self.bounds];
-        [_blurToolbar setBarTintColor:color];
-        
-        [self.layer insertSublayer:_blurToolbar.layer atIndex:0];
+    if (_blurToolbar != nil) {
+        return;
     }
+    
+    // Add alpha into color
+    color = [color colorWithAlphaComponent:alpha];
+    
+    // Set blur use toolBar create it.
+    _blurToolbar = [[UIToolbar alloc] initWithFrame:self.bounds];
+    [_blurToolbar setBarTintColor:color];
+    
+    [self.layer insertSublayer:_blurToolbar.layer atIndex:0];
 }
 
 #pragma mark Set Positive Button enable
@@ -964,7 +998,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     //MARK: Labels
     
     // Label default value.
-    CGFloat labelMaxWidth = self.frame.size.width - 10.0f;
+    CGFloat labelMaxWidth = CGRectGetWidth(self.frame) - 10.0f;
     CGRect labelDefaultRect = CGRectMake(0, 0, labelMaxWidth, labelMaxWidth);
     
     // Title
@@ -1013,13 +1047,24 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     [messageLabel sizeToFit];
     [messageLabel setCenter:CGPointMake(CGRectGetMidX(self.bounds), messageLabel.center.y)];
     
-    [self addSubview:messageLabel];
+    CGFloat messageMaxYPosition = 0.0f;
+    
+    if (CGRectGetHeight(messageLabel.frame) > kMessageLabelLimitHight) {
+        
+        messageMaxYPosition = [self setupScrollViewToContentMessage:messageLabel];
+        
+    } else {
+        
+        [self addSubview:messageLabel];
+        
+        messageMaxYPosition = CGRectGetMaxY(messageLabel.frame);
+    }
 
 #ifdef DEBUG_MODE
     
     [messageLabel setBackgroundColor:[UIColor greenColor]];
     NSLog(@"Message Label Frame: %@", NSStringFromCGRect(messageLabel.frame));
-    NSLog(@"Message Max Y Positiopn: %.1f", CGRectGetMaxY(messageLabel.frame));
+    NSLog(@"Message Max Y Positiopn: %.1f", messageMaxYPosition);
     
 #endif
     
@@ -1030,7 +1075,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     switch (_alertViewMode) {
             
         case DTAlertViewModeNormal:
-            buttonsField.origin.y = CGRectGetMaxY(messageLabel.frame) + 20.0f;
+            buttonsField.origin.y = messageMaxYPosition + 20.0f;
             
             if (![self checkButtonTitleExist]) {
                 [self resizeViewWithLastRect:buttonsField];
@@ -1040,7 +1085,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
         case DTAlertViewModeTextInput:
         {
             //MARK: TextField
-            _textField = [[UITextField alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(messageLabel.frame) + 10.0f, 260.0f, 30.0f)];
+            _textField = [[UITextField alloc] initWithFrame:CGRectMake(0, messageMaxYPosition + 10.0f, 260.0f, 30.0f)];
             [_textField setBorderStyle:UITextBorderStyleRoundedRect];
             [_textField addTarget:self action:@selector(textFieldDidBegin:) forControlEvents:UIControlEventEditingDidBegin];
             [_textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
@@ -1071,7 +1116,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
             //MARK: Progress and label under the progress
             
             // Progress View
-            UIProgressView *firstProgress = [self setProgressViewWithFrame:CGRectMake(0, CGRectGetMaxY(messageLabel.frame) + 10.0f, 260.0f, 2.0f)];
+            UIProgressView *firstProgress = [self setProgressViewWithFrame:CGRectMake(0, messageMaxYPosition + 10.0f, 260.0f, 2.0f)];
             [firstProgress setTag:kFirstProgressTag];
             [firstProgress setProgress:_percentage];
             [firstProgress setCenter:CGPointMake(CGRectGetMidX(self.bounds), firstProgress.center.y)];
@@ -1111,7 +1156,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
             CGFloat progress = (CGFloat)_status.current/(CGFloat)_status.total;
             
             // 1st Progress View
-            UIProgressView *firstProgress = [self setProgressViewWithFrame:CGRectMake(0, CGRectGetMaxY(messageLabel.frame) + 10.0f, labelMaxWidth, 2.0f)];
+            UIProgressView *firstProgress = [self setProgressViewWithFrame:CGRectMake(0, messageMaxYPosition + 10.0f, labelMaxWidth, 2.0f)];
             [firstProgress setProgress:progress];
             [firstProgress setTag:kFirstProgressTag];
             [firstProgress setCenter:CGPointMake(CGRectGetMidX(self.bounds), firstProgress.center.y)];
@@ -1177,7 +1222,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
             break;
     }
     
-    // Release Label
+    //Release Label
     DTRelease(titleLabel);
     DTRelease(messageLabel);
     
@@ -1251,6 +1296,30 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     [self resizeViewWithLastRect:buttonsField];
 }
 
+- (CGFloat)setupScrollViewToContentMessage:(UILabel *)messageLabel
+{
+    // Prepare scroll view rect
+    CGFloat labelWidth = CGRectGetWidth(messageLabel.frame);
+    CGRect scrollViewRect = CGRectMake(0, 0, labelWidth, labelWidth);
+    scrollViewRect.origin = messageLabel.frame.origin;
+    
+    // Adjust message postition to (0, 0)
+    CGRect messageLabelRect = messageLabel.frame;
+    messageLabelRect.origin = CGPointZero;
+    
+    [messageLabel setFrame:messageLabelRect];
+    
+    // Setup scroll view
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:scrollViewRect];
+    [scrollView setContentSize:messageLabel.frame.size];
+    
+    [scrollView addSubview:messageLabel];
+    
+    [self addSubview:scrollView];
+    
+    return CGRectGetMaxY(scrollView.frame);
+}
+
 #pragma mark Default Views Setting
 
 - (UIProgressView *)setProgressViewWithFrame:(CGRect)frame
@@ -1294,9 +1363,6 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     selfFrame.size.height = CGRectGetMaxY(lastRect);
     
     [self setFrame:selfFrame];
-    
-    DTBackgroundView *backgroundView = [DTBackgroundView currentBackground];
-    [self setCenter:backgroundView.center];
 }
 
 - (void)renewLayout
@@ -1531,15 +1597,21 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     NSTimeInterval duration = [parameter[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
 #ifdef DEBUG_MODE
-    
+    // Keyboard Frame: {{0, 315}, {320, 253}}
+    // Keyboard Frame: {{0, 127}, {568, 193}} (iOS 8)
+    // Keyboard Frame: {{158, 0}, {162, 568}} (iOS 7)
     NSLog(@"Keyboard Frame: %@", NSStringFromCGRect(frame));
     
 #endif
     
     UIScreen *screen = [UIScreen mainScreen];
     
+    // Fixed auto change width and height on iOS8 issue.
+    CGFloat screenHeightOnLandcape = (CGRectGetWidth(screen.bounds) < CGRectGetHeight(screen.bounds)) ? CGRectGetWidth(screen.bounds) : CGRectGetHeight(screen.bounds) ;
+    CGFloat keyboardHeightOnLandcape = (CGRectGetWidth(frame) < CGRectGetHeight(frame)) ? CGRectGetWidth(frame) : CGRectGetHeight(frame);
+    
     // Keyboard offset value is screen height reduce keyboard height at portrait, when landscape value is keyboard width.
-    CGFloat keyboardOffset = isPortrait ? CGRectGetHeight(screen.bounds) - CGRectGetHeight(frame) : CGRectGetWidth(screen.bounds) - CGRectGetWidth(frame);
+    CGFloat keyboardOffset = isPortrait ? CGRectGetHeight(screen.bounds) - CGRectGetHeight(frame) : screenHeightOnLandcape - keyboardHeightOnLandcape;
     CGPoint newCenter = [self calculateNewCenterWithKeyboardOffset:keyboardOffset];
     
     [UIView animateWithDuration:duration animations:^{

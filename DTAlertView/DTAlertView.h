@@ -70,6 +70,7 @@ typedef void (^DTAlertViewTextDidChangeBlock) (DTAlertView *alertView, NSString 
 #endif
 
 /// Custom alert view solved the ios UIAlertView can't addSubview problem at iOS7.
+/// Will not maintain for iOS8.
 @interface DTAlertView : UIView
 
 // Default settings
