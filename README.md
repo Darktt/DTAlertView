@@ -1,10 +1,11 @@
 DTAlertView
 ===========
 
-**IMPORTANT**:
-UIWindow appearance changed on iOS 8, I cant not fix it on landscape view.
+##ATTENTION##
 
-So I will create a new one for iOS8.
+* This version 2.0 only support iOS 8 or after iOS 8.
+* If you want use on iOS 7 or less, Please use version 1.4 .
+* Demo code use at **non-ARC** mode, but **DTAlertView** main class support **ARC** and **non-ARC** mode.
 
 ![Perview 1](https://raw.github.com/Darktt/DTAlertView/master/Raw/Image/Perview1.png)![Perview 2](https://raw.github.com/Darktt/DTAlertView/master/Raw/Image/Perview2.png)
 
@@ -33,17 +34,6 @@ And also can use different dismiss animation at click different button.
 New method **-showForPasswordInputWithAnimation:** for input password scenario, and animation **-shakeAlertView** for password error scenario.
 
 ![Password error](https://raw.github.com/Darktt/DTAlertView/master/Raw/DemoGif/PasswordError.gif)
-
-##ATTENTION##
-
-* This demo code create on **Xcode 5.0**, but probably have issues on **Xcode 4 or less**.
-* Demo code use at **non-ARC** mode, but **DTAlertView** main class support **ARC** and **non-ARC** mode.
-
-##Q & A##
-
-Q: How to hidden status bar when alert presented on iOS 7?
-
-A: Set **UIViewControllerBasedStatusBarAppearance** to **NO** in your *info.plist*, the status bar won't appear again.
 
 ##Installation##
 
