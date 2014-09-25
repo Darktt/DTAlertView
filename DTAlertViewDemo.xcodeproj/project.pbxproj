@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5206D4C119D25C02007594B8 /* DTTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5206D4C019D25C02007594B8 /* DTTestViewController.m */; };
+		5206D4C419D26055007594B8 /* DTAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5206D4C319D26055007594B8 /* DTAlertController.m */; };
 		5276A69619D151220052E4EE /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5276A69519D151220052E4EE /* Launch Screen.xib */; };
 		5520144217E867620005621E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5520144117E867620005621E /* Foundation.framework */; };
 		5520144417E867620005621E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5520144317E867620005621E /* CoreGraphics.framework */; };
@@ -38,6 +40,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5206D4BF19D25C02007594B8 /* DTTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTTestViewController.h; sourceTree = "<group>"; };
+		5206D4C019D25C02007594B8 /* DTTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTTestViewController.m; sourceTree = "<group>"; };
+		5206D4C219D26055007594B8 /* DTAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTAlertController.h; sourceTree = "<group>"; };
+		5206D4C319D26055007594B8 /* DTAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTAlertController.m; sourceTree = "<group>"; };
 		5276A69519D151220052E4EE /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		5520143E17E867620005621E /* DTAlertViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DTAlertViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5520144117E867620005621E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -129,6 +135,8 @@
 				5520145117E867620005621E /* DTAppDelegate.m */,
 				5520145617E867620005621E /* DTViewController.h */,
 				5520145717E867620005621E /* DTViewController.m */,
+				5206D4BF19D25C02007594B8 /* DTTestViewController.h */,
+				5206D4C019D25C02007594B8 /* DTTestViewController.m */,
 				55DFE4B617FC10860024265E /* rainbow.jpg */,
 				5520145917E867620005621E /* Images.xcassets */,
 				5520144817E867620005621E /* Supporting Files */,
@@ -169,6 +177,8 @@
 		5520147617E8679D0005621E /* DTAlertView */ = {
 			isa = PBXGroup;
 			children = (
+				5206D4C219D26055007594B8 /* DTAlertController.h */,
+				5206D4C319D26055007594B8 /* DTAlertController.m */,
 				5520147717E867EB0005621E /* DTAlertView.h */,
 				5520147817E867EB0005621E /* DTAlertView.m */,
 				55C8D74917F3E591000CE311 /* DTProgressStatus.h */,
@@ -279,6 +289,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5206D4C119D25C02007594B8 /* DTTestViewController.m in Sources */,
+				5206D4C419D26055007594B8 /* DTAlertController.m in Sources */,
 				5520145217E867620005621E /* DTAppDelegate.m in Sources */,
 				5520145817E867620005621E /* DTViewController.m in Sources */,
 				5520144E17E867620005621E /* main.m in Sources */,
@@ -360,7 +372,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos8.0;
 			};
 			name = Debug;
 		};
@@ -392,7 +404,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos8.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

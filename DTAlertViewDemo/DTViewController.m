@@ -9,6 +9,8 @@
 #import "DTViewController.h"
 
 #import "DTAlertView.h"
+#import "DTAlertController.h"
+#import "DTTestViewController.h"
 
 @interface DTViewController () <UITableViewDataSource, UITableViewDelegate, DTAlertViewDelegate>
 {
@@ -144,9 +146,17 @@
             break;
             
         case 1:
+        {
+            DTTestViewController *test = [[DTTestViewController new] autorelease];
+            
+            [self presentViewController:test animated:YES completion:nil];
+        }
+            
+            /*
             alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
             [alertView setDismissAnimationWhenButtonClicked:DTAlertViewAnimationSlideTop];
             [alertView showWithAnimation:DTAlertViewAnimationSlideTop];
+             */
             break;
             
         case 2:

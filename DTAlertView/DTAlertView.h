@@ -41,7 +41,7 @@ typedef NS_ENUM(NSInteger, DTAlertViewMode) {
     
     /** Alert view with Two UIProgressView. */
     DTAlertViewModeDuoProgress,
-    };
+};
 
 /** Type of show or dismiss animations. */
 typedef NS_ENUM(NSInteger, DTAlertViewAnimation) {
