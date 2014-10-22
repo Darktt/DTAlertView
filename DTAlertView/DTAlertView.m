@@ -103,9 +103,17 @@ static DTBackgroundView *singletion = nil;
     return singletion;
 }
 
+- (CGRect)iOS7StyleScreenBounds {
+    CGRect bounds = [UIScreen mainScreen].bounds;
+    if (([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) && UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        bounds.size = CGSizeMake(bounds.size.height, bounds.size.width);
+    }
+        return bounds;
+}
+
 - (id)init
 {
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGRect screenRect = [self iOS7StyleScreenBounds];
     
     NSLog(@"Screen Rect: %@", NSStringFromCGRect(screenRect));
     
