@@ -104,24 +104,29 @@ static DTBackgroundView *singletion = nil;
 }
 
 - (CGRect)iOS7StyleScreenBounds {
-    CGRect bounds = [UIScreen mainScreen].bounds;
-    if (([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) && UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
-        bounds.size = CGSizeMake(bounds.size.height, bounds.size.width);
+    CGRect bounds = [[UIScreen mainScreen] bounds];
+    NSString *systemVersion = [[UIDevice currentDevice] systemVersion];
+    NSComparisonResult result = [systemVersion compare:@"8.0" options:NSNumericSearch];
+    
+    UIApplication *application = [UIApplication sharedApplication];
+    UIInterfaceOrientation orientation = application.statusBarOrientation;
+    BOOL isLandscape = UIInterfaceOrientationIsLandscape(orientation);
+    
+    if (result != NSOrderedDescending && isLandscape) {
+        bounds.size = CGSizeMake(CGRectGetHeight(bounds), CGRectGetWidth(bounds));
     }
-        return bounds;
+    
+    return bounds;
 }
 
-- (id)init
+- (DTInstancetype)init
 {
     CGRect screenRect = [self iOS7StyleScreenBounds];
-    
-    NSLog(@"Screen Rect: %@", NSStringFromCGRect(screenRect));
     
     self = [super initWithFrame:screenRect];
     if (self == nil) return nil;
     
     [self setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.5f]];
-//    [self setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     
     _previousKeyWindow = DTRetain([[UIApplication sharedApplication] keyWindow]);
     [_previousKeyWindow resignKeyWindow];
@@ -142,9 +147,7 @@ static DTBackgroundView *singletion = nil;
 
 - (void)drawRect:(CGRect)rect
 {
-    [super drawRect:rect];
-    
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGRect screenRect = [self iOS7StyleScreenBounds];
     
     if (CGRectEqualToRect(self.frame, screenRect)) {
         return;
@@ -158,6 +161,8 @@ static DTBackgroundView *singletion = nil;
         
         [alertView setCenter:backgroundCenter];
     }];
+    
+    [super drawRect:rect];
 }
 
 - (NSArray *)allAlertView

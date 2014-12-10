@@ -14,7 +14,7 @@
 		<string>https://github.com/Darktt/DTAlertView.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>DTAlertViewDemo.xcodeproj/project.xcworkspace</string>
+	<string>DTAlertViewDemo.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>DBD3866D20F0281C43F3FEAC84B6CFFFBF580241</key>
