@@ -147,6 +147,8 @@ static DTBackgroundView *singletion = nil;
 
 - (void)drawRect:(CGRect)rect
 {
+    [super drawRect:rect];
+    
     CGRect screenRect = [self iOS7StyleScreenBounds];
     
     if (CGRectEqualToRect(self.frame, screenRect)) {
@@ -161,8 +163,6 @@ static DTBackgroundView *singletion = nil;
         
         [alertView setCenter:backgroundCenter];
     }];
-    
-    [super drawRect:rect];
 }
 
 - (NSArray *)allAlertView
