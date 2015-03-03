@@ -172,7 +172,7 @@ typedef void (^DTAlertViewTextDidChangeBlock) (DTAlertView *alertView, NSString 
  * @see title
  * @see message
  */
-+ (DTInstancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message delegate:(id<DTAlertViewDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle;
++ (DTInstancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message delegate:(id<DTAlertViewDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSArray *)positiveButtonTitleArray;
 
 /** @brief Initial method with delegate.
  *
@@ -189,7 +189,7 @@ typedef void (^DTAlertViewTextDidChangeBlock) (DTAlertView *alertView, NSString 
  * @see title
  * @see message
  */
-- (DTInstancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id<DTAlertViewDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle;
+- (DTInstancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id<DTAlertViewDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSArray *)positiveButtonTitleArray;
 
 #if __has_feature(blocks)
 
@@ -207,7 +207,7 @@ typedef void (^DTAlertViewTextDidChangeBlock) (DTAlertView *alertView, NSString 
  * @see title
  * @see message
  */
-+ (DTInstancetype)alertViewUseBlock:(DTAlertViewButtonClickedBlock)block title:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle;
++ (DTInstancetype)alertViewUseBlock:(DTAlertViewButtonClickedBlock)block title:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSArray *)positiveButtonTitleArray;
 
 /** @brief Initial method with block.
  *
@@ -223,7 +223,7 @@ typedef void (^DTAlertViewTextDidChangeBlock) (DTAlertView *alertView, NSString 
  * @see title
  * @see message
  */
-- (DTInstancetype)initWithBlock:(DTAlertViewButtonClickedBlock)block title:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSString *)positiveButtonTitle;
+- (DTInstancetype)initWithBlock:(DTAlertViewButtonClickedBlock)block title:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle positiveButtonTitle:(NSArray *)positiveButtonTitleArray;
 
 #endif
 
