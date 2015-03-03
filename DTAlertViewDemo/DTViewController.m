@@ -136,7 +136,7 @@
         {
             NSString *thinkDifferent = @"Here's to the crazy ones.\nThe misfits.\nThe rebels.\nThe troublemakers.\nThe round pegs in the square holes.\nThe ones who see things differently.\nThey're not fond of rules\nAnd they have no respect for the status quo.\nYou can praise them, quote them, disagree with them\ndisbelieve them, glorify or vilify them.\nAbout the only thing that you can't do is ignore them.\nBecause they change things.\nThey invent.     They imagine.     They heal.\nThey explore.   They create.        They inspire.\nThey push the human race forward.\nMaybe they have to be crazy.\nHow else can you stare at an empty canvas and see a work of art?\nOr sit in silence and hear a song that's never been written?\nOr gaze at a red planet and see a laboratory on wheels?\nWe make tools for these kinds of people.\nWhile some may see them as the crazy ones, we see genius.\nBecause the people who are crazy enough to think that they can\nchange the world, are the ones who do.";
             
-            alertView = [DTAlertView alertViewWithTitle:@"Think Different" message:thinkDifferent delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+            alertView = [DTAlertView alertViewWithTitle:@"Think Different" message:thinkDifferent delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@[@"OK_1",@"OK_2",@"OK_3"]];
             [alertView show];
             
             [self performSelector:@selector(showOtherAlertView) withObject:nil afterDelay:2];
@@ -144,25 +144,25 @@
             break;
             
         case 1:
-            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@[@"OK_1",@"OK_2"]];
             [alertView setDismissAnimationWhenButtonClicked:DTAlertViewAnimationSlideTop];
             [alertView showWithAnimation:DTAlertViewAnimationSlideTop];
             break;
             
         case 2:
-            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@[@"OK"]];
             [alertView setDismissAnimationWhenButtonClicked:DTAlertViewAnimationSlideBottom];
             [alertView showWithAnimation:DTAlertViewAnimationSlideBottom];
             break;
             
         case 3:
-            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@[@"OK"]];
             [alertView setDismissAnimationWhenButtonClicked:DTAlertViewAnimationSlideLeft];
             [alertView showWithAnimation:DTAlertViewAnimationSlideLeft];
             break;
             
         case 4:
-            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"I'm alert view." delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@[@"OK"]];
             [alertView setDismissAnimationWhenButtonClicked:DTAlertViewAnimationSlideRight];
             [alertView showWithAnimation:DTAlertViewAnimationSlideRight];
             break;
@@ -181,20 +181,20 @@
                 [alertView setDismissAnimationWhenButtonClicked:DTAlertViewAnimationSlideRight];
             };
             
-            alertView = [DTAlertView alertViewUseBlock:block title:@"Demo" message:@"I'm using block alert view." cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+            alertView = [DTAlertView alertViewUseBlock:block title:@"Demo" message:@"I'm using block alert view." cancelButtonTitle:@"Cancel" positiveButtonTitle:@[@"OK"]];
             [alertView show];
         }
             break;
             
         case 6:
-            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"Input some word" delegate:nil cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+            alertView = [DTAlertView alertViewWithTitle:@"Demo" message:@"Input some word" delegate:nil cancelButtonTitle:@"Cancel" positiveButtonTitle:@[@"OK"]];
             [alertView setAlertViewMode:DTAlertViewModeTextInput];
             [alertView show];
             break;
             
         case 7:
         {
-            alertView = [DTAlertView alertViewWithTitle:@"Please Input Password!!" message:@"Password is \"1234567890\"" delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@"OK"];
+            alertView = [DTAlertView alertViewWithTitle:@"Please Input Password!!" message:@"Password is \"1234567890\"" delegate:self cancelButtonTitle:@"Cancel" positiveButtonTitle:@[@"OK"]];
             [alertView setAlertViewMode:DTAlertViewModeTextInput];
             [alertView setPositiveButtonEnable:NO];
             
