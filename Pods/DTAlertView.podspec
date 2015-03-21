@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name	 = "DTAlertView"
-  s.version      = "1.4.1"
+  s.version      = "1.4.2"
   s.summary      = "Custom alert view solved the ios UIAlertView can't addSubview problem at iOS7."
   s.homepage     = "https://github.com/Darktt/DTAlertView"
   s.license      = { :type => 'Apache 2.0', :file => 'LICENSE' }
