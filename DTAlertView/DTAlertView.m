@@ -41,16 +41,6 @@
 
 #endif
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
-
-#define DTTextAlignmentCenter   NSTextAlignmentCenter
-
-#else
-
-#define DTTextAlignmentCenter   UITextAlignmentCenter
-
-#endif
-
 // Macros
 #define kDefaultBGColor [UIColor blackColor]
 #define kDefaultAutoResizeMask UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin
@@ -1018,7 +1008,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     UILabel *titleLabel = [[UILabel alloc] init];
     [titleLabel setText:_title];
     [titleLabel setTextColor:[UIColor blackColor]];
-    [titleLabel setTextAlignment:DTTextAlignmentCenter];
+    [titleLabel setTextAlignment:NSTextAlignmentCenter];
     [titleLabel setFont:[UIFont boldSystemFontOfSize:17.0f]];
     [titleLabel setTag:kTitleLableTag];
     
@@ -1044,7 +1034,7 @@ const static CGFloat kMotionEffectExtent = 15.0f;
     UILabel *messageLabel = [[UILabel alloc] init];
     [messageLabel setText:_message];
     [messageLabel setTextColor:[UIColor blackColor]];
-    [messageLabel setTextAlignment:DTTextAlignmentCenter];
+    [messageLabel setTextAlignment:NSTextAlignmentCenter];
     [messageLabel setFont:[UIFont systemFontOfSize:15.0f]];
     [messageLabel setTag:kMessageLabelTag];
     
