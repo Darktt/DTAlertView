@@ -34,29 +34,29 @@ New method **-showForPasswordInputWithAnimation:** for input password scenario, 
 
 ![Password error](https://raw.github.com/Darktt/DTAlertView/master/Raw/DemoGif/PasswordError.gif)
 
-##ATTENTION##
+## ATTENTION ##
 
 * This demo code create on **Xcode 5.0**, but probably have issues on **Xcode 4 or less**.
 * Demo code use at **non-ARC** mode, but **DTAlertView** main class support **ARC** and **non-ARC** mode.
 
-##Q & A##
+## Q & A ##
 
 Q: How to hidden status bar when alert presented on iOS 7?
 
 A: Set **UIViewControllerBasedStatusBarAppearance** to **NO** in your *info.plist*, the status bar won't appear again.
 
-##Installation##
+## Installation ##
 
 1. Add `QuartzCore` framework.
 2. Drag the `DTAlertView` folder into your project.
 
-##Usage##
+## Usage ##
 
 Import the header file and declare in want to used class.
 
 	#import "DTAlertView.h"
 	
-###Initializing DTAlertView in your class:###
+### Initializing DTAlertView in your class: ###
 
 ``` objective-c
 // initial for class method
@@ -77,7 +77,7 @@ DTAlertViewButtonClickedBlock block = ^(DTAlertView *_alertView, NSUInteger butt
 DTAlertView *alertView = [DTAlertView alertViewUseBlock:block title:@"Demo" message:@"This is normal alert view with block." cancelButtonTitle:@"Cancel" positiveButtonTitle:nil];
 ```
 
-###Show & dismiss:###
+### Show & dismiss: ###
 
 Show alert view:
 
@@ -98,7 +98,7 @@ Dismiss alert view:
 [alertView dismiss];
 ```
 
-##Install Code Snippet##
+## Install Code Snippet ##
 Copy codesnippet files under `Code Snippet` folder to `~/Library/Developer/Xcode/UserData/CodeSnippets/`. <br/>
 
 * If your Xcode is opened, please quit Xcode and reopen Xcode
@@ -111,21 +111,21 @@ Or use key word `DTAlertViewButtonClickedBlock` or `DTAlertViewTextDidChangeBloc
 
 ![Key Word](https://raw.github.com/Darktt/DTAlertView/master/Raw/Image/KeyWord.png)
 
-##Inatall Document Set##
+## Inatall Document Set ##
 
-###USE Xcode Documentation Viewer###
+### USE Xcode Documentation Viewer ###
 Copy `com.darktt.DTAlertView.docset` file under `Docset` folder to `~/Library/Developer/Shared/Documentation/DocSets/`. <br/>
 
 * If your Xcode is opened, please quit Xcode and reopen Xcode
 
 You can find it in Documentation Viewer.
 
-###Use Dash###
+### Use Dash ###
 Add `com.darktt.DTAlertView.docset` file under `Docset` folder on Dash preferences.
 
 ![Dash preferences](https://raw.github.com/Darktt/DTAlertView/master/Raw/Image/Dash.png)
 
-##License##
+## License ##
 Licensed under the Apache License, Version 2.0 (the "License");  
 you may not use this file except in compliance with the License.  
 You may obtain a copy of the License at
